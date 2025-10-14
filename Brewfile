@@ -1,8 +1,10 @@
+# brew bundle dump --force
 tap "oven-sh/bun"
 brew "chezmoi"
 brew "coreutils"
 brew "deno"
 brew "difftastic"
+brew "eza"
 brew "fzf"
 brew "maven"
 brew "node"

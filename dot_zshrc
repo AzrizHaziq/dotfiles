@@ -118,6 +118,8 @@ alias grep="grep –color=auto -n" # colorize grep output
 alias hs="history | grep –color=auto -n" # colorize history output
 alias gip="curl ipinfo.io/ip && curl ipinfo.io/org" # get ip and org
 alias f="find . -name" # find files
+alias ls="eza"
+alias cz="chezmoi"
 
 export NVM_DIR="$HOME/.nvm"
 [ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"  # This loads nvm
