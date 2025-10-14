@@ -111,6 +111,13 @@ alias bgstart="y start:local-dev-interact-mac"
 alias wd="cd /Users/haziq.jasni/work"
 alias vim="nvim"
 alias gs="git status"
+alias c="clear"
+alias cls="clear"
+alias s="du -hs * | sort -rh | head -5" # sort by size
+alias grep="grep –color=auto -n" # colorize grep output
+alias hs="history | grep –color=auto -n" # colorize history output
+alias gip="curl ipinfo.io/ip && curl ipinfo.io/org" # get ip and org
+alias f="find . -name" # find files
 
 export NVM_DIR="$HOME/.nvm"
 [ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"  # This loads nvm
