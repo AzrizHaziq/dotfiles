@@ -1,0 +1,19 @@
+Host github.com
+        User git
+        Hostname github.com
+        PreferredAuthentications publickey
+        IdentityFile ~/.ssh/id_rsa
+
+Host github-KSO.com
+        User git
+        Hostname github.com
+        PreferredAuthentications publickey
+        IdentityFile ~/.ssh/id_ed25519
+
+Host hostinger
+    HostName 194.164.149.162
+    User root
+    IdentityFile ~/.ssh/id_rsa 
+
+# Usage: `ssh alias`
+# Alternative: `ssh -i ~/.ssh/mykey username@myserver.com`

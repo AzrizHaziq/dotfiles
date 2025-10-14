@@ -1,0 +1,156 @@
+{
+  // Editor settings
+  "editor.tabSize": 2,
+  "editor.formatOnSave": true,
+  "editor.formatOnPaste": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.minimap.enabled": false,
+  "editor.glyphMargin": false,
+  "editor.largeFileOptimizations": false,
+  "editor.insertSpaces": true,
+  "editor.cursorBlinking": "smooth",
+  "editor.lineHeight": 24,
+  "editor.lineNumbers": "relative",
+  "editor.fontFamily": "'FiraCode Nerd Font Mono', Menlo, Monaco, 'Courier New', monospace",
+  "editor.fontSize": 14,
+  "editor.fontLigatures": true,
+  "editor.codeLensFontFamily": "FiraCode Nerd Font Mono",
+  "editor.inlayHints.fontFamily": "FiraCode Nerd Font Mono",
+  "editor.inlineSuggest.fontFamily": "FiraCode Nerd Font Mono",
+  "editor.accessibilitySupport": "off",
+  "editor.guides.indentation": true,
+  "editor.quickSuggestions": {
+    "strings": true
+  },
+
+  // Workbench settings
+  "workbench.editor.enablePreview": false,
+  "workbench.statusBar.visible": true,
+  "workbench.editor.highlightModifiedTabs": true,
+  "workbench.tree.indent": 15,
+  "workbench.tree.renderIndentGuides": "always",
+  "workbench.preferredHighContrastColorTheme": "Community Material Theme Darker High Contrast",
+  "workbench.preferredDarkColorTheme": "Tomorrow Night Blue",
+  "workbench.preferredLightColorTheme": "Community Material Theme Ocean",
+  "workbench.colorTheme": "Catppuccin Macchiato",
+  "workbench.iconTheme": "catppuccin-macchiato",
+  "workbench.list.horizontalScrolling": true,
+  "workbench.activityBar.location": "hidden",
+  "workbench.fontAliasing": "antialiased",
+  "breadcrumbs.enabled": false,
+
+  // Extensions
+  "extensions.autoUpdate": "onlyEnabledExtensions",
+  "extensions.experimental.affinity": {
+    "asvetliakov.vscode-neovim": 1
+  },
+
+  // Git
+  "git.enableSmartCommit": true,
+  "git.autofetch": true,
+
+  // Explorer
+  "explorer.confirmDelete": false,
+  "explorer.confirmDragAndDrop": false,
+  "explorer.autoReveal": false,
+  "explorer.confirmPasteNative": false,
+
+  // Terminal
+  "terminal.integrated.fontFamily": "JetBrainsMono Nerd Font Mono",
+  "terminal.integrated.fontSize": 14,
+
+  // Debug
+  "debug.console.fontFamily": "Fira Code",
+
+  // SCM
+  "scm.inputFontFamily": "Fira Code",
+
+  // Files
+  "files.trimTrailingWhitespace": true,
+
+  // Security
+  "security.workspace.trust.untrustedFiles": "open",
+
+  // Telemetry
+  "telemetry.enableCrashReporter": false,
+  "redhat.telemetry.enabled": false,
+
+  // Prettier
+  "prettier.resolveGlobalModules": true,
+  "prettier.printWidth": 120,
+  "prettier.singleQuote": true,
+
+  // Language-specific formatters
+  "[html]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[json]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[css]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[scss]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[javascriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[dockercompose]": {
+    "editor.insertSpaces": true,
+    "editor.tabSize": 2,
+    "editor.autoIndent": "advanced",
+    "editor.defaultFormatter": "redhat.vscode-yaml"
+  },
+  "[github-actions-workflow]": {
+    "editor.defaultFormatter": "redhat.vscode-yaml"
+  },
+
+  // Disable Java language features
+  "[java]": {
+    "editor.formatOnSave": false,
+    "editor.codeActionsOnSave": {}
+  },
+  "files.exclude": {
+    "**/.classpath": true,
+    "**/.project": true,
+    "**/.settings": true,
+    "**/.factorypath": true
+  },
+
+  // Other extensions
+  "tailwindCSS.emmetCompletions": true,
+  "guides.enabled": true,
+  "typescript.updateImportsOnFileMove.enabled": "always",
+  "javascript.updateImportsOnFileMove.enabled": "always",
+
+  // Cursor-specific settings
+  "cursor.composer.textSizeScale": 1.15,
+  "cursor.composer.usageSummaryDisplay": "always",
+
+  // Neovim extension - use your actual Neovim with all plugins
+  "vscode-neovim.neovimExecutablePaths.darwin": "/opt/homebrew/bin/nvim",
+  "vscode-neovim.neovimInitVimPaths.darwin": "/Users/haziq.jasni/.config/nvim/init.lua",
+  "vscode-neovim.useCtrlKeysForNormalMode": false,
+  "vscode-neovim.useCtrlKeysForInsertMode": false,
+  "vscode-neovim.compositeKeys": {
+    "jj": {
+      "command": "vscode-neovim.escape"
+    }
+  },
+
+  // Enable folding to work with nvim-ufo
+  "editor.foldingStrategy": "auto",
+  "editor.folding": true,
+  "editor.showFoldingControls": "always",
+  "git.openRepositoryInParentFolders": "never"
+}
