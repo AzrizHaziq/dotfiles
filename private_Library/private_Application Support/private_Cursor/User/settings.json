@@ -58,6 +58,7 @@
   // Terminal
   "terminal.integrated.fontFamily": "JetBrainsMono Nerd Font Mono",
   "terminal.integrated.fontSize": 14,
+  "terminal.integrated.copyOnSelection": true,
 
   // Debug
   "debug.console.fontFamily": "Fira Code",
@@ -152,5 +153,10 @@
   "editor.foldingStrategy": "auto",
   "editor.folding": true,
   "editor.showFoldingControls": "always",
-  "git.openRepositoryInParentFolders": "never"
+  "git.openRepositoryInParentFolders": "never",
+  "editor.codeActionsOnSave": {
+    "source.fixAll": "explicit",
+    "source.formatDocument": "explicit",
+    "source.fixAll.eslint": "explicit"
+  }
 }

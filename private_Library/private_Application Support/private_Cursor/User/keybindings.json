@@ -11,7 +11,7 @@
   {
     "key": "cmd+k",
     "command": "workbench.action.terminal.clear",
-    "when": "terminalFocus"
+    "when": "terminalFocus && terminalProcessSupported"
   },
   {
     "key": "shift+cmd+d",
@@ -108,7 +108,12 @@
   {
     "key": "cmd+1",
     "command": "workbench.view.explorer",
-    "when": "viewContainer.workbench.view.explorer.enabled"
+    "when": "!sideBarVisible"
+  },
+  {
+    "key": "cmd+1",
+    "command": "workbench.action.toggleSidebarVisibility",
+    "when": "sideBarVisible"
   },
   {
     "key": "shift+cmd+e",
@@ -370,5 +375,9 @@
     "key": "shift+alt+f",
     "command": "-filesExplorer.findInFolder",
     "when": "explorerResourceIsFolder && filesExplorerFocus && foldersViewVisible && !inputFocus"
+  },
+  {
+    "key": "cmd+2",
+    "command": "-workbench.action.focusSecondEditorGroup"
   }
 ]

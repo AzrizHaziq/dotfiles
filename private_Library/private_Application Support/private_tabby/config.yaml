@@ -160,29 +160,31 @@ hotkeys:
 terminal:
   searchOptions: {}
   colorScheme:
-    name: Atom
-    foreground: '#c5c8c6'
-    background: '#161719'
-    cursor: '#d0d0d0'
+    name: Bright Lights
+    foreground: '#b3c9d7'
+    background: '#191919'
+    cursor: '#f34b00'
     colors:
-      - '#000000'
-      - '#fd5ff1'
-      - '#87c38a'
-      - '#ffd7b1'
-      - '#85befd'
-      - '#b9b6fc'
-      - '#85befd'
-      - '#e0e0e0'
-      - '#000000'
-      - '#fd5ff1'
-      - '#94fa36'
-      - '#f5ffa8'
-      - '#96cbfe'
-      - '#b9b6fc'
-      - '#85befd'
-      - '#e0e0e0'
+      - '#191919'
+      - '#ff355b'
+      - '#b7e876'
+      - '#ffc251'
+      - '#76d4ff'
+      - '#ba76e7'
+      - '#6cbfb5'
+      - '#c2c8d7'
+      - '#191919'
+      - '#ff355b'
+      - '#b7e876'
+      - '#ffc251'
+      - '#76d5ff'
+      - '#ba76e7'
+      - '#6cbfb5'
+      - '#c2c8d7'
   customColorSchemes: []
   font: JetBrainsMono Nerd Font
+  copyOnSelect: true
+  bell: visual
 ssh: {}
 clickableLinks: {}
 accessibility: {}
@@ -199,3 +201,41 @@ profileDefaults:
     disableDynamicTitle: true
 highlightPlugin:
   advanced: {}
+  highlightProfiles:
+    - id: 60606be0-c0ff-42bc-bf77-de8a2435447f
+      name: Default
+      keywords:
+        - text: ERROR
+          enabled: true
+          background: true
+          backgroundColor: '1'
+        - text: WARN
+          enabled: true
+          background: true
+          backgroundColor: '3'
+        - text: INFO
+          enabled: true
+          background: true
+          backgroundColor: '6'
+        - text: 错误
+          enabled: true
+          background: true
+          backgroundColor: '1'
+        - text: 警告
+          enabled: true
+          background: true
+          backgroundColor: '3'
+        - text: 信息
+          enabled: true
+          background: true
+          backgroundColor: '6'
+  replaceProfiles:
+    - id: 986666dd-dac9-4c7a-a295-9b4aff66abdd
+      name: Default
+      patterns:
+        - enabled: true
+          search: ERROR
+          replace: 出错啦
+        - enabled: true
+          search: WARN
+          replace: 警告警告
