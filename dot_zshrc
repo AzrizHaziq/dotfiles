@@ -147,3 +147,4 @@ export PATH="$HOME/.local/bin:$PATH"
 source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 source $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 
+export PATH="/opt/homebrew/opt/mysql-client@8.4/bin:$PATH"
