@@ -379,5 +379,10 @@
   {
     "key": "cmd+2",
     "command": "-workbench.action.focusSecondEditorGroup"
+  },
+  {
+    "key": "shift+cmd+c",
+    "command": "-workbench.action.terminal.openNativeConsole",
+    "when": "!terminalFocus"
   }
 ]

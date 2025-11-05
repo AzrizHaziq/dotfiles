@@ -33,7 +33,6 @@
   "workbench.preferredDarkColorTheme": "Tomorrow Night Blue",
   "workbench.preferredLightColorTheme": "Community Material Theme Ocean",
   "workbench.colorTheme": "Catppuccin Macchiato",
-  "workbench.iconTheme": "catppuccin-macchiato",
   "workbench.list.horizontalScrolling": true,
   "workbench.activityBar.location": "hidden",
   "workbench.fontAliasing": "antialiased",
@@ -82,9 +81,6 @@
   "prettier.singleQuote": true,
 
   // Language-specific formatters
-  "[html]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
   "[typescript]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
@@ -158,5 +154,8 @@
     "source.fixAll": "explicit",
     "source.formatDocument": "explicit",
     "source.fixAll.eslint": "explicit"
-  }
+  },
+  "diffEditor.ignoreTrimWhitespace": false,
+  "workbench.iconTheme": "bearded-icons",
+  "hediet.vscode-drawio.resizeImages": null
 }
