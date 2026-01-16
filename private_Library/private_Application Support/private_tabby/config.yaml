@@ -158,7 +158,8 @@ hotkeys:
   command-selector:
     - ⌘-Shift-P
 terminal:
-  searchOptions: {}
+  searchOptions:
+    caseSensitive: true
   colorScheme:
     name: Bright Lights
     foreground: '#b3c9d7'

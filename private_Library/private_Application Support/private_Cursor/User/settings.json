@@ -19,6 +19,7 @@
   "editor.inlineSuggest.fontFamily": "FiraCode Nerd Font Mono",
   "editor.accessibilitySupport": "off",
   "editor.guides.indentation": true,
+  "editor.renderLineHighlight": "none",
   "editor.quickSuggestions": {
     "strings": true
   },
@@ -26,7 +27,7 @@
   // Workbench settings
   "workbench.editor.enablePreview": false,
   "workbench.statusBar.visible": true,
-  "workbench.editor.highlightModifiedTabs": true,
+  "workbench.editor.highlightModifiedTabs": false,
   "workbench.tree.indent": 15,
   "workbench.tree.renderIndentGuides": "always",
   "workbench.preferredHighContrastColorTheme": "Community Material Theme Darker High Contrast",
@@ -39,9 +40,6 @@
 
   // Extensions
   "extensions.autoUpdate": "onlyEnabledExtensions",
-  "extensions.experimental.affinity": {
-    "asvetliakov.vscode-neovim": 1
-  },
 
   // Git
   "git.enableSmartCommit": true,
@@ -130,8 +128,8 @@
   "javascript.updateImportsOnFileMove.enabled": "always",
 
   // Cursor-specific settings
-  "cursor.composer.textSizeScale": 1.15,
-  "cursor.composer.usageSummaryDisplay": "always",
+  "cursor.composer.textSizeScale": 1.3,
+  "cursor.composer.usageSummaryDisplay": "never",
 
   // Neovim extension - use your actual Neovim with all plugins
   "vscode-neovim.neovimExecutablePaths.darwin": "/opt/homebrew/bin/nvim",
@@ -194,5 +192,28 @@
       "name": "Vue Green",
       "value": "#42b883"
     }
-  ]
+  ],
+  "workbench.colorCustomizations": {
+    "tab.activeBackground": "#1857a4",
+    "tab.inactiveBackground": "#2d2d30",
+    "tab.activeForeground": "#ffffff",
+    "tab.inactiveForeground": "#969696",
+    "tab.activeBorder": "#1857a4",
+    "tab.unfocusedActiveBackground": "#2d2d30",
+    "tab.unfocusedActiveForeground": "#969696",
+    "tab.unfocusedActiveBorder": "#2d2d30",
+    "tab.activeModifiedBorder": "#b0b0b0",
+    "tab.inactiveModifiedBorder": "#808080",
+    "tab.unfocusedActiveModifiedBorder": "#808080",
+    "gitDecoration.modifiedResourceForeground": "#ffffff",
+    "gitDecoration.addedResourceForeground": "#ffffff",
+    "gitDecoration.deletedResourceForeground": "#ffffff",
+    "gitDecoration.untrackedResourceForeground": "#ffffff",
+    "editorGroupHeader.tabsBackground": "#252526"
+  },
+  "githubPullRequests.pullBranch": "never",
+  "workbench.editorAssociations": {
+    "*.vsix": "default"
+  },
+  "githubPullRequests.pushBranch": "always"
 }

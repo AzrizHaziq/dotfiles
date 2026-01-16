@@ -15,3 +15,25 @@
 
 [diff]
         external = difft
+
+[status]
+	branch = true
+	showStash = true
+	showUntrackedFiles = all
+
+[push]
+	default = current
+	autoSetupRemote = true
+
+[branch]
+	sort = -committerdate
+
+[tag]
+	sort = -taggerdate
+
+[pager]
+	branch = false
+	tag = false
+
+[rerere]
+	enabled = true
