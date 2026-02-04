@@ -3,7 +3,7 @@
   "editor.tabSize": 2,
   "editor.formatOnSave": true,
   "editor.formatOnPaste": true,
-  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  // "editor.defaultFormatter": "esbenp.prettier-vscode",
   "editor.minimap.enabled": false,
   "editor.glyphMargin": false,
   "editor.largeFileOptimizations": false,
@@ -91,7 +91,7 @@
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "[scss]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
+    "editor.defaultFormatter": "vscode.css-language-features"
   },
   "[javascript]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
@@ -150,7 +150,7 @@
   "editor.codeActionsOnSave": {
     "source.fixAll": "explicit",
     "source.formatDocument": "explicit",
-    "source.fixAll.eslint": "explicit"
+    "source.fixAll.eslint": ""
   },
   "diffEditor.ignoreTrimWhitespace": false,
   "workbench.iconTheme": "bearded-icons",
@@ -211,9 +211,17 @@
     "gitDecoration.untrackedResourceForeground": "#ffffff",
     "editorGroupHeader.tabsBackground": "#252526"
   },
-  "githubPullRequests.pullBranch": "never",
+  "githubPullRequests.pullBranch": "always",
   "workbench.editorAssociations": {
     "*.vsix": "default"
   },
-  "githubPullRequests.pushBranch": "always"
+  "githubPullRequests.pushBranch": "always",
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.formatOnSaveMode": "file",
+  "workbench.panel.showLabels": false,
+  "notebook.defaultFormatter": "esbenp.prettier-vscode",
+  "eslint.format.enable": true,
+  "[html]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  }
 }
