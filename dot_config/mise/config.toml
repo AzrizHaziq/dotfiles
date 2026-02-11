@@ -1,0 +1,4 @@
+[tools]
+chezmoi = "latest"
+node = "24"
+rust = "latest"

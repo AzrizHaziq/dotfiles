@@ -1,0 +1,11 @@
+# for maconly stuff
+#
+# pnpm
+export PNPM_HOME="/Users/haziq.jasni/Library/pnpm"
+case ":$PATH:" in
+  *":$PNPM_HOME:"*) ;;
+  *) export PATH="$PNPM_HOME:$PATH" ;;
+esac
+# pnpm end
+
+export PATH="/opt/homebrew/bin:$PATH"
