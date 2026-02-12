@@ -1,4 +1,5 @@
 [tools]
 chezmoi = "latest"
+neovim = "latest"
 node = "24"
 rust = "latest"
