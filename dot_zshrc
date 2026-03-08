@@ -108,11 +108,8 @@ export EDITOR='nvim'
  alias pn="pnpm"
  alias y="yarn"
 
-alias bgtest="y test:karma-coverage-watch"
-alias bgstart="y start:local-dev-interact-mac"
-
 alias wd="cd /Users/haziq.jasni/work"
-alias vim="nvim"
+alias v="nvim"
 alias gs="git status"
 alias c="clear"
 alias cls="clear"
@@ -134,4 +131,4 @@ export PATH="$HOME/.local/bin:$PATH"
 
 source ~/.zshrc.d/macos.zsh
 source ~/.zshrc.d/linux.zsh
-
+source ~/.zshrc.d/window-wsl.zsh

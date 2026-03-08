@@ -1,4 +1,7 @@
 [tools]
 chezmoi = "latest"
+eza = "latest"
+neovim = "latest"
 node = "24"
 rust = "latest"
+yarn = "4.11.0"
