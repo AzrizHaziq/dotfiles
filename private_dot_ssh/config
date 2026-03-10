@@ -4,11 +4,11 @@ Host github.com
         PreferredAuthentications publickey
         IdentityFile ~/.ssh/id_rsa
 
-Host github-KSO.com
+Host github-window-wsl.com
         User git
         Hostname github.com
-        PreferredAuthentications publickey
-        IdentityFile ~/.ssh/id_ed25519
+        IdentityFile ~/.ssh/window-wsl
+
 
 Host hostinger
     HostName 194.164.149.162

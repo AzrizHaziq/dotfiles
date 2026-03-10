@@ -120,6 +120,7 @@ alias gip="curl ipinfo.io/ip && curl ipinfo.io/org" # get ip and org
 alias f="find . -name" # find files
 alias ls="eza"
 alias cz="chezmoi"
+alias y="yarn"
 
 # The following lines have been added by Docker Desktop to enable Docker CLI completions.
 fpath=(/Users/haziq.jasni/.docker/completions $fpath)
