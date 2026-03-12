@@ -174,6 +174,10 @@ vim.o.scrolloff = 10
 -- See `:help 'confirm'`
 vim.o.confirm = true
 
+-- wrap line
+vim.o.wrap = false
+
+
 -- [[ Basic Keymaps ]]
 --  See `:help vim.keymap.set()`
 
@@ -187,7 +191,7 @@ vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
 vim.keymap.set('n', 'U', '<C-r>')
 
 -- skip folds
-vim.cmd 'nmap j gj'
+vim.cmd 'nnoremap j gj'
 vim.cmd 'nmap k gk'
 
 vim.cmd 'nmap <leader>c :e ~/.config/nvim/init.lua<CR>' -- open nvim config file
@@ -200,6 +204,8 @@ vim.keymap.set('n', '<leader>fr', ':Neotree reveal<CR>', {})
 
 -- Diagnostic keymaps
 vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostic [Q]uickfix list' })
+vim.keymap.set('n', '<leader>ge', vim.diagnostic.goto_next, { desc = 'Next diagnostic' })
+vim.keymap.set('n', '<leader>gE', vim.diagnostic.goto_prev, { desc = 'Previous diagnostic' })
 
 -- Exit terminal mode in the builtin terminal with a shortcut that is a bit easier
 -- for people to discover. Otherwise, you normally need to press <C-\><C-n>, which
@@ -265,23 +271,23 @@ if vim.g.vscode then
   local mappings = {
     -- https://github.com/igorbabko/vscode-setup/commit/2c12166c170654649f22fe17c8cc41eb70dc7721
 
-    { 'n', '<leader>ge', 'editor.action.marker.next' },
+    { 'n', '<leader>ge',  'editor.action.marker.next' },
     { 'n', '<leaderp>gE', 'editor.action.marker.prev' }, -- not working
 
     -- File & Workspace Management
-    { 'n', '<leader>cp', 'copyFilePath' },
-    { 'n', '<leader>cr', 'copyRelativeFilePath' },
+    { 'n', '<leader>cp',  'copyFilePath' },
+    { 'n', '<leader>cr',  'copyRelativeFilePath' },
 
     -- custom
-    { 'n', '<leader>re', 'editor.action.rename' },
-    { 'n', '<leader>.', 'editor.action.quickFix' },
+    { 'n', '<leader>re',  'editor.action.rename' },
+    { 'n', '<leader>.',   'editor.action.quickFix' },
 
     -- not working
-    { 'n', '<leader>zc', 'editor.fold' },
-    { 'n', '<leader>zR', 'editor.unfoldAll' },
-    { 'n', '<leader>za', 'editor.toggleFold' },
-    { 'n', '<leader>zM', 'editor.foldAll' },
-    { 'n', '<leader>zo', 'editor.unfold' },
+    { 'n', '<leader>zc',  'editor.fold' },
+    { 'n', '<leader>zR',  'editor.unfoldAll' },
+    { 'n', '<leader>za',  'editor.toggleFold' },
+    { 'n', '<leader>zM',  'editor.foldAll' },
+    { 'n', '<leader>zo',  'editor.unfold' },
   }
 
   for _, mapping in ipairs(mappings) do
@@ -292,6 +298,7 @@ if vim.g.vscode then
     end, opts)
   end
 end
+
 
 -- [[ Configure and install plugins ]]
 --
@@ -368,7 +375,7 @@ require('lazy').setup({
     config = function()
       -- Fold settings
       vim.o.foldcolumn = '1' -- '0' is not bad
-      vim.o.foldlevel = 99 -- Using ufo provider need a large value
+      vim.o.foldlevel = 99   -- Using ufo provider need a large value
       vim.o.foldlevelstart = 99
       vim.o.foldenable = true
 
@@ -399,7 +406,7 @@ require('lazy').setup({
   -- Then, because we use the `opts` key (recommended), the configuration runs
   -- after the plugin has been loaded as `require(MODULE).setup(opts)`.
 
-  { -- Useful plugin to show you pending keybinds.
+  {                     -- Useful plugin to show you pending keybinds.
     'folke/which-key.nvim',
     event = 'VimEnter', -- Sets the loading event to 'VimEnter'
     opts = {
@@ -480,7 +487,7 @@ require('lazy').setup({
       { 'nvim-telescope/telescope-ui-select.nvim' },
 
       -- Useful for getting pretty icons, but requires a Nerd Font.
-      { 'nvim-tree/nvim-web-devicons', enabled = vim.g.have_nerd_font },
+      { 'nvim-tree/nvim-web-devicons',            enabled = vim.g.have_nerd_font },
     },
     config = function()
       -- Telescope is a fuzzy finder that comes with a lot of different things that
@@ -588,7 +595,7 @@ require('lazy').setup({
       'WhoIsSethDaniel/mason-tool-installer.nvim',
 
       -- Useful status updates for LSP.
-      { 'j-hui/fidget.nvim', opts = {} },
+      { 'j-hui/fidget.nvim',    opts = {} },
 
       -- Allows extra capabilities provided by blink.cmp
       'saghen/blink.cmp',
@@ -873,7 +880,15 @@ require('lazy').setup({
         -- python = { "isort", "black" },
         --
         -- You can use 'stop_after_first' to run the first available formatter from the list
-        -- javascript = { "prettierd", "prettier", stop_after_first = true },
+        javascript = { "prettierd", "prettier", stop_after_first = true },
+        typescript = { "prettierd", "prettier", stop_after_first = true },
+        javascriptreact = { "prettierd", "prettier", stop_after_first = true },
+        typescriptreact = { "prettierd", "prettier", stop_after_first = true },
+        css = { "prettier" },
+        html = { "prettier" },
+        json = { "prettier" },
+        yaml = { "prettier" },
+        markdown = { "prettier" }
       },
     },
   },
@@ -1110,7 +1125,7 @@ require('lazy').setup({
       task = '📌',
       lazy = '💤 ',
     },
-  },
+  }
 })
 
 -- The line beneath this is called `modeline`. See `:help modeline`

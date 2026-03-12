@@ -109,6 +109,8 @@ export EDITOR='nvim'
  alias y="yarn"
 
 alias wd="cd /Users/haziq.jasni/work"
+alias wdd="cd /mnt/c/Repos"
+
 alias v="nvim"
 alias gs="git status"
 alias c="clear"
@@ -121,6 +123,7 @@ alias f="find . -name" # find files
 alias ls="eza"
 alias cz="chezmoi"
 alias y="yarn"
+alias op="opencode"
 
 # The following lines have been added by Docker Desktop to enable Docker CLI completions.
 fpath=(/Users/haziq.jasni/.docker/completions $fpath)
@@ -129,6 +132,7 @@ compinit
 # End of Docker CLI completions
 
 export PATH="$HOME/.local/bin:$PATH"
+export PATH="/home/azrizhaziq/.bun/bin:$PATH"
 
 source ~/.zshrc.d/macos.zsh
 source ~/.zshrc.d/linux.zsh
