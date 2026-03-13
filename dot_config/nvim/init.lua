@@ -177,7 +177,6 @@ vim.o.confirm = true
 -- wrap line
 vim.o.wrap = false
 
-
 -- [[ Basic Keymaps ]]
 --  See `:help vim.keymap.set()`
 
@@ -271,23 +270,23 @@ if vim.g.vscode then
   local mappings = {
     -- https://github.com/igorbabko/vscode-setup/commit/2c12166c170654649f22fe17c8cc41eb70dc7721
 
-    { 'n', '<leader>ge',  'editor.action.marker.next' },
+    { 'n', '<leader>ge', 'editor.action.marker.next' },
     { 'n', '<leaderp>gE', 'editor.action.marker.prev' }, -- not working
 
     -- File & Workspace Management
-    { 'n', '<leader>cp',  'copyFilePath' },
-    { 'n', '<leader>cr',  'copyRelativeFilePath' },
+    { 'n', '<leader>cp', 'copyFilePath' },
+    { 'n', '<leader>cr', 'copyRelativeFilePath' },
 
     -- custom
-    { 'n', '<leader>re',  'editor.action.rename' },
-    { 'n', '<leader>.',   'editor.action.quickFix' },
+    { 'n', '<leader>re', 'editor.action.rename' },
+    { 'n', '<leader>.', 'editor.action.quickFix' },
 
     -- not working
-    { 'n', '<leader>zc',  'editor.fold' },
-    { 'n', '<leader>zR',  'editor.unfoldAll' },
-    { 'n', '<leader>za',  'editor.toggleFold' },
-    { 'n', '<leader>zM',  'editor.foldAll' },
-    { 'n', '<leader>zo',  'editor.unfold' },
+    { 'n', '<leader>zc', 'editor.fold' },
+    { 'n', '<leader>zR', 'editor.unfoldAll' },
+    { 'n', '<leader>za', 'editor.toggleFold' },
+    { 'n', '<leader>zM', 'editor.foldAll' },
+    { 'n', '<leader>zo', 'editor.unfold' },
   }
 
   for _, mapping in ipairs(mappings) do
@@ -298,7 +297,6 @@ if vim.g.vscode then
     end, opts)
   end
 end
-
 
 -- [[ Configure and install plugins ]]
 --
@@ -375,7 +373,7 @@ require('lazy').setup({
     config = function()
       -- Fold settings
       vim.o.foldcolumn = '1' -- '0' is not bad
-      vim.o.foldlevel = 99   -- Using ufo provider need a large value
+      vim.o.foldlevel = 99 -- Using ufo provider need a large value
       vim.o.foldlevelstart = 99
       vim.o.foldenable = true
 
@@ -406,7 +404,7 @@ require('lazy').setup({
   -- Then, because we use the `opts` key (recommended), the configuration runs
   -- after the plugin has been loaded as `require(MODULE).setup(opts)`.
 
-  {                     -- Useful plugin to show you pending keybinds.
+  { -- Useful plugin to show you pending keybinds.
     'folke/which-key.nvim',
     event = 'VimEnter', -- Sets the loading event to 'VimEnter'
     opts = {
@@ -487,7 +485,7 @@ require('lazy').setup({
       { 'nvim-telescope/telescope-ui-select.nvim' },
 
       -- Useful for getting pretty icons, but requires a Nerd Font.
-      { 'nvim-tree/nvim-web-devicons',            enabled = vim.g.have_nerd_font },
+      { 'nvim-tree/nvim-web-devicons', enabled = vim.g.have_nerd_font },
     },
     config = function()
       -- Telescope is a fuzzy finder that comes with a lot of different things that
@@ -595,7 +593,7 @@ require('lazy').setup({
       'WhoIsSethDaniel/mason-tool-installer.nvim',
 
       -- Useful status updates for LSP.
-      { 'j-hui/fidget.nvim',    opts = {} },
+      { 'j-hui/fidget.nvim', opts = {} },
 
       -- Allows extra capabilities provided by blink.cmp
       'saghen/blink.cmp',
@@ -661,11 +659,11 @@ require('lazy').setup({
           -- Jump to the definition of the word under your cursor.
           --  This is where a variable was first declared, or where a function is defined, etc.
           --  To jump back, press <C-t>.
-          map('grd', require('telescope.builtin').lsp_definitions, '[G]oto [D]efinition')
+          map('gd', require('telescope.builtin').lsp_definitions, '[G]oto [D]efinition')
 
           -- WARN: This is not Goto Definition, this is Goto Declaration.
           --  For example, in C this would take you to the header.
-          map('grD', vim.lsp.buf.declaration, '[G]oto [D]eclaration')
+          map('gD', vim.lsp.buf.declaration, '[G]oto [D]eclaration')
 
           -- Fuzzy find all the symbols in your current document.
           --  Symbols are things like variables, functions, types, etc.
@@ -789,7 +787,7 @@ require('lazy').setup({
         --    https://github.com/pmizio/typescript-tools.nvim
         --
         -- But for many setups, the LSP (`ts_ls`) will work just fine
-        -- ts_ls = {},
+        ts_ls = {},
         --
 
         lua_ls = {
@@ -880,15 +878,15 @@ require('lazy').setup({
         -- python = { "isort", "black" },
         --
         -- You can use 'stop_after_first' to run the first available formatter from the list
-        javascript = { "prettierd", "prettier", stop_after_first = true },
-        typescript = { "prettierd", "prettier", stop_after_first = true },
-        javascriptreact = { "prettierd", "prettier", stop_after_first = true },
-        typescriptreact = { "prettierd", "prettier", stop_after_first = true },
-        css = { "prettier" },
-        html = { "prettier" },
-        json = { "prettier" },
-        yaml = { "prettier" },
-        markdown = { "prettier" }
+        javascript = { 'prettierd', 'prettier', stop_after_first = true },
+        typescript = { 'prettierd', 'prettier', stop_after_first = true },
+        javascriptreact = { 'prettierd', 'prettier', stop_after_first = true },
+        typescriptreact = { 'prettierd', 'prettier', stop_after_first = true },
+        css = { 'prettier' },
+        html = { 'prettier' },
+        json = { 'prettier' },
+        yaml = { 'prettier' },
+        markdown = { 'prettier' },
       },
     },
   },
@@ -1017,6 +1015,8 @@ require('lazy').setup({
   -- Highlight todo, notes, etc in comments
   { 'folke/todo-comments.nvim', event = 'VimEnter', dependencies = { 'nvim-lua/plenary.nvim' }, opts = { signs = false } },
 
+  { 'numToStr/Comment.nvim', opts = {} },
+
   { -- Collection of various small independent plugins/modules
     'echasnovski/mini.nvim',
     config = function()
@@ -1125,7 +1125,7 @@ require('lazy').setup({
       task = '📌',
       lazy = '💤 ',
     },
-  }
+  },
 })
 
 -- The line beneath this is called `modeline`. See `:help modeline`
