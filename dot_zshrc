@@ -116,8 +116,8 @@ alias gs="git status"
 alias c="clear"
 alias cls="clear"
 alias s="du -hs * | sort -rh | head -5" # sort by size
-alias grep="grep –color=auto -n" # colorize grep output
-alias hs="history | grep –color=auto -n" # colorize history output
+alias grep="grep --color=auto -n" # colorize grep output
+alias hs="history | grep --color=auto -n" # colorize history output
 alias gip="curl ipinfo.io/ip && curl ipinfo.io/org" # get ip and org
 alias f="find . -name" # find files
 alias ls="eza"
