@@ -210,6 +210,7 @@ vim.keymap.set('n', '<leader>gE', vim.diagnostic.goto_prev, { desc = 'Previous d
 -- for people to discover. Otherwise, you normally need to press <C-\><C-n>, which
 -- is not what someone will guess without a bit more experience.
 --
+--
 -- NOTE: This won't work in all terminal emulators/tmux/etc. Try your own mapping
 -- or just use <C-\><C-n> to exit terminal mode
 vim.keymap.set('t', '<Esc><Esc>', '<C-\\><C-n>', { desc = 'Exit terminal mode' })
@@ -270,23 +271,23 @@ if vim.g.vscode then
   local mappings = {
     -- https://github.com/igorbabko/vscode-setup/commit/2c12166c170654649f22fe17c8cc41eb70dc7721
 
-    { 'n', '<leader>ge', 'editor.action.marker.next' },
+    { 'n', '<leader>ge',  'editor.action.marker.next' },
     { 'n', '<leaderp>gE', 'editor.action.marker.prev' }, -- not working
 
     -- File & Workspace Management
-    { 'n', '<leader>cp', 'copyFilePath' },
-    { 'n', '<leader>cr', 'copyRelativeFilePath' },
+    { 'n', '<leader>cp',  'copyFilePath' },
+    { 'n', '<leader>cr',  'copyRelativeFilePath' },
 
     -- custom
-    { 'n', '<leader>re', 'editor.action.rename' },
-    { 'n', '<leader>.', 'editor.action.quickFix' },
+    { 'n', '<leader>re',  'editor.action.rename' },
+    { 'n', '<leader>.',   'editor.action.quickFix' },
 
     -- not working
-    { 'n', '<leader>zc', 'editor.fold' },
-    { 'n', '<leader>zR', 'editor.unfoldAll' },
-    { 'n', '<leader>za', 'editor.toggleFold' },
-    { 'n', '<leader>zM', 'editor.foldAll' },
-    { 'n', '<leader>zo', 'editor.unfold' },
+    { 'n', '<leader>zc',  'editor.fold' },
+    { 'n', '<leader>zR',  'editor.unfoldAll' },
+    { 'n', '<leader>za',  'editor.toggleFold' },
+    { 'n', '<leader>zM',  'editor.foldAll' },
+    { 'n', '<leader>zo',  'editor.unfold' },
   }
 
   for _, mapping in ipairs(mappings) do
@@ -373,7 +374,7 @@ require('lazy').setup({
     config = function()
       -- Fold settings
       vim.o.foldcolumn = '1' -- '0' is not bad
-      vim.o.foldlevel = 99 -- Using ufo provider need a large value
+      vim.o.foldlevel = 99   -- Using ufo provider need a large value
       vim.o.foldlevelstart = 99
       vim.o.foldenable = true
 
@@ -404,8 +405,9 @@ require('lazy').setup({
   -- Then, because we use the `opts` key (recommended), the configuration runs
   -- after the plugin has been loaded as `require(MODULE).setup(opts)`.
 
-  { -- Useful plugin to show you pending keybinds.
+  {                     -- Useful plugin to show you pending keybinds.
     'folke/which-key.nvim',
+    cond = not vim.g.vscode,
     event = 'VimEnter', -- Sets the loading event to 'VimEnter'
     opts = {
       -- delay between pressing a key and opening which-key (milliseconds)
@@ -466,6 +468,7 @@ require('lazy').setup({
 
   { -- Fuzzy Finder (files, lsp, etc)
     'nvim-telescope/telescope.nvim',
+    cond = not vim.g.vscode,
     event = 'VimEnter',
     dependencies = {
       'nvim-lua/plenary.nvim',
@@ -485,7 +488,7 @@ require('lazy').setup({
       { 'nvim-telescope/telescope-ui-select.nvim' },
 
       -- Useful for getting pretty icons, but requires a Nerd Font.
-      { 'nvim-tree/nvim-web-devicons', enabled = vim.g.have_nerd_font },
+      { 'nvim-tree/nvim-web-devicons',            enabled = vim.g.have_nerd_font },
     },
     config = function()
       -- Telescope is a fuzzy finder that comes with a lot of different things that
@@ -584,6 +587,7 @@ require('lazy').setup({
   {
     -- Main LSP Configuration
     'neovim/nvim-lspconfig',
+    cond = not vim.g.vscode,
     dependencies = {
       -- Automatically install LSPs and related tools to stdpath for Neovim
       -- Mason must be loaded before its dependents so we need to set it up here.
@@ -593,7 +597,7 @@ require('lazy').setup({
       'WhoIsSethDaniel/mason-tool-installer.nvim',
 
       -- Useful status updates for LSP.
-      { 'j-hui/fidget.nvim', opts = {} },
+      { 'j-hui/fidget.nvim',    opts = {} },
 
       -- Allows extra capabilities provided by blink.cmp
       'saghen/blink.cmp',
@@ -894,6 +898,7 @@ require('lazy').setup({
   { -- Autocompletion
     'saghen/blink.cmp',
     event = 'VimEnter',
+    cond = not vim.g.vscode,
     version = '1.*',
     dependencies = {
       -- Snippet Engine
@@ -1015,7 +1020,7 @@ require('lazy').setup({
   -- Highlight todo, notes, etc in comments
   { 'folke/todo-comments.nvim', event = 'VimEnter', dependencies = { 'nvim-lua/plenary.nvim' }, opts = { signs = false } },
 
-  { 'numToStr/Comment.nvim', opts = {} },
+  { 'numToStr/Comment.nvim',    opts = {} },
 
   { -- Collection of various small independent plugins/modules
     'echasnovski/mini.nvim',
@@ -1079,7 +1084,6 @@ require('lazy').setup({
     --    - Show your current context: https://github.com/nvim-treesitter/nvim-treesitter-context
     --    - Treesitter + textobjects: https://github.com/nvim-treesitter/nvim-treesitter-textobjects
   },
-
   -- The following comments only work if you have downloaded the kickstart repo, not just copy pasted the
   -- init.lua. If you want these files, they are in the repository, so you can just download them and
   -- place them in the correct locations.
