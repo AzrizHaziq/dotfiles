@@ -184,6 +184,11 @@ vim.o.wrap = false
 --  See `:help hlsearch`
 vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
 
+-- number of spaces
+vim.opt.tabstop = 2
+vim.opt.shiftwidth = 2
+vim.opt.expandtab = true
+
 ------------
 
 -- Redo with U
@@ -191,29 +196,32 @@ vim.keymap.set('n', 'U', '<C-r>')
 
 -- skip folds
 vim.cmd 'nnoremap j gj'
-vim.cmd 'nmap k gk'
+vim.cmd 'nnoremap k gk'
 
-vim.cmd 'nmap <leader>c :e ~/.config/nvim/init.lua<CR>' -- open nvim config file
--- vim.cmd 'nmap <leader>e :Neotree toggle<CR>' -- toggle file explorer
--- vim.keymap.set('n', '<A-s>', ':Neotree filesystem reveal left<CR>', { desc = 'Reveal file in neo-tree' })
--- vim.keymap.set('n', '<A-s>', ':Neotree reveal<CR>', { desc = 'Reveal current file in Neo-tree' })
-vim.keymap.set('n', '<leader>fr', ':Neotree reveal<CR>', {})
+vim.cmd 'nmap <leader>cn :e ~/.config/nvim/init.lua<CR>' -- open nvim config file
+vim.keymap.set('n', '<leader>cN', ':luafile $MYVIMRC<CR>', { desc = 'Reload Config' })
 
---- ----
+vim.keymap.set('n', '<leader>cr', ":let @+ = expand('%:.:p')<CR>", { desc = 'Copy relative path' })
+vim.keymap.set('n', '<leader>ca', ":let @+ = expand('%:p')<CR>", { desc = 'Copy absolute path' })
+
+--
+if vim.g.vscode then
+  vim.keymap.set('n', '<leader>fr', function()
+    vim.fn.VSCodeNotify 'workbench.files.action.showActiveFileInExplorer'
+  end, { silent = true, desc = 'Reveal file in Explorer' })
+else
+  vim.keymap.set('n', '<leader>fr', ':Neotree reveal<CR>', { desc = 'Reveal current file in Neo-tree' })
+end
+
+---
 
 -- Diagnostic keymaps
 vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostic [Q]uickfix list' })
 vim.keymap.set('n', '<leader>ge', vim.diagnostic.goto_next, { desc = 'Next diagnostic' })
 vim.keymap.set('n', '<leader>gE', vim.diagnostic.goto_prev, { desc = 'Previous diagnostic' })
 
--- Exit terminal mode in the builtin terminal with a shortcut that is a bit easier
--- for people to discover. Otherwise, you normally need to press <C-\><C-n>, which
--- is not what someone will guess without a bit more experience.
---
---
--- NOTE: This won't work in all terminal emulators/tmux/etc. Try your own mapping
--- or just use <C-\><C-n> to exit terminal mode
-vim.keymap.set('t', '<Esc><Esc>', '<C-\\><C-n>', { desc = 'Exit terminal mode' })
+-- Quickly open a terminal in a split
+vim.keymap.set('n', '<leader>T', ':vsplit | term<CR>', { desc = 'Open terminal in vertical split' })
 
 -- TIP: Disable arrow keys in normal mode
 vim.keymap.set('n', '<left>', '<cmd>echo "Use h to move!!"<CR>')
@@ -271,23 +279,23 @@ if vim.g.vscode then
   local mappings = {
     -- https://github.com/igorbabko/vscode-setup/commit/2c12166c170654649f22fe17c8cc41eb70dc7721
 
-    { 'n', '<leader>ge',  'editor.action.marker.next' },
+    { 'n', '<leader>ge', 'editor.action.marker.next' },
     { 'n', '<leaderp>gE', 'editor.action.marker.prev' }, -- not working
 
     -- File & Workspace Management
-    { 'n', '<leader>cp',  'copyFilePath' },
-    { 'n', '<leader>cr',  'copyRelativeFilePath' },
+    { 'n', '<leader>cp', 'copyFilePath' },
+    { 'n', '<leader>cr', 'copyRelativeFilePath' },
 
     -- custom
-    { 'n', '<leader>re',  'editor.action.rename' },
-    { 'n', '<leader>.',   'editor.action.quickFix' },
+    { 'n', '<leader>re', 'editor.action.rename' },
+    { 'n', '<leader>.', 'editor.action.quickFix' },
 
     -- not working
-    { 'n', '<leader>zc',  'editor.fold' },
-    { 'n', '<leader>zR',  'editor.unfoldAll' },
-    { 'n', '<leader>za',  'editor.toggleFold' },
-    { 'n', '<leader>zM',  'editor.foldAll' },
-    { 'n', '<leader>zo',  'editor.unfold' },
+    { 'n', '<leader>zc', 'editor.fold' },
+    { 'n', '<leader>zR', 'editor.unfoldAll' },
+    { 'n', '<leader>za', 'editor.toggleFold' },
+    { 'n', '<leader>zM', 'editor.foldAll' },
+    { 'n', '<leader>zo', 'editor.unfold' },
   }
 
   for _, mapping in ipairs(mappings) do
@@ -371,13 +379,14 @@ require('lazy').setup({
     'kevinhwang91/nvim-ufo',
     dependencies = 'kevinhwang91/promise-async',
     event = 'VeryLazy',
-    config = function()
+    init = function()
       -- Fold settings
       vim.o.foldcolumn = '1' -- '0' is not bad
-      vim.o.foldlevel = 99   -- Using ufo provider need a large value
+      vim.o.foldlevel = 99 -- Using ufo provider need a large value
       vim.o.foldlevelstart = 99
       vim.o.foldenable = true
-
+    end,
+    config = function()
       -- Using ufo provider need remap `zR` and `zM`
       vim.keymap.set('n', 'zR', require('ufo').openAllFolds)
       vim.keymap.set('n', 'zM', require('ufo').closeAllFolds)
@@ -405,7 +414,7 @@ require('lazy').setup({
   -- Then, because we use the `opts` key (recommended), the configuration runs
   -- after the plugin has been loaded as `require(MODULE).setup(opts)`.
 
-  {                     -- Useful plugin to show you pending keybinds.
+  { -- Useful plugin to show you pending keybinds.
     'folke/which-key.nvim',
     cond = not vim.g.vscode,
     event = 'VimEnter', -- Sets the loading event to 'VimEnter'
@@ -488,7 +497,7 @@ require('lazy').setup({
       { 'nvim-telescope/telescope-ui-select.nvim' },
 
       -- Useful for getting pretty icons, but requires a Nerd Font.
-      { 'nvim-tree/nvim-web-devicons',            enabled = vim.g.have_nerd_font },
+      { 'nvim-tree/nvim-web-devicons', enabled = vim.g.have_nerd_font },
     },
     config = function()
       -- Telescope is a fuzzy finder that comes with a lot of different things that
@@ -597,7 +606,7 @@ require('lazy').setup({
       'WhoIsSethDaniel/mason-tool-installer.nvim',
 
       -- Useful status updates for LSP.
-      { 'j-hui/fidget.nvim',    opts = {} },
+      { 'j-hui/fidget.nvim', opts = {} },
 
       -- Allows extra capabilities provided by blink.cmp
       'saghen/blink.cmp',
@@ -1020,7 +1029,7 @@ require('lazy').setup({
   -- Highlight todo, notes, etc in comments
   { 'folke/todo-comments.nvim', event = 'VimEnter', dependencies = { 'nvim-lua/plenary.nvim' }, opts = { signs = false } },
 
-  { 'numToStr/Comment.nvim',    opts = {} },
+  { 'numToStr/Comment.nvim', opts = {} },
 
   { -- Collection of various small independent plugins/modules
     'echasnovski/mini.nvim',
@@ -1061,6 +1070,7 @@ require('lazy').setup({
   },
   { -- Highlight, edit, and navigate code
     'nvim-treesitter/nvim-treesitter',
+    branch = 'master',
     build = ':TSUpdate',
     main = 'nvim-treesitter.configs', -- Sets main module to use for opts
     -- [[ Configure Treesitter ]] See `:help nvim-treesitter`

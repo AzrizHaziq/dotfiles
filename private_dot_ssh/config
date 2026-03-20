@@ -2,7 +2,7 @@ Host github.com
         User git
         Hostname github.com
         PreferredAuthentications publickey
-        IdentityFile ~/.ssh/id_rsa
+        IdentityFile ~/.ssh/id_ed25519
 
 Host github-window-wsl.com
         User git

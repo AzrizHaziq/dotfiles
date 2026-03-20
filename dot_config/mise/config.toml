@@ -1,8 +1,10 @@
 [tools]
+bat = "latest"
 bun = "latest"
 chezmoi = "latest"
 eza = "latest"
 neovim = "latest"
 node = "24"
+ripgrep = "latest"
 rust = "latest"
 yarn = "4.11.0"

@@ -108,9 +108,11 @@ export EDITOR='nvim'
  alias pn="pnpm"
  alias y="yarn"
 
-alias wd="cd /Users/haziq.jasni/work"
 alias wdd="cd /mnt/c/Repos"
+alias wd="cd /home/azrizhaziq/work"
+alias pbcopy="clip.exe"
 
+alias cat="bat"
 alias v="nvim"
 alias gs="git status"
 alias c="clear"
