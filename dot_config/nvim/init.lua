@@ -227,6 +227,9 @@ vim.keymap.set('n', '<leader>gE', vim.diagnostic.goto_prev, { desc = 'Previous d
 -- Save all files without closing
 vim.keymap.set('n', '<leader>wa', '<cmd>wa<CR>', { desc = '[W]rite [A]ll files' })
 
+-- Toggle Word Wrap
+vim.keymap.set('n', '<leader>ww', '<cmd>set wrap!<CR>', { desc = 'Toggle [W]ord [W]rap' })
+
 -- Exit terminal mode in the builtin terminal with a shortcut that is a bit easier
 -- for people to discover. Otherwise, you normally need to press <C-\><C-n>, which
 -- is not what someone will guess without a bit more experience.
