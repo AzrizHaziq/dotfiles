@@ -5,7 +5,6 @@ return {
     require("toggleterm").setup({
       -- size can be a number or function which is passed the current terminal
       size = 20,
-      open_mapping = [[<leader>tt]],
       hide_numbers = true, -- hide the number column in toggleterm buffers
       shade_filetypes = {},
       shade_terminals = true,
@@ -45,5 +44,9 @@ return {
 
     -- if you only want these mappings for toggle term use term://*toggleterm#* instead
     vim.cmd('autocmd! TermOpen term://* lua set_terminal_keymaps()')
+
+    -- Set up mappings for floating and vertical terminals
+    vim.keymap.set('n', '<leader>tf', '<cmd>ToggleTerm direction=float<CR>', { desc = '[T]oggle [F]loating terminal' })
+    vim.keymap.set('n', '<leader>tv', '<cmd>ToggleTerm direction=vertical size=40<CR>', { desc = '[T]oggle [V]ertical terminal' })
   end
 }

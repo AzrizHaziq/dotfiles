@@ -201,8 +201,8 @@ vim.keymap.set('n', 'U', '<C-r>')
 vim.cmd 'nnoremap j gj'
 vim.cmd 'nnoremap k gk'
 
-vim.cmd 'nmap <leader>cn :e ~/.config/nvim/init.lua<CR>' -- open nvim config file
-vim.keymap.set('n', '<leader>cN', ':luafile $MYVIMRC<CR>', { desc = 'Reload Config' })
+vim.cmd 'nmap <leader>ce :e ~/.config/nvim/init.lua<CR>' -- edit nvim config file
+vim.keymap.set('n', '<leader>cn', ':source %<CR>', { desc = 'Reload [C]urrent [N]vim config file' })
 
 vim.keymap.set('n', '<leader>cr', ":let @+ = expand('%:.:p')<CR>", { desc = 'Copy relative path' })
 vim.keymap.set('n', '<leader>ca', ":let @+ = expand('%:p')<CR>", { desc = 'Copy absolute path' })
