@@ -48,5 +48,6 @@ return {
     -- Set up mappings for floating and vertical terminals
     vim.keymap.set('n', '<leader>tf', '<cmd>ToggleTerm direction=float<CR>', { desc = '[T]oggle [F]loating terminal' })
     vim.keymap.set('n', '<leader>tv', '<cmd>ToggleTerm direction=vertical size=40<CR>', { desc = '[T]oggle [V]ertical terminal' })
+    vim.keymap.set('n', '<leader>tt', '<cmd>ToggleTerm direction=tab<CR>', { desc = '[T]oggle [T]ab terminal' })
   end
 }

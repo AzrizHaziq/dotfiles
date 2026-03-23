@@ -223,7 +223,6 @@ vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagn
 vim.keymap.set('n', '<leader>ge', vim.diagnostic.goto_next, { desc = 'Next diagnostic' })
 vim.keymap.set('n', '<leader>gE', vim.diagnostic.goto_prev, { desc = 'Previous diagnostic' })
 
-
 -- Save all files without closing
 vim.keymap.set('n', '<leader>wa', '<cmd>wa<CR>', { desc = '[W]rite [A]ll files' })
 
@@ -739,7 +738,7 @@ require('lazy').setup({
             vim.api.nvim_create_autocmd('LspDetach', {
               group = vim.api.nvim_create_augroup('kickstart-lsp-detach', { clear = true }),
               callback = function(event2)
-                vim.lsp.buf.clear_references()
+                pcall(vim.lsp.buf.clear_references)
                 vim.api.nvim_clear_autocmds { group = 'kickstart-lsp-highlight', buffer = event2.buf }
               end,
             })
@@ -847,6 +846,9 @@ require('lazy').setup({
       local ensure_installed = vim.tbl_keys(servers or {})
       vim.list_extend(ensure_installed, {
         'stylua', -- Used to format Lua code
+        'jsonlint', -- Used to lint JSON files
+        'hadolint', -- Used to lint Dockerfiles
+        'eslint_d', -- Used to lint JS/TS files
       })
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
