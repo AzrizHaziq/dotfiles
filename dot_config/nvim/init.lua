@@ -619,6 +619,9 @@ require('lazy').setup({
       -- Useful status updates for LSP.
       { 'j-hui/fidget.nvim', opts = {} },
 
+      -- JSON schemas for jsonls (package.json, tsconfig.json, etc.)
+      'b0o/schemastore.nvim',
+
       -- Allows extra capabilities provided by blink.cmp
       'saghen/blink.cmp',
     },
@@ -812,7 +815,41 @@ require('lazy').setup({
         --
         -- But for many setups, the LSP (`ts_ls`) will work just fine
         ts_ls = {},
-        --
+
+        -- CSS / SCSS / Less
+        -- cssls also handles CSS Modules (*.module.css) - no separate LSP needed
+        cssls = {
+          settings = {
+            css = { validate = true, lint = { unknownAtRules = 'ignore' } },
+            scss = { validate = true, lint = { unknownAtRules = 'ignore' } },
+            less = { validate = true },
+          },
+        },
+        -- SCSS-specific: extra at-rule support (e.g. @use, @forward, @mixin)
+        somesass_ls = {},
+
+        -- HTML
+        html = {},
+
+        -- Emmet: expand abbreviations in HTML/JSX/TSX/CSS
+        emmet_language_server = {
+          filetypes = { 'html', 'css', 'scss', 'javascriptreact', 'typescriptreact' },
+        },
+
+        -- JSON with schema support (package.json, tsconfig.json, etc.)
+        jsonls = {
+          settings = {
+            json = {
+              schemas = require('schemastore').json.schemas(),
+              validate = { enable = true },
+            },
+          },
+        },
+
+        -- Tailwind CSS (class name completions, hover docs)
+        tailwindcss = {
+          filetypes = { 'html', 'css', 'scss', 'javascript', 'javascriptreact', 'typescript', 'typescriptreact' },
+        },
 
         lua_ls = {
           -- cmd = { ... },
@@ -846,6 +883,7 @@ require('lazy').setup({
       local ensure_installed = vim.tbl_keys(servers or {})
       vim.list_extend(ensure_installed, {
         'stylua', -- Used to format Lua code
+        'prettierd', -- Fast prettier daemon for formatting
         'jsonlint', -- Used to lint JSON files
         'hadolint', -- Used to lint Dockerfiles
         'eslint_d', -- Used to lint JS/TS files
@@ -909,11 +947,13 @@ require('lazy').setup({
         typescript = { 'prettierd', 'prettier', stop_after_first = true },
         javascriptreact = { 'prettierd', 'prettier', stop_after_first = true },
         typescriptreact = { 'prettierd', 'prettier', stop_after_first = true },
-        css = { 'prettier' },
-        html = { 'prettier' },
-        json = { 'prettier' },
-        yaml = { 'prettier' },
-        markdown = { 'prettier' },
+        css = { 'prettierd', 'prettier', stop_after_first = true },
+        scss = { 'prettierd', 'prettier', stop_after_first = true },
+        html = { 'prettierd', 'prettier', stop_after_first = true },
+        json = { 'prettierd', 'prettier', stop_after_first = true },
+        jsonc = { 'prettierd', 'prettier', stop_after_first = true },
+        yaml = { 'prettierd', 'prettier', stop_after_first = true },
+        markdown = { 'prettierd', 'prettier', stop_after_first = true },
       },
     },
   },
@@ -1119,7 +1159,13 @@ require('lazy').setup({
     main = 'nvim-treesitter.configs', -- Sets main module to use for opts
     -- [[ Configure Treesitter ]] See `:help nvim-treesitter`
     opts = {
-      ensure_installed = { 'bash', 'c', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'query', 'vim', 'vimdoc' },
+      ensure_installed = {
+        'bash', 'c', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'query', 'vim', 'vimdoc',
+        -- Web development
+        'css', 'scss', 'javascript', 'typescript', 'tsx',
+        'json', 'jsonc', 'yaml',
+        'regex',  -- used inside JS/TS for regex highlighting
+      },
       -- Autoinstall languages that are not installed
       auto_install = true,
       highlight = {

@@ -116,7 +116,6 @@ alias cat="bat"
 alias v="nvim"
 alias gs="git status"
 alias c="clear"
-alias cls="clear"
 alias s="du -hs * | sort -rh | head -5" # sort by size
 alias grep="grep --color=auto -n" # colorize grep output
 alias hs="history | grep --color=auto -n" # colorize history output

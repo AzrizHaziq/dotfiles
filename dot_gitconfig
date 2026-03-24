@@ -14,7 +14,7 @@
 	autocrlf = input
 
 [diff]
-        external = difft
+  external = difft
 
 [status]
 	branch = true
@@ -34,9 +34,11 @@
 [pager]
 	branch = false
 	tag = false
+  difftool = true
 
 [rerere]
 	enabled = true
+
 [filter "lfs"]
 	clean = git-lfs clean -- %f
 	smudge = git-lfs smudge -- %f
