@@ -588,6 +588,15 @@ require('lazy').setup({
       vim.keymap.set('n', '<leader>sn', function()
         builtin.find_files { cwd = vim.fn.stdpath 'config' }
       end, { desc = '[S]earch [N]eovim files' })
+
+      -- Grep within a specific folder (prompts for directory)
+      vim.keymap.set('n', '<leader>sG', function()
+        vim.ui.input({ prompt = 'Grep in dir: ', default = vim.fn.getcwd() .. '/', completion = 'file' }, function(dir)
+          if dir and dir ~= '' then
+            builtin.live_grep { search_dirs = { dir }, prompt_title = 'Grep in ' .. dir }
+          end
+        end)
+      end, { desc = '[S]earch [G]rep in folder' })
     end,
   },
 
