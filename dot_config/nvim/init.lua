@@ -392,7 +392,7 @@ require('lazy').setup({
     event = 'VeryLazy',
     init = function()
       -- Fold settings
-      vim.o.foldcolumn = '1' -- '0' is not bad
+      vim.o.foldcolumn = 'auto:1' -- show only carets, no fold depth numbers
       vim.o.foldlevel = 99 -- Using ufo provider need a large value
       vim.o.foldlevelstart = 99
       vim.o.foldenable = true
@@ -401,12 +401,50 @@ require('lazy').setup({
       -- Using ufo provider need remap `zR` and `zM`
       vim.keymap.set('n', 'zR', require('ufo').openAllFolds)
       vim.keymap.set('n', 'zM', require('ufo').closeAllFolds)
+      vim.keymap.set('n', 'zf', 'zMzv', { desc = 'Focus: Fold everything except current cursor' })
+
+      -- Custom fold text: show first line + compact line count inline
+      local handler = function(virtText, lnum, endLnum, width, truncate)
+        local newVirtText = {}
+        local suffix = ('  ··· %d lines '):format(endLnum - lnum)
+        local sufWidth = vim.fn.strdisplaywidth(suffix)
+        local targetWidth = width - sufWidth
+        local curWidth = 0
+        for _, chunk in ipairs(virtText) do
+          local chunkText = chunk[1]
+          local chunkWidth = vim.fn.strdisplaywidth(chunkText)
+          if targetWidth > curWidth + chunkWidth then
+            table.insert(newVirtText, chunk)
+          else
+            chunkText = truncate(chunkText, targetWidth - curWidth)
+            local hlGroup = chunk[2]
+            table.insert(newVirtText, { chunkText, hlGroup })
+            chunkWidth = vim.fn.strdisplaywidth(chunkText)
+            if curWidth + chunkWidth < targetWidth then
+              suffix = suffix .. (' '):rep(targetWidth - curWidth - chunkWidth)
+            end
+            break
+          end
+          curWidth = curWidth + chunkWidth
+        end
+        table.insert(newVirtText, { suffix, 'UfoFoldedEllipsis' })
+        return newVirtText
+      end
 
       -- Setup ufo
       require('ufo').setup {
+        fold_virt_text_handler = handler,
         provider_selector = function(bufnr, filetype, buftype)
           return { 'treesitter', 'indent' }
         end,
+      }
+
+      -- Use caret-style fold markers (▸ closed, ▾ open) via fillchars
+      vim.opt.fillchars = {
+        fold = ' ',
+        foldopen = '▾',
+        foldsep = ' ', -- This hides the vertical lines you see in your image
+        foldclose = '▸',
       }
     end,
   },
@@ -1055,26 +1093,26 @@ require('lazy').setup({
         providers = {
           lazydev = { module = 'lazydev.integrations.blink', score_offset = 100 },
           avante_commands = {
-            name = "avante_commands",
-            module = "blink.compat.source",
+            name = 'avante_commands',
+            module = 'blink.compat.source',
             score_offset = 90,
             opts = {},
           },
           avante_files = {
-            name = "avante_files",
-            module = "blink.compat.source",
+            name = 'avante_files',
+            module = 'blink.compat.source',
             score_offset = 100,
             opts = {},
           },
           avante_mentions = {
-            name = "avante_mentions",
-            module = "blink.compat.source",
+            name = 'avante_mentions',
+            module = 'blink.compat.source',
             score_offset = 1000,
             opts = {},
           },
           avante_shortcuts = {
-            name = "avante_shortcuts",
-            module = "blink.compat.source",
+            name = 'avante_shortcuts',
+            module = 'blink.compat.source',
             score_offset = 1000,
             opts = {},
           },
@@ -1170,11 +1208,27 @@ require('lazy').setup({
     -- [[ Configure Treesitter ]] See `:help nvim-treesitter`
     opts = {
       ensure_installed = {
-        'bash', 'c', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'query', 'vim', 'vimdoc',
+        'bash',
+        'c',
+        'diff',
+        'html',
+        'lua',
+        'luadoc',
+        'markdown',
+        'markdown_inline',
+        'query',
+        'vim',
+        'vimdoc',
         -- Web development
-        'css', 'scss', 'javascript', 'typescript', 'tsx',
-        'json', 'jsonc', 'yaml',
-        'regex',  -- used inside JS/TS for regex highlighting
+        'css',
+        'scss',
+        'javascript',
+        'typescript',
+        'tsx',
+        'json',
+        'jsonc',
+        'yaml',
+        'regex', -- used inside JS/TS for regex highlighting
       },
       -- Autoinstall languages that are not installed
       auto_install = true,
