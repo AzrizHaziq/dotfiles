@@ -439,6 +439,16 @@ require('lazy').setup({
         end,
       }
 
+      -- Re-open all folds after a save, because conform's format_on_save
+      -- triggers a buffer reload which causes ufo to re-apply folds and
+      -- collapse them even after you've done zR.
+      vim.api.nvim_create_autocmd('BufWritePost', {
+        pattern = '*',
+        callback = function()
+          require('ufo').openAllFolds()
+        end,
+      })
+
       -- Use caret-style fold markers (▸ closed, ▾ open) via fillchars
       vim.opt.fillchars = {
         fold = ' ',
@@ -468,9 +478,11 @@ require('lazy').setup({
     cond = not vim.g.vscode,
     event = 'VimEnter', -- Sets the loading event to 'VimEnter'
     opts = {
+      preset = 'helix',
       -- delay between pressing a key and opening which-key (milliseconds)
       -- this setting is independent of vim.o.timeoutlen
       delay = 0,
+
       icons = {
         -- set icon mappings to true if you have a Nerd Font
         mappings = vim.g.have_nerd_font,
@@ -1089,33 +1101,9 @@ require('lazy').setup({
       },
 
       sources = {
-        default = { 'lsp', 'path', 'snippets', 'lazydev', 'avante_commands', 'avante_mentions', 'avante_files', 'avante_shortcuts' },
+        default = { 'lsp', 'path', 'snippets', 'lazydev' },
         providers = {
           lazydev = { module = 'lazydev.integrations.blink', score_offset = 100 },
-          avante_commands = {
-            name = 'avante_commands',
-            module = 'blink.compat.source',
-            score_offset = 90,
-            opts = {},
-          },
-          avante_files = {
-            name = 'avante_files',
-            module = 'blink.compat.source',
-            score_offset = 100,
-            opts = {},
-          },
-          avante_mentions = {
-            name = 'avante_mentions',
-            module = 'blink.compat.source',
-            score_offset = 1000,
-            opts = {},
-          },
-          avante_shortcuts = {
-            name = 'avante_shortcuts',
-            module = 'blink.compat.source',
-            score_offset = 1000,
-            opts = {},
-          },
         },
       },
 
