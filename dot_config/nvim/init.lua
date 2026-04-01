@@ -139,6 +139,9 @@ vim.o.smartcase = true
 -- Keep signcolumn on by default
 vim.o.signcolumn = 'yes'
 
+-- Enable global statusline (one statusline at the bottom)
+vim.o.laststatus = 3
+
 -- Decrease update time
 vim.o.updatetime = 250
 
@@ -174,6 +177,9 @@ vim.o.scrolloff = 10
 -- See `:help 'confirm'`
 vim.o.confirm = true
 
+-- wrap line
+vim.o.wrap = false
+
 -- [[ Basic Keymaps ]]
 --  See `:help vim.keymap.set()`
 
@@ -181,32 +187,51 @@ vim.o.confirm = true
 --  See `:help hlsearch`
 vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
 
+-- number of spaces
+vim.opt.tabstop = 2
+vim.opt.shiftwidth = 2
+vim.opt.expandtab = true
+
 ------------
 
 -- Redo with U
 vim.keymap.set('n', 'U', '<C-r>')
 
 -- skip folds
-vim.cmd 'nmap j gj'
-vim.cmd 'nmap k gk'
+vim.cmd 'nnoremap j gj'
+vim.cmd 'nnoremap k gk'
 
-vim.cmd 'nmap <leader>c :e ~/.config/nvim/init.lua<CR>' -- open nvim config file
--- vim.cmd 'nmap <leader>e :Neotree toggle<CR>' -- toggle file explorer
--- vim.keymap.set('n', '<A-s>', ':Neotree filesystem reveal left<CR>', { desc = 'Reveal file in neo-tree' })
--- vim.keymap.set('n', '<A-s>', ':Neotree reveal<CR>', { desc = 'Reveal current file in Neo-tree' })
-vim.keymap.set('n', '<leader>fr', ':Neotree reveal<CR>', {})
+vim.cmd 'nmap <leader>ce :e ~/.config/nvim/init.lua<CR>' -- edit nvim config file
+vim.keymap.set('n', '<leader>cn', ':source %<CR>', { desc = 'Reload [C]urrent [N]vim config file' })
 
---- ----
+vim.keymap.set('n', '<leader>cr', ":let @+ = expand('%:.:p')<CR>", { desc = 'Copy relative path' })
+vim.keymap.set('n', '<leader>ca', ":let @+ = expand('%:p')<CR>", { desc = 'Copy absolute path' })
+
+--
+if vim.g.vscode then
+  vim.keymap.set('n', '<leader>fr', function()
+    vim.fn.VSCodeNotify 'workbench.files.action.showActiveFileInExplorer'
+  end, { silent = true, desc = 'Reveal file in Explorer' })
+else
+  vim.keymap.set('n', '<leader>fr', ':Neotree reveal<CR>', { desc = 'Reveal current file in Neo-tree' })
+end
+
+---
 
 -- Diagnostic keymaps
 vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostic [Q]uickfix list' })
+vim.keymap.set('n', '<leader>ge', vim.diagnostic.goto_next, { desc = 'Next diagnostic' })
+vim.keymap.set('n', '<leader>gE', vim.diagnostic.goto_prev, { desc = 'Previous diagnostic' })
+
+-- Save all files without closing
+vim.keymap.set('n', '<leader>wa', '<cmd>wa<CR>', { desc = '[W]rite [A]ll files' })
+
+-- Toggle Word Wrap
+vim.keymap.set('n', '<leader>ww', '<cmd>set wrap!<CR>', { desc = 'Toggle [W]ord [W]rap' })
 
 -- Exit terminal mode in the builtin terminal with a shortcut that is a bit easier
 -- for people to discover. Otherwise, you normally need to press <C-\><C-n>, which
 -- is not what someone will guess without a bit more experience.
---
--- NOTE: This won't work in all terminal emulators/tmux/etc. Try your own mapping
--- or just use <C-\><C-n> to exit terminal mode
 vim.keymap.set('t', '<Esc><Esc>', '<C-\\><C-n>', { desc = 'Exit terminal mode' })
 
 -- TIP: Disable arrow keys in normal mode
@@ -365,22 +390,71 @@ require('lazy').setup({
     'kevinhwang91/nvim-ufo',
     dependencies = 'kevinhwang91/promise-async',
     event = 'VeryLazy',
-    config = function()
+    init = function()
       -- Fold settings
-      vim.o.foldcolumn = '1' -- '0' is not bad
+      vim.o.foldcolumn = 'auto:1' -- show only carets, no fold depth numbers
       vim.o.foldlevel = 99 -- Using ufo provider need a large value
       vim.o.foldlevelstart = 99
       vim.o.foldenable = true
-
+    end,
+    config = function()
       -- Using ufo provider need remap `zR` and `zM`
       vim.keymap.set('n', 'zR', require('ufo').openAllFolds)
       vim.keymap.set('n', 'zM', require('ufo').closeAllFolds)
+      vim.keymap.set('n', 'zf', 'zMzv', { desc = 'Focus: Fold everything except current cursor' })
+
+      -- Custom fold text: show first line + compact line count inline
+      local handler = function(virtText, lnum, endLnum, width, truncate)
+        local newVirtText = {}
+        local suffix = ('  ··· %d lines '):format(endLnum - lnum)
+        local sufWidth = vim.fn.strdisplaywidth(suffix)
+        local targetWidth = width - sufWidth
+        local curWidth = 0
+        for _, chunk in ipairs(virtText) do
+          local chunkText = chunk[1]
+          local chunkWidth = vim.fn.strdisplaywidth(chunkText)
+          if targetWidth > curWidth + chunkWidth then
+            table.insert(newVirtText, chunk)
+          else
+            chunkText = truncate(chunkText, targetWidth - curWidth)
+            local hlGroup = chunk[2]
+            table.insert(newVirtText, { chunkText, hlGroup })
+            chunkWidth = vim.fn.strdisplaywidth(chunkText)
+            if curWidth + chunkWidth < targetWidth then
+              suffix = suffix .. (' '):rep(targetWidth - curWidth - chunkWidth)
+            end
+            break
+          end
+          curWidth = curWidth + chunkWidth
+        end
+        table.insert(newVirtText, { suffix, 'UfoFoldedEllipsis' })
+        return newVirtText
+      end
 
       -- Setup ufo
       require('ufo').setup {
+        fold_virt_text_handler = handler,
         provider_selector = function(bufnr, filetype, buftype)
           return { 'treesitter', 'indent' }
         end,
+      }
+
+      -- Re-open all folds after a save, because conform's format_on_save
+      -- triggers a buffer reload which causes ufo to re-apply folds and
+      -- collapse them even after you've done zR.
+      vim.api.nvim_create_autocmd('BufWritePost', {
+        pattern = '*',
+        callback = function()
+          require('ufo').openAllFolds()
+        end,
+      })
+
+      -- Use caret-style fold markers (▸ closed, ▾ open) via fillchars
+      vim.opt.fillchars = {
+        fold = ' ',
+        foldopen = '▾',
+        foldsep = ' ', -- This hides the vertical lines you see in your image
+        foldclose = '▸',
       }
     end,
   },
@@ -401,11 +475,14 @@ require('lazy').setup({
 
   { -- Useful plugin to show you pending keybinds.
     'folke/which-key.nvim',
+    cond = not vim.g.vscode,
     event = 'VimEnter', -- Sets the loading event to 'VimEnter'
     opts = {
+      preset = 'helix',
       -- delay between pressing a key and opening which-key (milliseconds)
       -- this setting is independent of vim.o.timeoutlen
       delay = 0,
+
       icons = {
         -- set icon mappings to true if you have a Nerd Font
         mappings = vim.g.have_nerd_font,
@@ -461,6 +538,7 @@ require('lazy').setup({
 
   { -- Fuzzy Finder (files, lsp, etc)
     'nvim-telescope/telescope.nvim',
+    cond = not vim.g.vscode,
     event = 'VimEnter',
     dependencies = {
       'nvim-lua/plenary.nvim',
@@ -560,6 +638,15 @@ require('lazy').setup({
       vim.keymap.set('n', '<leader>sn', function()
         builtin.find_files { cwd = vim.fn.stdpath 'config' }
       end, { desc = '[S]earch [N]eovim files' })
+
+      -- Grep within a specific folder (prompts for directory)
+      vim.keymap.set('n', '<leader>sG', function()
+        vim.ui.input({ prompt = 'Grep in dir: ', default = vim.fn.getcwd() .. '/', completion = 'file' }, function(dir)
+          if dir and dir ~= '' then
+            builtin.live_grep { search_dirs = { dir }, prompt_title = 'Grep in ' .. dir }
+          end
+        end)
+      end, { desc = '[S]earch [G]rep in folder' })
     end,
   },
 
@@ -579,6 +666,7 @@ require('lazy').setup({
   {
     -- Main LSP Configuration
     'neovim/nvim-lspconfig',
+    cond = not vim.g.vscode,
     dependencies = {
       -- Automatically install LSPs and related tools to stdpath for Neovim
       -- Mason must be loaded before its dependents so we need to set it up here.
@@ -589,6 +677,9 @@ require('lazy').setup({
 
       -- Useful status updates for LSP.
       { 'j-hui/fidget.nvim', opts = {} },
+
+      -- JSON schemas for jsonls (package.json, tsconfig.json, etc.)
+      'b0o/schemastore.nvim',
 
       -- Allows extra capabilities provided by blink.cmp
       'saghen/blink.cmp',
@@ -654,11 +745,11 @@ require('lazy').setup({
           -- Jump to the definition of the word under your cursor.
           --  This is where a variable was first declared, or where a function is defined, etc.
           --  To jump back, press <C-t>.
-          map('grd', require('telescope.builtin').lsp_definitions, '[G]oto [D]efinition')
+          map('gd', require('telescope.builtin').lsp_definitions, '[G]oto [D]efinition')
 
           -- WARN: This is not Goto Definition, this is Goto Declaration.
           --  For example, in C this would take you to the header.
-          map('grD', vim.lsp.buf.declaration, '[G]oto [D]eclaration')
+          map('gD', vim.lsp.buf.declaration, '[G]oto [D]eclaration')
 
           -- Fuzzy find all the symbols in your current document.
           --  Symbols are things like variables, functions, types, etc.
@@ -709,7 +800,7 @@ require('lazy').setup({
             vim.api.nvim_create_autocmd('LspDetach', {
               group = vim.api.nvim_create_augroup('kickstart-lsp-detach', { clear = true }),
               callback = function(event2)
-                vim.lsp.buf.clear_references()
+                pcall(vim.lsp.buf.clear_references)
                 vim.api.nvim_clear_autocmds { group = 'kickstart-lsp-highlight', buffer = event2.buf }
               end,
             })
@@ -782,8 +873,42 @@ require('lazy').setup({
         --    https://github.com/pmizio/typescript-tools.nvim
         --
         -- But for many setups, the LSP (`ts_ls`) will work just fine
-        -- ts_ls = {},
-        --
+        ts_ls = {},
+
+        -- CSS / SCSS / Less
+        -- cssls also handles CSS Modules (*.module.css) - no separate LSP needed
+        cssls = {
+          settings = {
+            css = { validate = true, lint = { unknownAtRules = 'ignore' } },
+            scss = { validate = true, lint = { unknownAtRules = 'ignore' } },
+            less = { validate = true },
+          },
+        },
+        -- SCSS-specific: extra at-rule support (e.g. @use, @forward, @mixin)
+        somesass_ls = {},
+
+        -- HTML
+        html = {},
+
+        -- Emmet: expand abbreviations in HTML/JSX/TSX/CSS
+        emmet_language_server = {
+          filetypes = { 'html', 'css', 'scss', 'javascriptreact', 'typescriptreact' },
+        },
+
+        -- JSON with schema support (package.json, tsconfig.json, etc.)
+        jsonls = {
+          settings = {
+            json = {
+              schemas = require('schemastore').json.schemas(),
+              validate = { enable = true },
+            },
+          },
+        },
+
+        -- Tailwind CSS (class name completions, hover docs)
+        tailwindcss = {
+          filetypes = { 'html', 'css', 'scss', 'javascript', 'javascriptreact', 'typescript', 'typescriptreact' },
+        },
 
         lua_ls = {
           -- cmd = { ... },
@@ -817,6 +942,10 @@ require('lazy').setup({
       local ensure_installed = vim.tbl_keys(servers or {})
       vim.list_extend(ensure_installed, {
         'stylua', -- Used to format Lua code
+        'prettierd', -- Fast prettier daemon for formatting
+        'jsonlint', -- Used to lint JSON files
+        'hadolint', -- Used to lint Dockerfiles
+        'eslint_d', -- Used to lint JS/TS files
       })
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
@@ -852,7 +981,7 @@ require('lazy').setup({
       },
     },
     opts = {
-      notify_on_error = false,
+      notify_on_error = true,
       format_on_save = function(bufnr)
         -- Disable "format_on_save lsp_fallback" for languages that don't
         -- have a well standardized coding style. You can add additional
@@ -862,7 +991,7 @@ require('lazy').setup({
           return nil
         else
           return {
-            timeout_ms = 500,
+            timeout_ms = 3000,
             lsp_format = 'fallback',
           }
         end
@@ -873,7 +1002,17 @@ require('lazy').setup({
         -- python = { "isort", "black" },
         --
         -- You can use 'stop_after_first' to run the first available formatter from the list
-        -- javascript = { "prettierd", "prettier", stop_after_first = true },
+        javascript = { 'prettierd', 'prettier', stop_after_first = true },
+        typescript = { 'prettierd', 'prettier', stop_after_first = true },
+        javascriptreact = { 'prettierd', 'prettier', stop_after_first = true },
+        typescriptreact = { 'prettierd', 'prettier', stop_after_first = true },
+        css = { 'prettierd', 'prettier', stop_after_first = true },
+        scss = { 'prettierd', 'prettier', stop_after_first = true },
+        html = { 'prettierd', 'prettier', stop_after_first = true },
+        json = { 'prettierd', 'prettier', stop_after_first = true },
+        jsonc = { 'prettierd', 'prettier', stop_after_first = true },
+        yaml = { 'prettierd', 'prettier', stop_after_first = true },
+        markdown = { 'prettierd', 'prettier', stop_after_first = true },
       },
     },
   },
@@ -881,8 +1020,15 @@ require('lazy').setup({
   { -- Autocompletion
     'saghen/blink.cmp',
     event = 'VimEnter',
+    cond = not vim.g.vscode,
     version = '1.*',
     dependencies = {
+      {
+        'saghen/blink.compat',
+        version = '2.*',
+        lazy = true,
+        opts = {},
+      },
       -- Snippet Engine
       {
         'L3MON4D3/LuaSnip',
@@ -1002,6 +1148,8 @@ require('lazy').setup({
   -- Highlight todo, notes, etc in comments
   { 'folke/todo-comments.nvim', event = 'VimEnter', dependencies = { 'nvim-lua/plenary.nvim' }, opts = { signs = false } },
 
+  { 'numToStr/Comment.nvim', opts = {} },
+
   { -- Collection of various small independent plugins/modules
     'echasnovski/mini.nvim',
     config = function()
@@ -1014,26 +1162,27 @@ require('lazy').setup({
       require('mini.ai').setup { n_lines = 500 }
 
       -- Add/delete/replace surroundings (brackets, quotes, etc.)
+      -- Disabled: using nvim-surround instead (kylechui/nvim-surround)
       --
       -- - saiw) - [S]urround [A]dd [I]nner [W]ord [)]Paren
       -- - sd'   - [S]urround [D]elete [']quotes
       -- - sr)'  - [S]urround [R]eplace [)] [']
-      require('mini.surround').setup()
+      -- require('mini.surround').setup()
 
       -- Simple and easy statusline.
       --  You could remove this setup call if you don't like it,
       --  and try some other statusline plugin
-      local statusline = require 'mini.statusline'
+      -- local statusline = require 'mini.statusline'
       -- set use_icons to true if you have a Nerd Font
-      statusline.setup { use_icons = vim.g.have_nerd_font }
+      -- statusline.setup { use_icons = vim.g.have_nerd_font }
 
       -- You can configure sections in the statusline by overriding their
       -- default behavior. For example, here we set the section for
       -- cursor location to LINE:COLUMN
-      ---@diagnostic disable-next-line: duplicate-set-field
-      statusline.section_location = function()
-        return '%2l:%-2v'
-      end
+      -- ---@diagnostic disable-next-line: duplicate-set-field
+      -- statusline.section_location = function()
+      --   return '%2l:%-2v'
+      -- end
 
       -- ... and there is more!
       --  Check out: https://github.com/echasnovski/mini.nvim
@@ -1041,11 +1190,34 @@ require('lazy').setup({
   },
   { -- Highlight, edit, and navigate code
     'nvim-treesitter/nvim-treesitter',
+    branch = 'master',
     build = ':TSUpdate',
     main = 'nvim-treesitter.configs', -- Sets main module to use for opts
     -- [[ Configure Treesitter ]] See `:help nvim-treesitter`
     opts = {
-      ensure_installed = { 'bash', 'c', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'query', 'vim', 'vimdoc' },
+      ensure_installed = {
+        'bash',
+        'c',
+        'diff',
+        'html',
+        'lua',
+        'luadoc',
+        'markdown',
+        'markdown_inline',
+        'query',
+        'vim',
+        'vimdoc',
+        -- Web development
+        'css',
+        'scss',
+        'javascript',
+        'typescript',
+        'tsx',
+        'json',
+        'jsonc',
+        'yaml',
+        'regex', -- used inside JS/TS for regex highlighting
+      },
       -- Autoinstall languages that are not installed
       auto_install = true,
       highlight = {
@@ -1064,7 +1236,6 @@ require('lazy').setup({
     --    - Show your current context: https://github.com/nvim-treesitter/nvim-treesitter-context
     --    - Treesitter + textobjects: https://github.com/nvim-treesitter/nvim-treesitter-textobjects
   },
-
   -- The following comments only work if you have downloaded the kickstart repo, not just copy pasted the
   -- init.lua. If you want these files, they are in the repository, so you can just download them and
   -- place them in the correct locations.
@@ -1085,7 +1256,7 @@ require('lazy').setup({
   --    This is the easiest way to modularize your config.
   --
   --  Uncomment the following line and add your plugins to `lua/custom/plugins/*.lua` to get going.
-  -- { import = 'custom.plugins' },
+  { import = 'custom.plugins' },
   --
   -- For additional information with loading, sourcing and examples see `:help lazy.nvim-🔌-plugin-spec`
   -- Or use telescope!
