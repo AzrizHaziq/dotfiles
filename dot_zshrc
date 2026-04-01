@@ -135,6 +135,13 @@ compinit
 export PATH="$HOME/.local/bin:$PATH"
 export PATH="/home/azrizhaziq/.bun/bin:$PATH"
 
-source ~/.zshrc.d/macos.zsh
-source ~/.zshrc.d/linux.zsh
-source ~/.zshrc.d/window-wsl.zsh
+# Detect OS and source specific configurations
+if [[ "$OSTYPE" == "darwin"* ]]; then
+    source ~/.zshrc.d/macos.zsh  # macOS specific
+elif [[ "$OSTYPE" == "linux-gnu"* ]]; then
+    if [[ -n "$WSL_DISTRO_NAME" || -n "$IS_WSL" ]]; then
+        source ~/.zshrc.d/window-wsl.zsh
+    else
+        source ~/.zshrc.d/linux.zsh  # Standard Linux
+    fi
+fi
