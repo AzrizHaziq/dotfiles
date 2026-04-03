@@ -20,14 +20,22 @@ return {
       columns = {
         'icon',
         -- 'permissions',
-        'size',
+        -- 'size',
         -- 'mtime',
       },
 
       -- need at least 2 sign columns for oil-git-status (index + working tree)
       win_options = {
-        signcolumn = 'yes:2',
+        -- signcolumn = 'yes:2',
         winbar = '%!v:lua.get_oil_winbar()',
+        wrap = false,
+        signcolumn = 'yes',
+        cursorcolumn = false,
+        foldcolumn = '1',
+        spell = true,
+        list = true,
+        conceallevel = 3,
+        concealcursor = 'nvic',
       },
 
       -- show hidden files (toggle with g. inside oil)
@@ -65,6 +73,7 @@ return {
         ['gx'] = 'actions.open_external', -- open with system app
         ['g.'] = { 'actions.toggle_hidden', mode = 'n' }, -- toggle dotfiles
         ['g\\'] = { 'actions.toggle_trash', mode = 'n' }, -- toggle trash view
+        ['q'] = 'actions.close',
 
         -- Copy absolute path with line:column
         ['<leader>ca'] = {

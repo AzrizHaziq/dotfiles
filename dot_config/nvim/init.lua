@@ -208,7 +208,6 @@ vim.cmd 'nnoremap j gj'
 vim.cmd 'nnoremap k gk'
 
 vim.cmd 'nmap <leader>ce :e ~/.config/nvim/init.lua<CR>' -- edit nvim config file
-vim.keymap.set('n', '<leader>cn', ':source ~/.config/nvim', { desc = 'Reload [C]urrent [N]vim config file' })
 
 -- Copy absolute path with line:column
 vim.keymap.set('n', '<leader>ca', function()
@@ -216,9 +215,9 @@ vim.keymap.set('n', '<leader>ca', function()
     -- Oil buffer handling - will be defined in Oil keymaps
     return
   else
-    local path = vim.fn.expand('%:p')
-    local line = vim.fn.line('.')
-    local col = vim.fn.col('.')
+    local path = vim.fn.expand '%:p'
+    local line = vim.fn.line '.'
+    local col = vim.fn.col '.'
     local full = string.format('%s:%d:%d', path, line, col)
     vim.fn.setreg('+', full)
   end
@@ -230,13 +229,25 @@ vim.keymap.set('n', '<leader>cr', function()
     -- Oil buffer handling - will be defined in Oil keymaps
     return
   else
-    local path = vim.fn.expand('%:.')
-    local line = vim.fn.line('.')
-    local col = vim.fn.col('.')
+    local path = vim.fn.expand '%:.'
+    local line = vim.fn.line '.'
+    local col = vim.fn.col '.'
     local full = string.format('%s:%d:%d', path, line, col)
     vim.fn.setreg('+', full)
   end
 end, { desc = 'Copy relative path with line:col' })
+
+-- reload nvim config
+vim.keymap.set('n', '<leader>rr', function()
+  for name, _ in pairs(package.loaded) do
+    -- Replace 'user' with your actual config directory name if different
+    if name:match '^user' or name:match '^config' then
+      package.loaded[name] = nil
+    end
+  end
+  dofile(vim.env.MYVIMRC)
+  vim.notify('Nvim configuration reloaded!', vim.log.levels.INFO)
+end, { desc = 'Reload Config' })
 
 --
 if vim.g.vscode then
@@ -641,12 +652,12 @@ require('lazy').setup({
       vim.keymap.set('n', '<leader>sh', builtin.help_tags, { desc = '[S]earch [H]elp' })
       vim.keymap.set('n', '<leader>sk', builtin.keymaps, { desc = '[S]earch [K]eymaps' })
       vim.keymap.set('n', '<leader>sf', function()
-        builtin.find_files({ prompt_title = 'Find Files in ' .. vim.fn.fnamemodify(vim.fn.getcwd(), ':~') })
+        builtin.find_files { prompt_title = 'Find Files in ' .. vim.fn.fnamemodify(vim.fn.getcwd(), ':~') }
       end, { desc = '[S]earch [F]iles' })
       vim.keymap.set('n', '<leader>ss', builtin.builtin, { desc = '[S]earch [S]elect Telescope' })
       vim.keymap.set('n', '<leader>sw', builtin.grep_string, { desc = '[S]earch current [W]ord' })
       vim.keymap.set('n', '<leader>sg', function()
-        builtin.live_grep({ prompt_title = 'Live Grep in ' .. vim.fn.fnamemodify(vim.fn.getcwd(), ':~') })
+        builtin.live_grep { prompt_title = 'Live Grep in ' .. vim.fn.fnamemodify(vim.fn.getcwd(), ':~') }
       end, { desc = '[S]earch by [G]rep' })
       vim.keymap.set('n', '<leader>sd', builtin.diagnostics, { desc = '[S]earch [D]iagnostics' })
       vim.keymap.set('n', '<leader>sr', builtin.resume, { desc = '[S]earch [R]esume' })
