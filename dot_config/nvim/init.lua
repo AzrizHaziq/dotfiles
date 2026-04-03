@@ -1167,10 +1167,31 @@ require('lazy').setup({
       },
 
       sources = {
-        default = { 'lsp', 'path', 'snippets', 'lazydev' },
+        default = { 'lsp', 'path', 'snippets', 'buffer', 'lazydev' },
         providers = {
           lazydev = { module = 'lazydev.integrations.blink', score_offset = 100 },
+          buffer = {
+            min_keyword_length = 2, -- Show completions after typing 2 characters
+            score_offset = -3, -- Lower priority than LSP (negative = lower priority)
+          },
         },
+      },
+
+      -- Command-line completion configuration
+      cmdline = {
+        enabled = true,
+        sources = function()
+          local type = vim.fn.getcmdtype()
+          -- For : commands (ex commands)
+          if type == ':' then
+            return { 'cmdline', 'path', 'buffer' }
+          end
+          -- For / and ? searches
+          if type == '/' or type == '?' then
+            return { 'buffer' }
+          end
+          return {}
+        end,
       },
 
       snippets = { preset = 'luasnip' },
