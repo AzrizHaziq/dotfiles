@@ -101,6 +101,9 @@ vim.g.maplocalleader = ' '
 -- Set to true if you have a Nerd Font installed and selected in the terminal
 vim.g.have_nerd_font = true
 
+-- Enable format on save by default (can be toggled with <leader>tF)
+vim.g.enable_autoformat = true
+
 -- [[ Setting options ]]
 -- See `:help vim.o`
 -- NOTE: You can change these options as you wish!
@@ -180,6 +183,9 @@ vim.o.confirm = true
 -- wrap line
 vim.o.wrap = false
 
+-- Disable swap files (avoid E325 ATTENTION prompts)
+vim.o.swapfile = false
+
 -- [[ Basic Keymaps ]]
 --  See `:help vim.keymap.set()`
 
@@ -202,7 +208,7 @@ vim.cmd 'nnoremap j gj'
 vim.cmd 'nnoremap k gk'
 
 vim.cmd 'nmap <leader>ce :e ~/.config/nvim/init.lua<CR>' -- edit nvim config file
-vim.keymap.set('n', '<leader>cn', ':source %<CR>', { desc = 'Reload [C]urrent [N]vim config file' })
+vim.keymap.set('n', '<leader>cn', ':source ~/.config/nvim', { desc = 'Reload [C]urrent [N]vim config file' })
 
 vim.keymap.set('n', '<leader>cr', ":let @+ = expand('%:.:p')<CR>", { desc = 'Copy relative path' })
 vim.keymap.set('n', '<leader>ca', ":let @+ = expand('%:p')<CR>", { desc = 'Copy absolute path' })
@@ -213,15 +219,17 @@ if vim.g.vscode then
     vim.fn.VSCodeNotify 'workbench.files.action.showActiveFileInExplorer'
   end, { silent = true, desc = 'Reveal file in Explorer' })
 else
-  vim.keymap.set('n', '<leader>fr', ':Neotree reveal<CR>', { desc = 'Reveal current file in Neo-tree' })
+  -- vim.keymap.set('n', '<leader>fr', ':Neotree reveal<CR>', { desc = 'Reveal current file in Neo-tree' })
+  -- Open Oil in float mode at the current file's directory
+  vim.keymap.set('n', '<leader>fr', function()
+    require('oil').open_float(vim.fn.expand '%:p:h')
+  end, { desc = 'Reveal current file in Oil' })
 end
 
 ---
 
 -- Diagnostic keymaps
 vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostic [Q]uickfix list' })
-vim.keymap.set('n', '<leader>ge', vim.diagnostic.goto_next, { desc = 'Next diagnostic' })
-vim.keymap.set('n', '<leader>gE', vim.diagnostic.goto_prev, { desc = 'Previous diagnostic' })
 
 -- Save all files without closing
 vim.keymap.set('n', '<leader>wa', '<cmd>wa<CR>', { desc = '[W]rite [A]ll files' })
@@ -586,11 +594,11 @@ require('lazy').setup({
         -- You can put your default mappings / updates / etc. in here
         --  All the info you're looking for is in `:help telescope.setup()`
         --
-        -- defaults = {
-        --   mappings = {
-        --     i = { ['<c-enter>'] = 'to_fuzzy_refine' },
-        --   },
-        -- },
+        defaults = {
+          prompt_prefix = '🔍 ',
+          selection_caret = '➜ ',
+          path_display = { 'truncate' },
+        },
         -- pickers = {}
         extensions = {
           ['ui-select'] = {
@@ -607,10 +615,14 @@ require('lazy').setup({
       local builtin = require 'telescope.builtin'
       vim.keymap.set('n', '<leader>sh', builtin.help_tags, { desc = '[S]earch [H]elp' })
       vim.keymap.set('n', '<leader>sk', builtin.keymaps, { desc = '[S]earch [K]eymaps' })
-      vim.keymap.set('n', '<leader>sf', builtin.find_files, { desc = '[S]earch [F]iles' })
+      vim.keymap.set('n', '<leader>sf', function()
+        builtin.find_files({ prompt_title = 'Find Files in ' .. vim.fn.fnamemodify(vim.fn.getcwd(), ':~') })
+      end, { desc = '[S]earch [F]iles' })
       vim.keymap.set('n', '<leader>ss', builtin.builtin, { desc = '[S]earch [S]elect Telescope' })
       vim.keymap.set('n', '<leader>sw', builtin.grep_string, { desc = '[S]earch current [W]ord' })
-      vim.keymap.set('n', '<leader>sg', builtin.live_grep, { desc = '[S]earch by [G]rep' })
+      vim.keymap.set('n', '<leader>sg', function()
+        builtin.live_grep({ prompt_title = 'Live Grep in ' .. vim.fn.fnamemodify(vim.fn.getcwd(), ':~') })
+      end, { desc = '[S]earch by [G]rep' })
       vim.keymap.set('n', '<leader>sd', builtin.diagnostics, { desc = '[S]earch [D]iagnostics' })
       vim.keymap.set('n', '<leader>sr', builtin.resume, { desc = '[S]earch [R]esume' })
       vim.keymap.set('n', '<leader>s.', builtin.oldfiles, { desc = '[S]earch Recent Files ("." for repeat)' })
@@ -972,17 +984,35 @@ require('lazy').setup({
     cmd = { 'ConformInfo' },
     keys = {
       {
-        '<leader>f',
+        '<leader>fb',
         function()
           require('conform').format { async = true, lsp_format = 'fallback' }
         end,
         mode = '',
-        desc = '[F]ormat buffer',
+        desc = '[F]ormat [B]uffer',
+      },
+      {
+        '<leader>tF',
+        function()
+          vim.g.enable_autoformat = not vim.g.enable_autoformat
+          if vim.g.enable_autoformat then
+            vim.notify('Format on save enabled', vim.log.levels.INFO)
+          else
+            vim.notify('Format on save disabled', vim.log.levels.INFO)
+          end
+        end,
+        mode = 'n',
+        desc = '[T]oggle [F]ormat on save',
       },
     },
     opts = {
       notify_on_error = true,
       format_on_save = function(bufnr)
+        -- Check if autoformat is globally disabled
+        if not vim.g.enable_autoformat then
+          return nil
+        end
+
         -- Disable "format_on_save lsp_fallback" for languages that don't
         -- have a well standardized coding style. You can add additional
         -- languages here or re-enable it for the disabled ones.
@@ -1249,7 +1279,7 @@ require('lazy').setup({
   require 'kickstart.plugins.indent_line',
   require 'kickstart.plugins.lint',
   require 'kickstart.plugins.autopairs',
-  require 'kickstart.plugins.neo-tree',
+  -- require 'kickstart.plugins.neo-tree', -- Replaced by oil.nvim
   require 'kickstart.plugins.gitsigns', -- adds gitsigns recommend keymaps
 
   -- NOTE: The import below can automatically add your own plugins, configuration, etc from `lua/custom/plugins/*.lua`

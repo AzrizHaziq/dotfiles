@@ -46,10 +46,6 @@ return {
             .filter(function(win)
               local bufid = vim.api.nvim_win_get_buf(win.id)
               local ft = vim.bo[bufid].filetype
-              -- Filter out Avante windows completely
-              if ft:match '^Avante' then
-                return false
-              end
               -- Filter out unnamed diff windows
               if vim.wo[win.id].diff and vim.api.nvim_buf_get_name(bufid) == '' then
                 return false
@@ -94,8 +90,8 @@ return {
     vim.keymap.set('n', '<leader>ta', ':$tabnew<CR>', { desc = '[T]ab [A]dd new' })
     vim.keymap.set('n', '<leader>tc', ':tabclose<CR>', { desc = '[T]ab [C]lose current' })
     vim.keymap.set('n', '<leader>to', ':tabonly<CR>', { desc = '[T]ab [O]nly (close others)' })
-    vim.keymap.set('n', '<leader>tn', ':tabn<CR>', { desc = '[T]ab [N]ext' })
-    vim.keymap.set('n', '<leader>tp', ':tabp<CR>', { desc = '[T]ab [P]revious' })
+    -- vim.keymap.set('n', '<leader>tn', ':tabn<CR>', { desc = '[T]ab [N]ext' })
+    -- vim.keymap.set('n', '<leader>tp', ':tabp<CR>', { desc = '[T]ab [P]revious' })
     vim.keymap.set('n', '<leader>tr', ':Tabby rename_tab ', { desc = '[T]ab [R]ename' })
   end,
 }
