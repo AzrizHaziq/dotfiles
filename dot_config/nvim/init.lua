@@ -210,8 +210,33 @@ vim.cmd 'nnoremap k gk'
 vim.cmd 'nmap <leader>ce :e ~/.config/nvim/init.lua<CR>' -- edit nvim config file
 vim.keymap.set('n', '<leader>cn', ':source ~/.config/nvim', { desc = 'Reload [C]urrent [N]vim config file' })
 
-vim.keymap.set('n', '<leader>cr', ":let @+ = expand('%:.:p')<CR>", { desc = 'Copy relative path' })
-vim.keymap.set('n', '<leader>ca', ":let @+ = expand('%:p')<CR>", { desc = 'Copy absolute path' })
+-- Copy absolute path with line:column
+vim.keymap.set('n', '<leader>ca', function()
+  if vim.bo.filetype == 'oil' then
+    -- Oil buffer handling - will be defined in Oil keymaps
+    return
+  else
+    local path = vim.fn.expand('%:p')
+    local line = vim.fn.line('.')
+    local col = vim.fn.col('.')
+    local full = string.format('%s:%d:%d', path, line, col)
+    vim.fn.setreg('+', full)
+  end
+end, { desc = 'Copy absolute path with line:col' })
+
+-- Copy relative path with line:column
+vim.keymap.set('n', '<leader>cr', function()
+  if vim.bo.filetype == 'oil' then
+    -- Oil buffer handling - will be defined in Oil keymaps
+    return
+  else
+    local path = vim.fn.expand('%:.')
+    local line = vim.fn.line('.')
+    local col = vim.fn.col('.')
+    local full = string.format('%s:%d:%d', path, line, col)
+    vim.fn.setreg('+', full)
+  end
+end, { desc = 'Copy relative path with line:col' })
 
 --
 if vim.g.vscode then
