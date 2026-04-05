@@ -1135,14 +1135,18 @@ require('lazy').setup({
           -- `friendly-snippets` contains a variety of premade snippets.
           --    See the README about individual language/framework/plugin snippets:
           --    https://github.com/rafamadriz/friendly-snippets
-          -- {
-          --   'rafamadriz/friendly-snippets',
-          --   config = function()
-          --     require('luasnip.loaders.from_vscode').lazy_load()
-          --   end,
-          -- },
+          {
+            'rafamadriz/friendly-snippets',
+            config = function()
+              require('luasnip.loaders.from_vscode').lazy_load()
+            end,
+          },
         },
-        opts = {},
+        opts = function()
+          require('luasnip.loaders.from_lua').lazy_load {
+            paths = { vim.fn.stdpath 'config' .. '/lua/custom/snippets' },
+          }
+        end,
       },
       'folke/lazydev.nvim',
     },
@@ -1186,16 +1190,18 @@ require('lazy').setup({
       completion = {
         -- By default, you may press `<c-space>` to show the documentation.
         -- Optionally, set `auto_show = true` to show the documentation after a delay.
-        documentation = { auto_show = false, auto_show_delay_ms = 500 },
+        documentation = { auto_show = true, auto_show_delay_ms = 200 },
       },
 
       sources = {
-        default = { 'lsp', 'path', 'snippets', 'buffer', 'lazydev' },
+        default = { 'lsp', 'lazydev', 'snippets', 'path', 'buffer' },
         providers = {
           lazydev = { module = 'lazydev.integrations.blink', score_offset = 100 },
+          snippets = { score_offset = 5 },
+          path = { score_offset = 3 },
           buffer = {
             min_keyword_length = 2, -- Show completions after typing 2 characters
-            score_offset = -3, -- Lower priority than LSP (negative = lower priority)
+            score_offset = -5, -- Keep nearby words available without crowding LSP/snippets
           },
         },
       },
