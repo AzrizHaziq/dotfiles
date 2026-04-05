@@ -128,6 +128,7 @@ alias f="find . -name" # find files
 alias ls="eza"
 alias cz="chezmoi"
 alias y="yarn"
+alias lz="lazygit"
 alias op="opencode"
 
 # The following lines have been added by Docker Desktop to enable Docker CLI completions.
