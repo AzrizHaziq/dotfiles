@@ -14,11 +14,12 @@ return {
       -- completion
       'saghen/blink.cmp',
       -- file picker
-      'folke/snacks.nvim',
+      'nvim-telescope/telescope.nvim',
     },
     config = function()
       require('opencode').setup {
         keymap_prefix = '<leader>o',
+        preferred_picker = 'telescope',
         default_global_keymaps = true,
         default_mode = 'build',
         ui = {
