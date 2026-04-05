@@ -8,7 +8,7 @@ return {
     config = function()
       local function tmux_bin()
         local tmux = vim.env.TMUX or ''
-        local server_pid = tmux:match('^[^,]+,(%d+),')
+        local server_pid = tmux:match '^[^,]+,(%d+),'
         if not server_pid then
           return 'tmux'
         end
@@ -96,17 +96,9 @@ return {
         end
       end
 
-      vim.keymap.set('n', '<leader>tt', function()
-        run_tmux { 'new-window', '-c', vim.fn.getcwd() }
-      end, { desc = '[T]erminal [T]mux window' })
-
       vim.keymap.set('n', '<leader>tf', function()
         run_tmux { 'display-popup', '-E', '-d', vim.fn.getcwd() }
       end, { desc = '[T]erminal [F]loat popup' })
-
-      vim.keymap.set('n', '<leader>zt', function()
-        run_tmux { 'source-file', vim.fn.expand '~/.tmux.conf' }
-      end, { desc = '[T]mux reload config' })
 
       vim.keymap.set('n', '<leader>tv', function()
         run_tmux { 'split-window', '-h', '-c', vim.fn.getcwd() }
@@ -114,3 +106,59 @@ return {
     end,
   },
 }
+
+-- Tmux cheat sheet
+--
+-- General
+--   leader ?        list keys
+--   leader :        command prompt
+--   leader d        detach session
+--   leader r        reload config
+--
+-- Sessions
+--   leader $        rename session
+--   leader s        list sessions
+--
+-- Windows
+--   leader c        new window
+--   leader ,        rename window
+--   leader &        kill window
+--   leader w        list windows
+--   leader n        next window
+--   leader p        previous window
+--   leader 0..9     window by index
+--   leader l        last window
+--
+-- Panes
+--   leader %        split vertical
+--   leader "        split horizontal
+--   leader x        kill pane
+--   leader z        zoom pane
+--   leader !        pane to window
+--   leader ;        last pane
+--   leader q        pane numbers
+--   leader o        next pane
+--   leader {        swap pane left
+--   leader }        swap pane right
+--   leader Space    next layout
+--   leader M-1      even-horizontal
+--   leader M-2      even-vertical
+--   leader M-3      main-horizontal
+--   leader M-4      main-vertical
+--   leader M-5      tiled
+--   leader Arrow    select pane
+--   leader C-Arrow  resize pane
+--
+-- Copy mode
+--   leader [        enter copy mode
+--   leader ]        paste buffer
+--
+-- Buffers
+--   leader #        list buffers
+--   leader =        choose buffer
+--   leader -        delete buffer
+--
+-- Client
+--   leader t        clock
+--   leader i        pane info
+--   leader ~        messages

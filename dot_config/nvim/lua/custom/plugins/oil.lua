@@ -73,7 +73,7 @@ return {
         ['gx'] = 'actions.open_external', -- open with system app
         ['g.'] = { 'actions.toggle_hidden', mode = 'n' }, -- toggle dotfiles
         ['g\\'] = { 'actions.toggle_trash', mode = 'n' }, -- toggle trash view
-        ['q'] = 'actions.close',
+        ['<Esc>'] = { 'actions.close', mode = 'n' },
 
         -- Copy absolute path with line:column
         ['<leader>ca'] = {
