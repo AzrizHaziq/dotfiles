@@ -7,8 +7,6 @@ return {
     local C = require('catppuccin.palettes').get_palette 'mocha'
     local opts = catppuccin.options
     local transparent_bg = opts.transparent_background and 'NONE' or C.mantle
-    local pill_bg = opts.transparent_background and 'NONE' or C.surface0
-
     local theme = {
       normal = {
         a = { bg = C.blue, fg = C.mantle, gui = 'bold' },
@@ -50,6 +48,36 @@ return {
       return vim.api.nvim_get_current_buf()
     end
 
+    local function target_winid()
+      local winid = vim.g.statusline_winid
+      if winid and winid ~= 0 then
+        return winid
+      end
+      return vim.api.nvim_get_current_win()
+    end
+
+    local function is_active_window()
+      return target_winid() == vim.api.nvim_get_current_win()
+    end
+
+    local function mode_color()
+      local mode = vim.api.nvim_get_mode().mode
+
+      if mode:match '^i' then
+        return C.green
+      elseif mode:match '^[vV]' or mode == '\22' then
+        return C.mauve
+      elseif mode:match '^R' then
+        return C.red
+      elseif mode:match '^c' then
+        return C.peach
+      elseif mode:match '^t' then
+        return C.green
+      else
+        return C.blue
+      end
+    end
+
     local function filename_for(bufnr)
       local name = vim.api.nvim_buf_get_name(bufnr)
       if name == '' then
@@ -75,7 +103,7 @@ return {
         return label
       end
 
-      return label .. ' ' .. table.concat(marks, ' ')
+      return label .. '  ' .. table.concat(marks, ' ')
     end
 
     local function file_icon()
@@ -118,20 +146,34 @@ return {
         lualine_a = {
           {
             function()
-              return file_icon()
+              return '▍'
+            end,
+            color = function()
+              return { fg = mode_color(), bg = 'NONE' }
+            end,
+            padding = { left = 0, right = 1 },
+          },
+          {
+            function()
+              local icon = file_icon()
+              return icon
             end,
             color = function()
               local _, color = file_icon()
-              return { fg = color, bg = pill_bg, gui = 'bold' }
+              return { fg = color, bg = 'NONE' }
             end,
-            separator = { left = '', right = '' },
-            padding = { left = 1, right = 0 },
+            padding = { left = 0, right = 1 },
           },
           {
             file_label,
-            color = { fg = C.lavender, bg = pill_bg, gui = 'bold' },
-            separator = { left = '', right = '' },
-            padding = { left = 1, right = 1 },
+            color = function()
+              return {
+                fg = is_active_window() and C.text or C.subtext0,
+                bg = 'NONE',
+                gui = is_active_window() and 'bold' or nil,
+              }
+            end,
+            padding = { left = 0, right = 0 },
           },
         },
         lualine_b = {},
@@ -144,20 +186,26 @@ return {
         lualine_a = {
           {
             function()
-              return file_icon()
+              return '▍'
+            end,
+            color = { fg = C.surface1, bg = 'NONE' },
+            padding = { left = 0, right = 1 },
+          },
+          {
+            function()
+              local icon = file_icon()
+              return icon
             end,
             color = function()
               local _, color = file_icon()
-              return { fg = color, bg = pill_bg }
+              return { fg = color, bg = 'NONE' }
             end,
-            separator = { left = '', right = '' },
-            padding = { left = 1, right = 0 },
+            padding = { left = 0, right = 1 },
           },
           {
             file_label,
-            color = { fg = C.subtext0, bg = pill_bg },
-            separator = { left = '', right = '' },
-            padding = { left = 1, right = 1 },
+            color = { fg = C.subtext0, bg = 'NONE' },
+            padding = { left = 0, right = 0 },
           },
         },
         lualine_b = {},
