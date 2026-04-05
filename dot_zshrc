@@ -143,3 +143,11 @@ export PATH="/home/azrizhaziq/.bun/bin:$PATH"
 source ~/.zshrc.d/macos.zsh
 source ~/.zshrc.d/linux.zsh
 source ~/.zshrc.d/window-wsl.zsh
+
+# Keep the shell cursor as a blinking vertical bar in terminal/tmux prompts.
+autoload -Uz add-zsh-hook
+set_blinking_bar_cursor() {
+  printf '\e[5 q'
+}
+add-zsh-hook precmd set_blinking_bar_cursor
+set_blinking_bar_cursor

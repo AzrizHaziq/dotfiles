@@ -8,6 +8,7 @@ config.term = 'xterm-256color'
 config.font = wezterm.font("JetBrainsMono Nerd Font", { weight = "Regular" })
 config.font_size = 12.0
 config.color_scheme = 'Catppuccin Mocha'
+config.default_cursor_style = 'BlinkingBar'
 
 -- Nerd Font glyph rendering: allow wezterm to use wide/double-width glyphs
 config.allow_square_glyphs_to_overflow_width = "WhenFollowedBySpace"
