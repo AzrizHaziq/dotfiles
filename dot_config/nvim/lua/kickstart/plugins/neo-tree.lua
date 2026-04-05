@@ -3,6 +3,7 @@
 
 return {
   'nvim-neo-tree/neo-tree.nvim',
+  enabled = false,
   version = '*',
   cond = not vim.g.vscode,
   dependencies = {
