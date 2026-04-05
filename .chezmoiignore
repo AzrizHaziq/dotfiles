@@ -1,2 +1,3 @@
 .config/nvim/.git
+.tmux/plugins/**
 .config/yasb/yasb.log

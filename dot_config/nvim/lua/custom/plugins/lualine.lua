@@ -5,10 +5,10 @@ return {
     require('lualine').setup {
       options = {
         icons_enabled = vim.g.have_nerd_font,
-        theme = 'auto', -- 'auto' matches your colorscheme (tokyonight)
-        component_separators = { left = '', right = '' },
-        section_separators = { left = '', right = '' },
-        globalstatus = true, -- ENABLE GLOBAL STATUSLINE
+        theme = 'auto',
+        component_separators = { left = '/', right = '/' },
+        section_separators = { left = '', right = '' },
+        globalstatus = true,
       },
       sections = {
         lualine_a = { 'mode' },
