@@ -91,7 +91,11 @@ fi
 # if [[ -n $SSH_CONNECTION ]]; then
 #   export EDITOR='vim'
 # else
-export EDITOR='nvim'
+if command -v nvim >/dev/null 2>&1; then
+  export EDITOR='nvim'
+else
+  export EDITOR='vim'
+fi
 # fi
 
 # Compilation flags
@@ -116,6 +120,7 @@ alias wd="cd /home/azrizhaziq/work"
 alias pbcopy="clip.exe"
 
 alias cat="bat"
+alias ls="eza"
 alias v="nvim"
 alias gs="git status"
 alias c="clear"
@@ -124,7 +129,6 @@ alias grep="grep --color=auto -n" # colorize grep output
 alias hs="history | grep --color=auto -n" # colorize history output
 alias gip="curl ipinfo.io/ip && curl ipinfo.io/org" # get ip and org
 alias f="find . -name" # find files
-alias ls="eza"
 alias cz="chezmoi"
 alias lz="lazygit"
 alias op="opencode"
@@ -143,6 +147,23 @@ compinit
 export PATH="$HOME/.local/bin:$PATH"
 export PATH="/home/azrizhaziq/.bun/bin:$PATH"
 
+# Keep a sane PATH in all environments and remove duplicates.
+typeset -U path PATH
+path=(
+  /home/linuxbrew/.linuxbrew/bin
+  /home/linuxbrew/.linuxbrew/sbin
+  "$HOME/.local/bin"
+  "$HOME/.bun/bin"
+  /usr/local/sbin
+  /usr/local/bin
+  /usr/sbin
+  /usr/bin
+  /sbin
+  /bin
+  $path
+)
+export PATH
+
 # Machine-specific overrides. Only load the file that matches the current machine.
 if [[ "$OSTYPE" == darwin* ]]; then
   [ -f ~/.zshrc.d/macos.zsh ] && source ~/.zshrc.d/macos.zsh
@@ -158,5 +179,8 @@ autoload -Uz add-zsh-hook
 set_blinking_bar_cursor() {
   printf '\e[5 q'
 }
+
 add-zsh-hook precmd set_blinking_bar_cursor
 set_blinking_bar_cursor
+
+eval "$(mise activate zsh)"
