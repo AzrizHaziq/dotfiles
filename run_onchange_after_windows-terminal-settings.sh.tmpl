@@ -2,5 +2,8 @@
 
 # Hash to trigger on changes: {{ include "dot_config/windows-terminal/settings.json" | sha256sum }}
 
+windows_home="$(wslpath "$(cmd.exe /c "echo %USERPROFILE%" 2>/dev/null | tr -d '\r')")"
+
 echo "Deploying Windows Terminal settings to Windows AppData..."
-cp "$HOME/.config/windows-terminal/settings.json" /mnt/c/Users/JasniAzrizHaziq/AppData/Local/Packages/Microsoft.WindowsTerminal_8wekyb3d8bbwe/LocalState/settings.json
+mkdir -p "$windows_home/AppData/Local/Packages/Microsoft.WindowsTerminal_8wekyb3d8bbwe/LocalState"
+cp "$HOME/.config/windows-terminal/settings.json" "$windows_home/AppData/Local/Packages/Microsoft.WindowsTerminal_8wekyb3d8bbwe/LocalState/settings.json"

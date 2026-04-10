@@ -1,4 +1,4 @@
-alias wdw="cd /mnt/c/Users/JasniAzrizHaziq/work"
+alias repos="cd /mnt/c/Repos"
 
 eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv zsh)"
 

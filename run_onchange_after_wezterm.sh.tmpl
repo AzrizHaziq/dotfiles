@@ -1,0 +1,8 @@
+#!/bin/bash
+
+# Hash to trigger on changes: {{ include "dot_config/wezterm/wezterm.lua" | sha256sum }}
+
+windows_home="$(wslpath "$(cmd.exe /c "echo %USERPROFILE%" 2>/dev/null | tr -d '\r')")"
+
+echo "Deploying WezTerm config to Windows home..."
+cp "$HOME/.config/wezterm/wezterm.lua" "$windows_home/.wezterm.lua"

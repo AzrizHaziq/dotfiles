@@ -8,7 +8,11 @@ export ZSH="$HOME/.oh-my-zsh"
 # load a random theme each time Oh My Zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
-ZSH_THEME="robbyrussell"
+ZSH_THEME="catppuccin"
+CATPPUCCIN_FLAVOR="mocha"
+# CATPPUCCIN_SHOW_TIME=true
+# CATPPUCCIN_SHOW_HOSTNAME="ssh"
+
 
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
@@ -70,12 +74,13 @@ zstyle ':omz:update' mode auto      # update automatically without asking
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git zsh-syntax-highlighting zsh-autosuggestions you-should-use)
+plugins=(git zsh-syntax-highlighting zsh-autosuggestions you-should-use colored-man-pages)
 
 if [ -d "$HOME/.oh-my-zsh" ]; then
-  export ZSH="$HOME/.oh-my-zsh"
   source "$ZSH/oh-my-zsh.sh"
 fi
+
+bindkey '^y' autosuggest-accept # zsh-autosuggestions 
 
 # User configuration
 
@@ -88,7 +93,11 @@ fi
 # if [[ -n $SSH_CONNECTION ]]; then
 #   export EDITOR='vim'
 # else
-export EDITOR='nvim'
+if command -v nvim >/dev/null 2>&1; then
+  export EDITOR='nvim'
+else
+  export EDITOR='vim'
+fi
 # fi
 
 # Compilation flags
@@ -103,16 +112,17 @@ export EDITOR='nvim'
 # For a full list of active aliases, run `alias`.
 #
 # Example aliases
- alias zshconfig="mate ~/.zshrc"
- alias ohmyzsh="mate ~/.oh-my-zsh"
- alias pn="pnpm"
- alias y="yarn"
+alias zshconfig="mate ~/.zshrc"
+alias ohmyzsh="mate ~/.oh-my-zsh"
+alias pn="pnpm"
+alias y="yarn"
 
 alias wdd="cd /mnt/c/Repos"
 alias wd="cd /home/azrizhaziq/work"
 alias pbcopy="clip.exe"
 
 alias cat="bat"
+alias ls="eza"
 alias v="nvim"
 alias gs="git status"
 alias c="clear"
@@ -121,16 +131,20 @@ alias grep="grep --color=auto -n" # colorize grep output
 alias hs="history | grep --color=auto -n" # colorize history output
 alias gip="curl ipinfo.io/ip && curl ipinfo.io/org" # get ip and org
 alias f="find . -name" # find files
-alias ls="eza"
 alias cz="chezmoi"
-alias y="yarn"
+alias lz="lazygit"
 alias op="opencode"
 
-# The following lines have been added by Docker Desktop to enable Docker CLI completions.
-fpath=(/Users/haziq.jasni/.docker/completions $fpath)
+# Docker CLI completions:
+# Docker Desktop can install zsh completion files under ~/.docker/completions.
+# Adding that directory to fpath lets `compinit` load completions for commands like `docker` and `docker compose`.
+if [ -d "$HOME/.docker/completions" ]; then
+  fpath=("$HOME/.docker/completions" $fpath)
+fi
+
+# Initialize zsh's completion system after fpath is configured.
 autoload -Uz compinit
 compinit
-# End of Docker CLI completions
 
 export PATH="$HOME/.local/bin:$PATH"
 export PATH="/home/azrizhaziq/.bun/bin:$PATH"
@@ -145,3 +159,22 @@ elif [[ "$OSTYPE" == "linux-gnu"* ]]; then
         source ~/.zshrc.d/linux.zsh  # Standard Linux
     fi
 fi
+
+# Keep a sane PATH in all environments and remove duplicates.
+typeset -U path PATH
+path=(
+  /home/linuxbrew/.linuxbrew/bin
+  /home/linuxbrew/.linuxbrew/sbin
+  "$HOME/.local/bin"
+  "$HOME/.bun/bin"
+  /usr/local/sbin
+  /usr/local/bin
+  /usr/sbin
+  /usr/bin
+  /sbin
+  /bin
+  $path
+)
+export PATH
+
+eval "$(mise activate zsh)"
