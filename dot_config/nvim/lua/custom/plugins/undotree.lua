@@ -1,7 +1,6 @@
 return {
   {
     'jiaoshijie/undotree',
-    cond = not vim.g.vscode,
     keys = {
       {
         '<leader>tu',

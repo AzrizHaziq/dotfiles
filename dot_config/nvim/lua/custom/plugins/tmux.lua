@@ -100,9 +100,9 @@ return {
         run_tmux { 'display-popup', '-E', '-d', vim.fn.getcwd() }
       end, { desc = '[T]erminal [F]loat popup' })
 
-      vim.keymap.set('n', '<leader>tv', function()
-        run_tmux { 'split-window', '-h', '-c', vim.fn.getcwd() }
-      end, { desc = '[T]erminal [V]ertical tmux pane' })
+      -- vim.keymap.set('n', '<leader>tv', function()
+      --   run_tmux { 'split-window', '-h', '-c', vim.fn.getcwd() }
+      -- end, { desc = '[T]erminal [V]ertical tmux pane' })
     end,
   },
 }

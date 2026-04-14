@@ -78,17 +78,27 @@ return {
       end
     end
 
-    local function filename_for(bufnr)
+    local function smart_winbar_label(bufnr)
       local name = vim.api.nvim_buf_get_name(bufnr)
-      if name == '' then
-        return '[No Name]'
+      if name ~= '' then
+        return vim.fn.fnamemodify(name, ':t')
       end
-      return vim.fn.fnamemodify(name, ':t')
+      local ft = vim.bo[bufnr].filetype
+      if ft and ft ~= '' then
+        -- Map known filetypes to friendly names
+        local map = { qf = 'Quickfix', help = 'Help', opencode = 'OpenCode' }
+        return map[ft] or ft
+      end
+      local bt = vim.bo[bufnr].buftype
+      if bt and bt ~= '' then
+        return bt
+      end
+      return '[No Name]'
     end
 
     local function file_label()
       local bufnr = target_bufnr()
-      local label = filename_for(bufnr)
+      local label = smart_winbar_label(bufnr)
       local marks = {}
 
       if vim.bo[bufnr].modified then

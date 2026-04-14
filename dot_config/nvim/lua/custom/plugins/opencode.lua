@@ -14,12 +14,12 @@ return {
       -- completion
       'saghen/blink.cmp',
       -- file picker
-      'nvim-telescope/telescope.nvim',
+      'folke/snacks.nvim',
     },
     config = function()
       require('opencode').setup {
         keymap_prefix = '<leader>o',
-        preferred_picker = 'telescope',
+        preferred_picker = 'snacks',
         default_global_keymaps = true,
         default_mode = 'build',
         ui = {
@@ -61,8 +61,8 @@ return {
             -- <leader>otr toggle reasoning output (thinking steps)
             -- <leader>oa  select agent (build/plan/custom) [global]
 
-            ['<leader>ol'] = { 'quick_chat', mode = { 'n', 'x' } }, -- quick chat with current line or visual selection as context
-            ['<leader>oa'] = { 'select_agent' },                  -- picker to select agent (build/plan/custom)
+            ['<leader>ol'] = { 'quick_chat', mode = { 'n', 'x' } },       -- quick chat with current line or visual selection as context
+            ['<leader>oa'] = { 'agent', { 'select' } },                   -- picker to select agent (build/plan/custom)
             ['<leader>os'] = false,  -- disabled (was: select session)
             ['<leader>op'] = false,  -- disabled (was: configure provider/model)
             ['<leader>o/'] = false,  -- disabled (moved to <leader>ol)

@@ -5,52 +5,67 @@ vim.cmd 'nnoremap j gj'
 vim.cmd 'nnoremap k gk'
 vim.cmd 'nmap <leader>ce :e ~/.config/nvim/init.lua<CR>'
 
-vim.keymap.set('n', '<leader>ca', function()
-  if vim.bo.filetype == 'oil' then
+local function get_explorer_item()
+  if _G.Snacks == nil or Snacks.picker == nil then
+    return nil
+  end
+
+  local current_win = vim.api.nvim_get_current_win()
+  for _, picker in ipairs(Snacks.picker.get { source = 'explorer' }) do
+    if picker.list and picker.list.win and picker.list.win.win == current_win then
+      return picker:current()
+    end
+  end
+
+  return nil
+end
+
+local function copy_to_clipboard(value)
+  if value and value ~= '' then
+    vim.fn.setreg('+', value)
+  end
+end
+
+local function copy_absolute_path()
+  local item = get_explorer_item()
+  if item and item.file then
+    copy_to_clipboard(item.file)
     return
   end
 
   local path = vim.fn.expand '%:p'
   local line = vim.fn.line '.'
   local col = vim.fn.col '.'
-  local full = string.format('%s:%d:%d', path, line, col)
-  vim.fn.setreg('+', full)
-end, { desc = 'Copy absolute path with line:col' })
+  copy_to_clipboard(string.format('%s:%d:%d', path, line, col))
+end
 
-vim.keymap.set('n', '<leader>cr', function()
-  if vim.bo.filetype == 'oil' then
+local function copy_relative_path()
+  local item = get_explorer_item()
+  if item and item.file then
+    copy_to_clipboard(vim.fn.fnamemodify(item.file, ':.'))
     return
   end
 
   local path = vim.fn.expand '%:.'
   local line = vim.fn.line '.'
   local col = vim.fn.col '.'
-  local full = string.format('%s:%d:%d', path, line, col)
-  vim.fn.setreg('+', full)
-end, { desc = 'Copy relative path with line:col' })
-
-vim.keymap.set('n', '<leader>rr', function()
-  for name, _ in pairs(package.loaded) do
-    if name:match '^user' or name:match '^config' or name:match '^custom' then
-      package.loaded[name] = nil
-    end
-  end
-
-  dofile(vim.env.MYVIMRC)
-  vim.notify('Nvim configuration reloaded!', vim.log.levels.INFO)
-end, { desc = 'Reload Config' })
-
-if vim.g.vscode then
-  vim.keymap.set('n', '<leader>fr', function()
-    vim.fn.VSCodeNotify 'workbench.files.action.showActiveFileInExplorer'
-  end, { silent = true, desc = 'Reveal file in Explorer' })
-else
-  vim.keymap.set('n', '<leader>fr', function()
-    require('oil').open_float(vim.fn.expand '%:p:h')
-  end, { desc = 'Reveal current file in Oil' })
+  copy_to_clipboard(string.format('%s:%d:%d', path, line, col))
 end
 
-vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostic [Q]uickfix list' })
+vim.keymap.set('n', '<leader>ca', copy_absolute_path, { desc = 'Copy absolute path with line:col' })
+vim.keymap.set('n', '<leader>cr', copy_relative_path, { desc = 'Copy relative path with line:col' })
+
+-- vim.keymap.set('n', '<leader>rr', function()
+--   for name, _ in pairs(package.loaded) do
+--     if name:match '^user' or name:match '^config' or name:match '^custom' then
+--       package.loaded[name] = nil
+--     end
+--   end
+--
+--   dofile(vim.env.MYVIMRC)
+--   vim.notify('Nvim configuration reloaded!', vim.log.levels.INFO)
+-- end, { desc = 'Reload Config' })
+
 vim.keymap.set('n', '<leader>wa', '<cmd>wa<CR>', { desc = '[W]rite [A]ll files' })
 vim.keymap.set('n', '<leader>ww', '<cmd>set wrap!<CR>', { desc = 'Toggle [W]ord [W]rap' })
 vim.keymap.set('t', '<Esc><Esc>', '<C-\\><C-n>', { desc = 'Exit terminal mode' })

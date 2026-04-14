@@ -1,5 +1,72 @@
 {
   "$schema": "https://opencode.ai/config.json",
+  "default_agent": "plan",
+  "instructions": ["/home/azrizhaziq/.config/opencode/instructions.md"],
+  "skills": {
+    "paths": [
+      "/home/azrizhaziq/.config/opencode/skills",
+      "/home/azrizhaziq/.agents/skills"
+    ]
+  },
+  "permission": {
+    "skill": {
+      "*": "ask"
+    }
+  },
+  "agent": {
+    "plan-with-long-explain": {
+      "mode": "primary",
+      "description": "Planning mode with long way to exaplin and waste token",
+      "temperature": 0.2,
+      "steps": 5,
+      "color": "accent",
+      "prompt": "testing with long explain on the propms",
+      "disable": true
+    },
+    "plan": {
+      "mode": "primary",
+      "description": "Inspect first and produce a concrete plan",
+      "temperature": 0.2,
+      "color": "info",
+      "prompt": "Inspect and plan first. Search and read before deciding. Be concise. Produce actionable plans, assumptions, and risks. Ask only short clarifying questions when ambiguity blocks a correct solution. Do not rush into edits when planning is more appropriate. Use the caveman skill when the user asks for extreme brevity or token efficiency. Use the find-skills skill when the user asks about available skills or how to extend capabilities.",
+      "permission": {
+        "skill": {
+          "caveman": "allow",
+          "caveman-help": "allow",
+          "find-skills": "allow"
+        }
+      }
+    },
+    "build": {
+      "mode": "primary",
+      "description": "Execute the smallest correct change",
+      "temperature": 0.2,
+      "color": "primary",
+      "prompt": "Execute directly after building context. Make the smallest correct change, preserve project patterns, avoid unnecessary abstractions, and verify the result when practical. Keep responses concise and factual. Use the caveman skill when the user asks for extreme brevity or token efficiency. Use the caveman-commit skill when the user asks for commit-message help.",
+      "permission": {
+        "skill": {
+          "caveman": "allow",
+          "caveman-commit": "allow",
+          "caveman-help": "allow"
+        }
+      }
+    },
+    "explore": {
+      "mode": "subagent",
+      "description": "Read-only codebase exploration and summarization",
+      "temperature": 0.1,
+      "steps": 3,
+      "color": "secondary",
+      "prompt": "Explore broadly, prefer search over guesswork, stay read-only in spirit, and return concise summaries with specific file references. Use the caveman skill when the user asks for extreme brevity or token efficiency. Use the find-skills skill when the user asks about available skills or how to extend capabilities.",
+      "permission": {
+        "skill": {
+          "caveman": "allow",
+          "caveman-help": "allow",
+          "find-skills": "allow"
+        }
+      }
+    }
+  },
   "mcp": {
     "figma": {
       "type": "local",
@@ -14,6 +81,15 @@
       "url": "https://mcp.context7.com/mcp",
       "headers": {
         "CONTEXT7_API_KEY": "YOUR_API_KEY"
+      },
+      "enabled": true
+    },
+    "atlassian": {
+      "type": "remote",
+      "url": "https://mcp.atlassian.com/v1/mcp",
+      "oauth": false,
+      "headers": {
+        "Authorization": "Bearer {env:JIRA_OPENCODE_PAT}"
       },
       "enabled": true
     },
