@@ -9,6 +9,31 @@ return {
       'nvim-tree/nvim-web-devicons',
     },
     opts = {
+      toggle = {
+        map = vim.keymap.set, -- keymap.set function to use
+        which_key = true, -- integrate with which-key to show enabled/disabled icons and colors
+        notify = true,
+        icon = {
+          enabled = ' ',
+          disabled = ' ',
+        },
+        color = {
+          enabled = 'green',
+          disabled = 'yellow',
+        },
+      },
+      scroll = {
+        animate = {
+          duration = { step = 10, total = 200 },
+          easing = 'linear',
+        },
+        -- faster animation when repeating scroll after delay
+        animate_repeat = {
+          delay = 100, -- delay in ms before using the repeat animation
+          duration = { step = 5, total = 50 },
+          easing = 'linear',
+        },
+      },
       sources = {
         files = {
           args = { '--hidden', '--exclude', '.git' },

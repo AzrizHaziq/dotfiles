@@ -55,6 +55,17 @@ end
 vim.keymap.set('n', '<leader>ca', copy_absolute_path, { desc = 'Copy absolute path with line:col' })
 vim.keymap.set('n', '<leader>cr', copy_relative_path, { desc = 'Copy relative path with line:col' })
 
+-- Toggle relative/absolute line numbers
+vim.keymap.set('n', '<leader>tn', function()
+  if vim.o.relativenumber then
+    vim.o.relativenumber = false
+    vim.o.number = true
+  else
+    vim.o.relativenumber = true
+    vim.o.number = true
+  end
+end, { desc = 'Toggle relative/absolute number' })
+
 -- vim.keymap.set('n', '<leader>rr', function()
 --   for name, _ in pairs(package.loaded) do
 --     if name:match '^user' or name:match '^config' or name:match '^custom' then

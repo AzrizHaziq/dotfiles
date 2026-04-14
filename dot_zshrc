@@ -149,17 +149,6 @@ compinit
 export PATH="$HOME/.local/bin:$PATH"
 export PATH="/home/azrizhaziq/.bun/bin:$PATH"
 
-# Detect OS and source specific configurations
-if [[ "$OSTYPE" == "darwin"* ]]; then
-    source ~/.zshrc.d/macos.zsh  # macOS specific
-elif [[ "$OSTYPE" == "linux-gnu"* ]]; then
-    if [[ -n "$WSL_DISTRO_NAME" || -n "$IS_WSL" ]]; then
-        source ~/.zshrc.d/window-wsl.zsh
-    else
-        source ~/.zshrc.d/linux.zsh  # Standard Linux
-    fi
-fi
-
 # Keep a sane PATH in all environments and remove duplicates.
 typeset -U path PATH
 path=(
@@ -176,5 +165,26 @@ path=(
   $path
 )
 export PATH
+
+# Machine-specific overrides. Only load the file that matches the current machine.
+if [[ "$OSTYPE" == darwin* ]]; then
+  [ -f ~/.zshrc.d/macos.zsh ] && source ~/.zshrc.d/macos.zsh
+elif grep -qi microsoft /proc/version 2>/dev/null || [[ -n "$WSL_DISTRO_NAME" ]]; then
+  [ -f ~/.zshrc.d/window-wsl.zsh ] && source ~/.zshrc.d/window-wsl.zsh
+elif [[ "$OSTYPE" == linux* ]]; then
+  [ -f ~/.zshrc.d/linux.zsh ] && source ~/.zshrc.d/linux.zsh
+fi
+
+[ -f ~/.zshrc.d/secrets.zsh ] && source ~/.zshrc.d/secrets.zsh
+
+# Use the terminal cursor-shape escape code so the prompt stays a blinking vertical bar.
+# This keeps zsh, tmux, and Neovim visually consistent when the shell regains focus.
+autoload -Uz add-zsh-hook
+set_blinking_bar_cursor() {
+  printf '\e[5 q'
+}
+
+add-zsh-hook precmd set_blinking_bar_cursor
+set_blinking_bar_cursor
 
 eval "$(mise activate zsh)"
