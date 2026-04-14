@@ -1,6 +1,7 @@
 .config/nvim/.git
 .config/yasb/yasb.log
 .tmux/plugins/**
+tmux-**.log
 
 {{- if not (and (eq .chezmoi.os "linux") (.chezmoi.kernel.osrelease | lower | contains "microsoft")) }}
   windows-terminal-settings.sh
