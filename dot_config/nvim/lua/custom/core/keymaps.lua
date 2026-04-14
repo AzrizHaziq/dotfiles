@@ -55,15 +55,6 @@ end
 vim.keymap.set('n', '<leader>ca', copy_absolute_path, { desc = 'Copy absolute path with line:col' })
 vim.keymap.set('n', '<leader>cr', copy_relative_path, { desc = 'Copy relative path with line:col' })
 
--- -- Toggle relative/absolute line numbers
--- vim.keymap.set('n', '<leader>tn', function()
---   if vim.o.relativenumber then
---     vim.o.relativenumber = false
---   else
---     vim.o.relativenumber = true
---   end
--- end, { desc = 'Toggle relative/absolute number' })
-
 vim.keymap.set('n', '<leader>tw', '<cmd>set wrap!<CR>', { desc = 'Toggle [W]ord wrap' })
 vim.keymap.set('n', '<leader>tn', '<cmd>set relativenumber!<CR>', { desc = 'Toggle [N]umber or relative number' })
 
