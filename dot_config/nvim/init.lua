@@ -112,51 +112,6 @@ require('lazy').setup({
     },
   }, -- Detect tabstop and shiftwidth automatically
 
-  -- NOTE: Plugins can also be added by using a table,
-  -- with the first argument being the link and the following
-  -- keys can be used to configure plugin behavior/loading/etc.
-  --
-  -- Use `opts = {}` to automatically pass options to a plugin's `setup()` function, forcing the plugin to be loaded.
-  --
-
-  -- Alternatively, use `config = function() ... end` for full control over the configuration.
-  -- If you prefer to call `setup` explicitly, use:
-  --    {
-  --        'lewis6991/gitsigns.nvim',
-  --        config = function()
-  --            require('gitsigns').setup({
-  --                -- Your gitsigns configuration here
-  --            })
-  --        end,
-  --    }
-  --
-  -- Here is a more advanced example where we pass configuration
-  -- options to `gitsigns.nvim`.
-  --
-  -- See `:help gitsigns` to understand what the configuration keys do
-  { -- Adds git related signs to the gutter, as well as utilities for managing changes
-    'lewis6991/gitsigns.nvim',
-    opts = {
-      signs = {
-        add = { text = '+' },
-        change = { text = '~' },
-        delete = { text = '_' },
-        topdelete = { text = '‾' },
-        changedelete = { text = '~' },
-      },
-    },
-  },
-
-  {
-    'kylechui/nvim-surround',
-    version = '^3.0.0', -- Use for stability; omit to use `main` branch for the latest features
-    event = 'VeryLazy',
-    config = function()
-      require('nvim-surround').setup {
-        -- Configuration here, or leave empty to use defaults
-      }
-    end,
-  },
   {
     'kevinhwang91/nvim-ufo',
     dependencies = 'kevinhwang91/promise-async',
@@ -259,34 +214,40 @@ require('lazy').setup({
         -- If you are using a Nerd Font: set icons.keys to an empty table which will use the
         -- default which-key.nvim defined Nerd Font icons, otherwise define a string table
         keys = vim.g.have_nerd_font and {} or {
-          Up = '<Up> ',
-          Down = '<Down> ',
-          Left = '<Left> ',
-          Right = '<Right> ',
+          Up = ' ',
+          Down = ' ',
+          Left = ' ',
+          Right = ' ',
+
           C = '<C-…> ',
           M = '<M-…> ',
           D = '<D-…> ',
           S = '<S-…> ',
           CR = '<CR> ',
-          Esc = '<Esc> ',
-          ScrollWheelDown = '<ScrollWheelDown> ',
-          ScrollWheelUp = '<ScrollWheelUp> ',
-          NL = '<NL> ',
-          BS = '<BS> ',
-          Space = '<Space> ',
-          Tab = '<Tab> ',
-          F1 = '<F1>',
-          F2 = '<F2>',
-          F3 = '<F3>',
-          F4 = '<F4>',
-          F5 = '<F5>',
-          F6 = '<F6>',
-          F7 = '<F7>',
-          F8 = '<F8>',
-          F9 = '<F9>',
-          F10 = '<F10>',
-          F11 = '<F11>',
-          F12 = '<F12>',
+          -- C = '󰘴 ',
+          -- M = '󰘵 ',
+          -- D = '󰘳 ',
+          -- S = '󰘶 ',
+          -- CR = '󰌑 ',
+          Esc = '󱊷 ',
+          ScrollWheelDown = '󱕐 ',
+          ScrollWheelUp = '󱕑 ',
+          NL = '󰌑 ',
+          BS = '󰁮',
+          Space = '󱁐 ',
+          Tab = '󰌒 ',
+          F1 = '󱊫',
+          F2 = '󱊬',
+          F3 = '󱊭',
+          F4 = '󱊮',
+          F5 = '󱊯',
+          F6 = '󱊰',
+          F7 = '󱊱',
+          F8 = '󱊲',
+          F9 = '󱊳',
+          F10 = '󱊴',
+          F11 = '󱊵',
+          F12 = '󱊶',
         },
       },
 
@@ -296,7 +257,8 @@ require('lazy').setup({
         { '<leader>s', group = '[S]earch' },
         { '<leader>t', group = '[T]oggle' },
         { '<leader>n', group = '[N]otifications' },
-        { '<leader>q', group = 'Diagnostic' },
+        { '<leader>q', group = 'Dia[g]nostic' },
+        { '<leader>q', group = '[O]pencode' },
         { '<leader>h', group = 'Git [H]unk', mode = { 'n', 'v' } },
       },
     },
@@ -879,7 +841,7 @@ require('lazy').setup({
     },
   },
 
-  { -- Catppuccin colorscheme (matches Zellij theme)
+  { -- Catppuccin colorscheme
     -- You can switch back to tokyonight by uncommenting the tokyonight block below
     'catppuccin/nvim',
     name = 'catppuccin',
@@ -919,24 +881,22 @@ require('lazy').setup({
     end,
   },
 
-  -- To switch back to tokyonight, comment out catppuccin above and uncomment this:
-  -- {
-  --   'folke/tokyonight.nvim',
-  --   priority = 1000,
-  --   config = function()
-  --     require('tokyonight').setup {
-  --       styles = {
-  --         comments = { italic = false },
-  --       },
-  --     }
-  --     vim.cmd.colorscheme 'tokyonight-night'
-  --   end,
-  -- },
-
   -- Highlight todo, notes, etc in comments
   { 'folke/todo-comments.nvim', event = 'VimEnter', dependencies = { 'nvim-lua/plenary.nvim' }, opts = { signs = false } },
 
   { 'numToStr/Comment.nvim', opts = {} },
+
+  {
+    'kylechui/nvim-surround',
+    version = '^4.0.0', -- Use for stability; omit to use `main` branch for the latest features
+    event = 'VeryLazy',
+    config = function()
+      -- create surrounding in current tag with vatSt then popup will display
+      require('nvim-surround').setup {
+        -- Configuration here, or leave empty to use defaults
+      }
+    end,
+  },
 
   { -- Collection of various small independent plugins/modules
     'echasnovski/mini.nvim',
@@ -948,32 +908,6 @@ require('lazy').setup({
       --  - yinq - [Y]ank [I]nside [N]ext [Q]uote
       --  - ci'  - [C]hange [I]nside [']quote
       require('mini.ai').setup { n_lines = 500 }
-
-      -- Add/delete/replace surroundings (brackets, quotes, etc.)
-      -- Disabled: using nvim-surround instead (kylechui/nvim-surround)
-      --
-      -- - saiw) - [S]urround [A]dd [I]nner [W]ord [)]Paren
-      -- - sd'   - [S]urround [D]elete [']quotes
-      -- - sr)'  - [S]urround [R]eplace [)] [']
-      -- require('mini.surround').setup()
-
-      -- Simple and easy statusline.
-      --  You could remove this setup call if you don't like it,
-      --  and try some other statusline plugin
-      -- local statusline = require 'mini.statusline'
-      -- set use_icons to true if you have a Nerd Font
-      -- statusline.setup { use_icons = vim.g.have_nerd_font }
-
-      -- You can configure sections in the statusline by overriding their
-      -- default behavior. For example, here we set the section for
-      -- cursor location to LINE:COLUMN
-      -- ---@diagnostic disable-next-line: duplicate-set-field
-      -- statusline.section_location = function()
-      --   return '%2l:%-2v'
-      -- end
-
-      -- ... and there is more!
-      --  Check out: https://github.com/echasnovski/mini.nvim
     end,
   },
   { -- Highlight, edit, and navigate code

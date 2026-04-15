@@ -50,6 +50,7 @@ return {
         configure = true,
       },
       picker = {
+        enabled = true,
         ui_select = true,
         sources = {
           files = {
