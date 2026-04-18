@@ -1,46 +1,46 @@
 [user]
-	name = azrizhaziq
-	email = azrizhaziq@gmail.com
+  name = azrizhaziq
+  email = azrizhaziq@gmail.com
 
 [credential]
-	helper = 
-	helper = /usr/local/share/gcm-core/git-credential-manager
+  helper = 
+  helper = /usr/local/share/gcm-core/git-credential-manager
 
 [credential "https://dev.azure.com"]
-	useHttpPath = true
+  useHttpPath = true
 
 [core]
-	editor ="nvim"
-	autocrlf = input
+  editor ="nvim"
+  autocrlf = input
 
 [diff]
   external = difft
 
 [status]
-	branch = true
-	showStash = true
-	showUntrackedFiles = all
+  branch = true
+  showStash = true
+  showUntrackedFiles = all
 
 [push]
-	default = current
-	autoSetupRemote = true
+  default = current
+  autoSetupRemote = true
 
 [branch]
-	sort = -committerdate
+  sort = -committerdate
 
 [tag]
-	sort = -taggerdate
+  sort = -taggerdate
 
 [pager]
-	branch = false
-	tag = false
+  branch = false
+  tag = false
   difftool = true
 
 [rerere]
-	enabled = true
+  enabled = true
 
 [filter "lfs"]
-	clean = git-lfs clean -- %f
-	smudge = git-lfs smudge -- %f
-	process = git-lfs filter-process
-	required = true
+  clean = git-lfs clean -- %f
+  smudge = git-lfs smudge -- %f
+  process = git-lfs filter-process
+  required = true
