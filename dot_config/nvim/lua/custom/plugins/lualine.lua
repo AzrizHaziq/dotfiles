@@ -1,3 +1,6 @@
+--  TODO: seems like abit too complicated here.
+-- find a way from AstroNvim or nvChad nvim and paste here.
+--
 return {
   'nvim-lualine/lualine.nvim',
   dependencies = { 'nvim-tree/nvim-web-devicons' },

@@ -3,7 +3,7 @@ local Snacks = require 'snacks'
 return {
   {
     'folke/snacks.nvim',
-    lazy = false,
+    lazy = true,
     priority = 1000,
     dependencies = {
       'nvim-tree/nvim-web-devicons',
@@ -45,9 +45,6 @@ return {
       explorer = {
         replace_netrw = true,
         trash = false,
-      },
-      lazygit = {
-        configure = true,
       },
       picker = {
         enabled = true,
@@ -188,13 +185,6 @@ return {
         end,
         mode = 'n',
         desc = '[H]istory [F]ile',
-      },
-      {
-        '<leader>lz',
-        function()
-          Snacks.lazygit()
-        end,
-        desc = '[L]azy[G]it',
       },
       {
         '<leader>sl',

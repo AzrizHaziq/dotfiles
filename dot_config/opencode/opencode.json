@@ -74,7 +74,7 @@
       "environment": {
         "FIGMA_API_KEY": "{env:FIGMA_API_KEY}"
       },
-      "enabled": true
+      "enabled": false
     },
     "context7": {
       "type": "remote",
@@ -91,7 +91,7 @@
       "headers": {
         "Authorization": "Bearer {env:JIRA_OPENCODE_PAT}"
       },
-      "enabled": true
+      "enabled": false
     },
     "github": {
       "type": "remote",
@@ -102,7 +102,7 @@
         "X-MCP-Toolsets": "context,users,orgs,repos,issues,pull_requests",
         "X-MCP-Readonly": "true"
       },
-      "enabled": true
+      "enabled": false
     }
   }
 }

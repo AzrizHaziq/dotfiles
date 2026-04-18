@@ -69,8 +69,8 @@ vim.keymap.set('n', '<leader>tn', '<cmd>set relativenumber!<CR>', { desc = 'Togg
 --   vim.notify('Nvim configuration reloaded!', vim.log.levels.INFO)
 -- end, { desc = 'Reload Config' })
 
-vim.keymap.set('n', '<leader>wa', '<cmd>wa<CR>', { desc = '[W]rite [A]ll files' })
 vim.keymap.set('t', '<Esc><Esc>', '<C-\\><C-n>', { desc = 'Exit terminal mode' })
+vim.keymap.set('n', '<leader>wa', '<cmd>wa<CR>', { desc = '[W]rite [A]ll files' })
 
 vim.keymap.set('n', '<left>', '<cmd>echo "Use h to move!!"<CR>')
 vim.keymap.set('n', '<right>', '<cmd>echo "Use l to move!!"<CR>')

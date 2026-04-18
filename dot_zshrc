@@ -124,6 +124,7 @@ alias pbcopy="clip.exe"
 alias cat="bat"
 alias ls="eza"
 alias v="nvim"
+
 alias gs="git status"
 alias c="clear"
 alias s="du -hs * | sort -rh | head -5" # sort by size

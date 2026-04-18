@@ -1,6 +1,7 @@
 return {
   {
     'sudo-tee/opencode.nvim',
+    event = 'VeryLazy',
     dependencies = {
       'nvim-lua/plenary.nvim',
       {
@@ -61,11 +62,11 @@ return {
             -- <leader>otr toggle reasoning output (thinking steps)
             -- <leader>oa  select agent (build/plan/custom) [global]
 
-            ['<leader>ol'] = { 'quick_chat', mode = { 'n', 'x' } },       -- quick chat with current line or visual selection as context
-            ['<leader>oa'] = { 'agent', { 'select' } },                   -- picker to select agent (build/plan/custom)
-            ['<leader>os'] = false,  -- disabled (was: select session)
-            ['<leader>op'] = false,  -- disabled (was: configure provider/model)
-            ['<leader>o/'] = false,  -- disabled (moved to <leader>ol)
+            ['<leader>ol'] = { 'quick_chat', mode = { 'n', 'x' } }, -- quick chat with current line or visual selection as context
+            ['<leader>oa'] = { 'agent', { 'select' } }, -- picker to select agent (build/plan/custom)
+            ['<leader>os'] = false, -- disabled (was: select session)
+            ['<leader>op'] = false, -- disabled (was: configure provider/model)
+            ['<leader>o/'] = false, -- disabled (moved to <leader>ol)
           },
           input_window = {
             -- <S-CR>      submit prompt
