@@ -59,7 +59,8 @@ vim.keymap.set('n', '<leader>cr', copy_relative_path, { desc = 'Copy relative pa
 vim.keymap.set('v', '<', '<gv', { desc = 'indent left and reselect' })
 vim.keymap.set('v', '>', '>gv', { desc = 'indent right and reselect' })
 
-vim.keymap.set('n', '<leader>tw', '<cmd>set wrap!<CR>', { desc = '[T]oggle [W]ord wrap' })
+vim.keymap.set('n', '<leader>tw', '<cmd>set wrap!<CR>', { desc = '[T]oggle [w]ord wrap' })
+vim.keymap.set('n', '<leader>tW', ':set list!<CR>', { desc = '[T]oggle [W]hiteSpace' })
 vim.keymap.set('n', '<leader>tn', '<cmd>set relativenumber!<CR>', { desc = '[T]oggle [N]umber or relative number' })
 vim.keymap.set('n', '<leader>td', function()
   vim.diagnostic.enable(not vim.diagnostic.is_enabled())
@@ -80,3 +81,22 @@ if vim.env.TMUX == nil then
   vim.keymap.set('n', '<C-j>', '<C-w><C-j>', { desc = 'Move focus to the lower window' })
   vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
 end
+
+-- like vscode alt+down/up move loc up down swapping
+-- from https://github.com/nickjj/dotfiles/blob/master/.config/nvim/lua/config/keymaps.lua
+vim.keymap.set('n', '<C-Up>', "<Cmd>execute 'move .-' . (v:count1 + 1)<CR>==", { desc = 'Move Up' })
+vim.keymap.set('n', '<C-Down>', "<Cmd>execute 'move .+' . v:count1<CR>==", { desc = 'Move Down' })
+vim.keymap.set('i', '<C-Down>', '<esc><Cmd>m .+1<CR>==gi', { desc = 'Move Down' })
+vim.keymap.set('i', '<C-Up>', '<esc><Cmd>m .-2<CR>==gi', { desc = 'Move Up' })
+vim.keymap.set('x', '<C-Down>', ":<C-u>execute \"'<,'>move '>+\" . v:count1<CR>gv=gv", { desc = 'Move Down' })
+vim.keymap.set('x', '<C-Up>', ":<C-u>execute \"'<,'>move '<-\" . (v:count1 + 1)<CR>gv=gv", { desc = 'Move Up' })
+
+vim.keymap.set({ 'n', 'x' }, 'x', '"_x', { desc = 'Delete Chars Into Void' })
+vim.keymap.set({ 'n', 'x' }, 'X', '"_D', { desc = 'Delete to EOL Into Void' })
+vim.keymap.set({ 'n', 'x' }, '<Del>', '"_x', { desc = 'Delete Chars Into Void' })
+
+vim.keymap.set('x', 'y', 'ygv<Esc>', { desc = 'Yank Preserve Cursor' })
+vim.keymap.set('x', 'p', 'P', { desc = 'Paste Without Override' })
+
+-- this trigger external command
+-- vim.keymap.set('x', 'gt', "c<C-r>=system('tcc', getreg('\"'))[:-2]<CR>", { desc = 'Titleize Text' })

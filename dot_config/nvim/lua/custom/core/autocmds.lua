@@ -15,3 +15,18 @@ vim.api.nvim_create_autocmd('TextYankPost', {
     vim.hl.on_yank()
   end,
 })
+
+-- when switching to diff paint, then remove cursor line
+local cursorline_group = vim.api.nvim_create_augroup('cursorline', { clear = true })
+vim.api.nvim_create_autocmd({ 'VimEnter', 'WinEnter', 'BufWinEnter' }, {
+  group = cursorline_group,
+  callback = function()
+    vim.opt_local.cursorline = true
+  end,
+})
+vim.api.nvim_create_autocmd('WinLeave', {
+  group = cursorline_group,
+  callback = function()
+    vim.opt_local.cursorline = false
+  end,
+})

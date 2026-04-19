@@ -49,9 +49,7 @@ return {
         enabled = true,
         ui_select = true,
         sources = {
-          files = {
-            hidden = true,
-          },
+          files = { hidden = true },
           grep = {},
           explorer = {
             follow_file = false,

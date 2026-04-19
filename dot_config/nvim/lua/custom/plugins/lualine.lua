@@ -137,6 +137,7 @@ return {
         section_separators = { left = '', right = '' },
         globalstatus = true,
       },
+
       sections = {
         lualine_a = { 'mode' },
         lualine_b = { 'branch', 'diff', 'diagnostics' },
