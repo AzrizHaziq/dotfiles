@@ -2,6 +2,7 @@ local snacks = require 'snacks'
 
 return {
   'folke/trouble.nvim',
+  event = 'VeryLazy',
   opts = {
     -- Uncomment and customize if you want to override icons
     -- icons = require('nvim-web-devicons').get_icons(),

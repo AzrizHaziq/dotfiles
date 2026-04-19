@@ -140,7 +140,23 @@ return {
       sections = {
         lualine_a = { 'mode' },
         lualine_b = { 'branch', 'diff', 'diagnostics' },
-        lualine_c = {}, -- Removed filename from bottom
+        lualine_c = {
+          {
+            'macro',
+            fmt = function()
+              local reg = vim.fn.reg_recording()
+              if reg == '' then
+                return ''
+              end
+              return ' @' .. reg -- Added a recording icon
+            end,
+            color = function()
+              -- Automatically switch to a red/orange background when active
+              return { fg = C.blue, gui = 'bold' }
+            end,
+          },
+        },
+        -- lualine_c = {}, -- Removed filename from bottom
         lualine_x = { 'encoding', 'fileformat', 'filetype' },
         lualine_y = { 'progress' },
         lualine_z = { 'location' },

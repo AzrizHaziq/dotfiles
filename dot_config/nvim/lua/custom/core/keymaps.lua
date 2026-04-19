@@ -55,22 +55,19 @@ end
 vim.keymap.set('n', '<leader>ca', copy_absolute_path, { desc = 'Copy absolute path with line:col' })
 vim.keymap.set('n', '<leader>cr', copy_relative_path, { desc = 'Copy relative path with line:col' })
 
-vim.keymap.set('n', '<leader>tw', '<cmd>set wrap!<CR>', { desc = 'Toggle [W]ord wrap' })
-vim.keymap.set('n', '<leader>tn', '<cmd>set relativenumber!<CR>', { desc = 'Toggle [N]umber or relative number' })
+-- keep on highlight text and can hit multiple time < or >
+vim.keymap.set('v', '<', '<gv', { desc = 'indent left and reselect' })
+vim.keymap.set('v', '>', '>gv', { desc = 'indent right and reselect' })
 
--- vim.keymap.set('n', '<leader>rr', function()
---   for name, _ in pairs(package.loaded) do
---     if name:match '^user' or name:match '^config' or name:match '^custom' then
---       package.loaded[name] = nil
---     end
---   end
---
---   dofile(vim.env.MYVIMRC)
---   vim.notify('Nvim configuration reloaded!', vim.log.levels.INFO)
--- end, { desc = 'Reload Config' })
+vim.keymap.set('n', '<leader>tw', '<cmd>set wrap!<CR>', { desc = '[T]oggle [W]ord wrap' })
+vim.keymap.set('n', '<leader>tn', '<cmd>set relativenumber!<CR>', { desc = '[T]oggle [N]umber or relative number' })
+vim.keymap.set('n', '<leader>td', function()
+  vim.diagnostic.enable(not vim.diagnostic.is_enabled())
+end, { desc = '[T]oggle [D]iagnostics' })
 
 vim.keymap.set('t', '<Esc><Esc>', '<C-\\><C-n>', { desc = 'Exit terminal mode' })
 vim.keymap.set('n', '<leader>wa', '<cmd>wa<CR>', { desc = '[W]rite [A]ll files' })
+vim.keymap.set('n', 'J', 'mzJ`z', { desc = 'Join lines and keep cursor position' })
 
 vim.keymap.set('n', '<left>', '<cmd>echo "Use h to move!!"<CR>')
 vim.keymap.set('n', '<right>', '<cmd>echo "Use l to move!!"<CR>')

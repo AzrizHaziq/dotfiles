@@ -28,6 +28,19 @@ vim.o.confirm = true
 vim.o.wrap = false
 vim.o.swapfile = false
 
-vim.opt.tabstop = 2
-vim.opt.shiftwidth = 2
-vim.opt.expandtab = true
+vim.opt.tabstop = 2 -- tabwidth
+vim.opt.shiftwidth = 2 -- indent width
+vim.opt.softtabstop = 2 -- soft tab stop not tabs on tab/backspace
+vim.opt.expandtab = true -- use spaces instead of tabs
+vim.opt.smartindent = true -- smart auto-indent
+vim.opt.autoindent = true -- copy indent from current line
+
+vim.opt.backup = false -- do not create a backup file
+vim.opt.writebackup = false -- do not write to a backup file
+vim.opt.swapfile = false -- do not create a swapfile
+vim.opt.undofile = true -- do create an undo file
+vim.opt.updatetime = 300 -- faster completion
+vim.opt.timeoutlen = 500 -- timeout duration
+vim.opt.ttimeoutlen = 50 -- key code timeout
+vim.opt.autoread = true -- auto-reload changes if outside of neovim
+vim.opt.autowrite = false -- do not auto-save

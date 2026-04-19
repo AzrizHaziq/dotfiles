@@ -1,6 +1,7 @@
 return {
   {
     'jiaoshijie/undotree',
+    event = 'VeryLazy',
     keys = {
       {
         '<leader>tu',

@@ -24,9 +24,14 @@ return {
         default_global_keymaps = true,
         default_mode = 'build',
         ui = {
+          enable_treesitter_markdown = true,
           position = 'right',
           input_position = 'bottom',
           window_width = 0.40,
+          display_model = true,
+          display_context_size = true,
+          display_cost = true,
+          persist_state = true,
           icons = {
             preset = 'nerdfonts',
           },
@@ -97,6 +102,70 @@ return {
             -- <leader>ods debug session
 
             ['<esc>'] = false, -- disabled (use <leader>og to close)
+          },
+        },
+        completion = {
+          file_sources = {
+            enabled = true,
+            preferred_cli_tool = 'server', -- 'fd','fdfind','rg','git','server' if nil, it will use the best available tool, 'server' uses opencode cli to get file list (works cross platform) and supports folders
+            ignore_patterns = {
+              '^%.git/',
+              '^%.svn/',
+              '^%.hg/',
+              'node_modules/',
+              '%.pyc$',
+              '%.o$',
+              '%.obj$',
+              '%.exe$',
+              '%.dll$',
+              '%.so$',
+              '%.dylib$',
+              '%.class$',
+              '%.jar$',
+              '%.war$',
+              '%.ear$',
+              'target/',
+              'build/',
+              'dist/',
+              'out/',
+              'deps/',
+              '%.tmp$',
+              '%.temp$',
+              '%.log$',
+              '%.cache$',
+            },
+            max_files = 10,
+            max_display_length = 50, -- Maximum length for file path display in completion, truncates from left with "..."
+          },
+        },
+        context = {
+          enabled = true, -- Enable automatic context capturing
+          cursor_data = {
+            enabled = false, -- Include cursor position and line content in the context
+            context_lines = 5, -- Number of lines before and after cursor to include in context
+          },
+          diagnostics = {
+            info = false, -- Include diagnostics info in the context (default to false
+            warning = true, -- Include diagnostics warnings in the context
+            error = true, -- Include diagnostics errors in the context
+            only_closest = false, -- If true, only diagnostics for cursor/selection
+          },
+          current_file = {
+            enabled = true, -- Include current file path and content in the context
+            show_full_path = true,
+          },
+          files = {
+            enabled = true,
+            show_full_path = true,
+          },
+          selection = {
+            enabled = true, -- Include selected text in the context
+          },
+          buffer = {
+            enabled = false, -- Disable entire buffer context by default, only used in quick chat
+          },
+          git_diff = {
+            enabled = false,
           },
         },
       }
