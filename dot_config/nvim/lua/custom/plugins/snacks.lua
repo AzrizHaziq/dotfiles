@@ -1,3 +1,8 @@
+local function snacks_explorer_cwd()
+  local explorer = Snacks.picker.get({ source = 'explorer' })[1]
+  return explorer and explorer:cwd() or vim.fn.getcwd()
+end
+
 return {
   {
     'folke/snacks.nvim',
@@ -231,18 +236,22 @@ return {
       --     require('snacks').picker.lines()
       --   end,
       --   desc = '[S]earch [L]ines',
+      --
       -- },
+
       {
         '<leader>sf',
         function()
-          require('snacks').picker.files { title = 'Find Files in ' .. vim.fn.fnamemodify(vim.fn.getcwd(), ':~') }
+          local cwd = snacks_explorer_cwd()
+          require('snacks').picker.files { cwd = cwd, title = 'Find Files in ' .. vim.fn.fnamemodify(cwd, ':~') }
         end,
         desc = '[S]earch [F]iles',
       },
       {
         '<leader>sg',
         function()
-          require('snacks').picker.grep { title = 'Live Grep in ' .. vim.fn.fnamemodify(vim.fn.getcwd(), ':~') }
+          local cwd = snacks_explorer_cwd()
+          require('snacks').picker.grep { cwd = cwd, title = 'Live Grep in ' .. vim.fn.fnamemodify(cwd, ':~') }
         end,
         desc = '[S]earch by [G]rep',
       },

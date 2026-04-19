@@ -17,6 +17,7 @@ vim.api.nvim_create_autocmd('TextYankPost', {
 })
 
 -- when switching to diff paint, then remove cursor line
+-- TODO: seems like doesnt work with multiple tmux pane
 local cursorline_group = vim.api.nvim_create_augroup('cursorline', { clear = true })
 vim.api.nvim_create_autocmd({ 'VimEnter', 'WinEnter', 'BufWinEnter' }, {
   group = cursorline_group,
