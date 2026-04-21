@@ -178,14 +178,5 @@ fi
 
 [ -f ~/.zshrc.d/secrets.zsh ] && source ~/.zshrc.d/secrets.zsh
 
-# Use the terminal cursor-shape escape code so the prompt stays a blinking vertical bar.
-# This keeps zsh, tmux, and Neovim visually consistent when the shell regains focus.
-autoload -Uz add-zsh-hook
-set_blinking_bar_cursor() {
-  printf '\e[5 q'
-}
-
-add-zsh-hook precmd set_blinking_bar_cursor
-set_blinking_bar_cursor
 
 eval "$(mise activate zsh)"
