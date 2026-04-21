@@ -172,6 +172,7 @@ require('lazy').setup({
         { '<leader>n', group = '[N]otifications' },
         { '<leader>q', group = 'Dia[g]nostic' },
         { '<leader>o', group = '[O]pencode' },
+        { '<leader>a', group = 'H[a]rpoon' },
         { '<leader>h', group = 'Git [H]unk', mode = { 'n', 'v' } },
         { 'gr', group = 'LSP Actions', mode = { 'n' } },
       },
@@ -198,6 +199,7 @@ require('lazy').setup({
       },
     },
   },
+
   {
     -- Main LSP Configuration
     'neovim/nvim-lspconfig',
@@ -568,6 +570,7 @@ require('lazy').setup({
         jsonc = { 'prettierd', 'prettier', stop_after_first = true },
         yaml = { 'prettierd', 'prettier', stop_after_first = true },
         markdown = { 'prettierd', 'prettier', stop_after_first = true },
+        sql = { 'sql_formatter' },
       },
     },
   },
@@ -828,10 +831,27 @@ require('lazy').setup({
     end,
   }, ]]
 
+  {
+    'windwp/nvim-ts-autotag',
+    event = { 'BufReadPre', 'BufNewFile' },
+    config = function()
+      require('nvim-ts-autotag').setup {
+        opts = {
+          enable_close = true,
+          enable_rename = true,
+          enable_close_on_slash = true,
+        },
+      }
+    end,
+  },
+
   { -- Collection of various small independent plugins/modules
     'nvim-mini/mini.nvim',
     event = 'VeryLazy',
     config = function()
+      -- evaluate with nvim-autopairs
+      -- require('mini.pairs').setup {}
+
       -- Better Around/Inside textobjects
       --
       -- Examples:
@@ -846,14 +866,8 @@ require('lazy').setup({
         },
         n_lines = 500,
       }
-
       -- Add/delete/replace surroundings (brackets, quotes, etc.)
-      --
-      -- - saiw) - [S]urround [A]dd [I]nner [W]ord [)]Paren
-      -- - sd'   - [S]urround [D]elete [']quotes
-      -- - sr)'  - [S]urround [R]eplace [)] [']
       -- require('mini.surround').setup()
-
       -- ... and there is more!
       --  Check out: https://github.com/nvim-mini/mini.nvim
     end,
@@ -944,6 +958,8 @@ require('lazy').setup({
       })
     end,
   },
+
+
   --
   -- require 'kickstart.plugins.debug',
   require 'kickstart.plugins.indent_line',
