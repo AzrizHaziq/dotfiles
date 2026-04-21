@@ -830,7 +830,7 @@ require('lazy').setup({
 
   { -- Collection of various small independent plugins/modules
     'nvim-mini/mini.nvim',
-    event= 'VeryLazy',
+    event = 'VeryLazy',
     config = function()
       -- Better Around/Inside textobjects
       --

@@ -74,6 +74,11 @@ return {
                 keys = {
                   ['<Esc>'] = false,
                   ['<C-v>'] = 'edit_vsplit',
+                  ['<C-h>'] = false,
+                  ['<C-j>'] = false,
+                  ['<C-k>'] = false,
+                  ['<C-l>'] = false,
+                  -- ['<C-h>'] = 'tmux_left_pane',
                 },
               },
               preview = {
@@ -81,6 +86,9 @@ return {
                   ['<Esc>'] = false,
                 },
               },
+            },
+            actions = {
+              -- tmux_left_pane  = function() require('nvim-tmux-navigation').NvimTmuxNavigateLeft() end,
             },
           },
         },
@@ -100,6 +108,7 @@ return {
         },
       },
     },
+
     keys = {
       {
         '\\',

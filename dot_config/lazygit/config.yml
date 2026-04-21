@@ -1,3 +1,5 @@
+notARepository: "quit"
+promptToReturnFromSubprocess: false
 os:
   editPreset: nvim
 
@@ -7,6 +9,9 @@ git:
 
 gui:
   showPanelJumps: true
+  border: rounded
+  nerdFontsVersion: "3"
+  skipDiscardChangeWarning: true
   theme:
     activeBorderColor:
       - "#89b4fa"
@@ -27,3 +32,13 @@ gui:
       - "#cdd6f4"
     searchingActiveBorderColor:
       - "#f9e2af"
+
+customCommands:
+  - key: w
+    prompts:
+      - type: input
+        title: Commit summary
+        initialValue: ""
+    description: Commit changes without pre-commit hook
+    command: git commit -n -m '{{index .PromptResponses 0}}'
+    context: files
