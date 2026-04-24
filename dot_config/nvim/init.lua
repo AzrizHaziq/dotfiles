@@ -1,3 +1,14 @@
+-- require('vim._core.ui2').enable {
+--   enable = true,
+--   msg = {
+--     target = 'cmd', -- options: cmd(classic), msg(similar to noice)
+--     pager = { height = 1 },
+--     msg = { height = 0.5, timeout = 4500 },
+--     dialog = { height = 0.5 },
+--     cmd = { height = 0.5 },
+--   },
+-- }
+
 require 'custom.core'
 
 vim.opt.termguicolors = true
@@ -83,7 +94,7 @@ require('lazy').setup({
       -- Setup ufo
       require('ufo').setup {
         fold_virt_text_handler = handler,
-        provider_selector = function(bufnr, filetype, buftype)
+        provider_selector = function()
           return { 'treesitter', 'indent' }
         end,
       }
@@ -166,14 +177,18 @@ require('lazy').setup({
 
       -- Document existing key chains
       spec = {
+        { '<leader>a', group = 'H[A]rpoon' },
         { '<leader>e', group = '[E]xplorer' },
-        { '<leader>s', group = '[S]earch' },
-        { '<leader>t', group = '[T]oggle' },
+        { '<leader>f', group = '[F]ormat' },
+        { '<leader>h', group = 'Git [h]unk', mode = { 'n', 'v' } },
         { '<leader>n', group = '[N]otifications' },
-        { '<leader>q', group = 'Dia[g]nostic' },
+        { '<leader>c', group = '[C]opy abosolute/relative' },
         { '<leader>o', group = '[O]pencode' },
-        { '<leader>a', group = 'H[a]rpoon' },
-        { '<leader>h', group = 'Git [H]unk', mode = { 'n', 'v' } },
+        { '<leader>q', group = 'Dia[G]nostic' },
+        { '<leader>s', group = '[S]earch' },
+        { '<leader>r', group = '[R]eload' },
+        { '<leader>t', group = '[T]oggle' },
+        { '<leader>w', group = '[W]rite buffer' },
         { 'gr', group = 'LSP Actions', mode = { 'n' } },
       },
     },
@@ -516,7 +531,7 @@ require('lazy').setup({
           }
         end,
         mode = '',
-        desc = '[F]ormat [B]uffer',
+        desc = '[F]ormat [B]uffer with conform',
       },
       {
         '<leader>tf',
@@ -567,7 +582,7 @@ require('lazy').setup({
         scss = { 'prettierd', 'prettier', stop_after_first = true },
         html = { 'prettierd', 'prettier', stop_after_first = true },
         json = { 'prettierd', 'prettier', stop_after_first = true },
-        jsonc = { 'prettierd', 'prettier', stop_after_first = true },
+        -- jsonc = { 'prettierd', 'prettier', stop_after_first = true },
         yaml = { 'prettierd', 'prettier', stop_after_first = true },
         markdown = { 'prettierd', 'prettier', stop_after_first = true },
         sql = { 'sql_formatter' },
@@ -873,6 +888,33 @@ require('lazy').setup({
     end,
   },
 
+  {
+    'nvzone/showkeys',
+    enabled = false,
+    lazy = true, -- auto run on startup
+    cmd = 'ShowkeysToggle',
+    opts = {
+      position = 'bottom-center',
+      maxkeys = 3,
+      show_count = true,
+      winopts = {
+        focusable = false,
+        relative = 'editor',
+        style = 'minimal',
+        border = 'single',
+        height = 1,
+        row = 1,
+        col = 0,
+      },
+    },
+    config = function(_, opts)
+      require('showkeys').setup(opts)
+      vim.defer_fn(function()
+        vim.cmd 'ShowkeysToggle'
+      end, 100)
+    end,
+  },
+
   { -- Highlight, edit, and navigate code
     'nvim-treesitter/nvim-treesitter',
     lazy = false,
@@ -899,7 +941,7 @@ require('lazy').setup({
         'typescript',
         'tsx',
         'json',
-        'jsonc',
+        -- 'jsonc',
         'yaml',
         'regex',
       }
@@ -958,7 +1000,6 @@ require('lazy').setup({
       })
     end,
   },
-
 
   --
   -- require 'kickstart.plugins.debug',

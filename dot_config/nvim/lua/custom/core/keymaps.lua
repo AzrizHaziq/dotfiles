@@ -94,11 +94,21 @@ vim.keymap.set('x', '<C-Down>', ":<C-u>execute \"'<,'>move '>+\" . v:count1<CR>g
 vim.keymap.set('x', '<C-Up>', ":<C-u>execute \"'<,'>move '<-\" . (v:count1 + 1)<CR>gv=gv", { desc = 'Move Up' })
 
 vim.keymap.set({ 'n', 'x' }, 'x', '"_x', { desc = 'Delete Chars Into Void' })
-vim.keymap.set({ 'n', 'x' }, 'X', '"_D', { desc = 'Delete to EOL Into Void' })
+-- vim.keymap.set({ 'n', 'x' }, 'X', '"_D', { desc = 'Delete to EOL Into Void' })
 vim.keymap.set({ 'n', 'x' }, '<Del>', '"_x', { desc = 'Delete Chars Into Void' })
 
 vim.keymap.set('x', 'y', 'ygv<Esc>', { desc = 'Yank Preserve Cursor' })
 vim.keymap.set('x', 'p', 'P', { desc = 'Paste Without Override' })
 
+vim.keymap.set('n', '<leader>ff', 'g=', { desc = 'Another format way' })
+vim.keymap.set('n', '<leader>fv', vim.lsp.buf.format, { desc = 'Vim lsp buf format' })
+
 -- this trigger external command
 -- vim.keymap.set('x', 'gt', "c<C-r>=system('tcc', getreg('\"'))[:-2]<CR>", { desc = 'Titleize Text' })
+
+-- tab stuff
+-- vim.keymap.set("n", "<leader>to", "<cmd>tabnew<CR>")   --open new tab
+
+vim.keymap.set('n', '<leader>rr', '<cmd>restart<cr>', {
+  desc = 'Restart Neovim (:restart)',
+})
