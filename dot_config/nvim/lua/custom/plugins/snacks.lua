@@ -46,9 +46,15 @@ return {
           args = { '--hidden' },
         },
       },
+      gh = {},
       explorer = {
         replace_netrw = true,
         trash = false,
+        --  ["<c-c>"] = "tcd",
+        --  ["<leader>/"] = "picker_grep",
+        --  ["<c-t>"] = "terminal",
+        --  ["I"] = "toggle_ignored",
+        --  ["Z"] = "explorer_close_all",
       },
       picker = {
         enabled = true,
@@ -110,6 +116,34 @@ return {
     },
 
     keys = {
+      {
+        '<leader>gi',
+        function()
+          Snacks.picker.gh_issue()
+        end,
+        desc = 'GitHub Issues (open)',
+      },
+      {
+        '<leader>gI',
+        function()
+          Snacks.picker.gh_issue { state = 'all' }
+        end,
+        desc = 'GitHub Issues (all)',
+      },
+      {
+        '<leader>gp',
+        function()
+          Snacks.picker.gh_pr()
+        end,
+        desc = 'GitHub Pull Requests (open)',
+      },
+      {
+        '<leader>gP',
+        function()
+          Snacks.picker.gh_pr { state = 'all' }
+        end,
+        desc = 'GitHub Pull Requests (all)',
+      },
       {
         '\\',
         function()
@@ -248,6 +282,20 @@ return {
       --
       -- },
 
+      {
+        '<leader>gl',
+        function()
+          require('snacks').lazygit.log()
+        end,
+        desc = 'Lazygit Logs',
+      },
+      {
+        '<leader>rN',
+        function()
+          require('snacks').rename.rename_file()
+        end,
+        desc = 'Fast Rename Current File',
+      },
       {
         '<leader>sf',
         function()
