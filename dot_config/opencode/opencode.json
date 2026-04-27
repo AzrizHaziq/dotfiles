@@ -1,108 +1,397 @@
 {
   "$schema": "https://opencode.ai/config.json",
-  "default_agent": "plan",
-  "instructions": ["/home/azrizhaziq/.config/opencode/instructions.md"],
-  "skills": {
-    "paths": [
-      "/home/azrizhaziq/.config/opencode/skills",
-      "/home/azrizhaziq/.agents/skills"
-    ]
-  },
-  "permission": {
-    "skill": {
-      "*": "ask"
-    }
-  },
   "agent": {
-    "plan-with-long-explain": {
-      "mode": "primary",
-      "description": "Planning mode with long way to exaplin and waste token",
-      "temperature": 0.2,
-      "steps": 5,
-      "color": "accent",
-      "prompt": "testing with long explain on the propms",
-      "disable": true
-    },
-    "plan": {
-      "mode": "primary",
-      "description": "Inspect first and produce a concrete plan",
-      "temperature": 0.2,
-      "color": "info",
-      "prompt": "Inspect and plan first. Search and read before deciding. Be concise. Produce actionable plans, assumptions, and risks. Ask only short clarifying questions when ambiguity blocks a correct solution. Do not rush into edits when planning is more appropriate. Use the caveman skill when the user asks for extreme brevity or token efficiency. Use the find-skills skill when the user asks about available skills or how to extend capabilities.",
-      "permission": {
-        "skill": {
-          "caveman": "allow",
-          "caveman-help": "allow",
-          "find-skills": "allow"
-        }
-      }
-    },
     "build": {
-      "mode": "primary",
-      "description": "Execute the smallest correct change",
-      "temperature": 0.2,
       "color": "primary",
-      "prompt": "Execute directly after building context. Make the smallest correct change, preserve project patterns, avoid unnecessary abstractions, and verify the result when practical. Keep responses concise and factual. Use the caveman skill when the user asks for extreme brevity or token efficiency. Use the caveman-commit skill when the user asks for commit-message help.",
+      "description": "Execute the smallest correct change",
+      "mode": "primary",
       "permission": {
         "skill": {
           "caveman": "allow",
           "caveman-commit": "allow",
           "caveman-help": "allow"
         }
-      }
+      },
+      "prompt": "Execute directly after building context. Make the smallest correct change, preserve project patterns, avoid unnecessary abstractions, and verify the result when practical. Keep responses concise and factual. Use the caveman skill when the user asks for extreme brevity or token efficiency. Use the caveman-commit skill when the user asks for commit-message help.",
+      "temperature": 0.2
     },
     "explore": {
-      "mode": "subagent",
-      "description": "Read-only codebase exploration and summarization",
-      "temperature": 0.1,
-      "steps": 3,
       "color": "secondary",
-      "prompt": "Explore broadly, prefer search over guesswork, stay read-only in spirit, and return concise summaries with specific file references. Use the caveman skill when the user asks for extreme brevity or token efficiency. Use the find-skills skill when the user asks about available skills or how to extend capabilities.",
+      "description": "Read-only codebase exploration and summarization",
+      "mode": "subagent",
       "permission": {
         "skill": {
           "caveman": "allow",
           "caveman-help": "allow",
           "find-skills": "allow"
         }
-      }
+      },
+      "prompt": "Explore broadly, prefer search over guesswork, stay read-only in spirit, and return concise summaries with specific file references. Use the caveman skill when the user asks for extreme brevity or token efficiency. Use the find-skills skill when the user asks about available skills or how to extend capabilities.",
+      "steps": 3,
+      "temperature": 0.1
+    },
+    "plan": {
+      "color": "info",
+      "description": "Inspect first and produce a concrete plan",
+      "mode": "primary",
+      "permission": {
+        "skill": {
+          "caveman": "allow",
+          "caveman-help": "allow",
+          "find-skills": "allow"
+        }
+      },
+      "prompt": "Inspect and plan first. Search and read before deciding. Be concise. Produce actionable plans, assumptions, and risks. Ask only short clarifying questions when ambiguity blocks a correct solution. Do not rush into edits when planning is more appropriate. Use the caveman skill when the user asks for extreme brevity or token efficiency. Use the find-skills skill when the user asks about available skills or how to extend capabilities.",
+      "temperature": 0.2
     }
   },
+  "command": {
+    "llm-login": {
+      "description": "Run local llm-login CLI for ecosystem setup",
+      "template": "Use this command as a direct shell launcher for the local Konekasa login CLI.\n\nWhen user runs /llm-login:\n- If ecosystem argument is provided, run: llm-login \u003cecosystem\u003e\n- If no argument is provided, run: llm-login\n\nExamples:\n- llm-login claude\n- llm-login opencode\n- llm-login continue\n- llm-login vscode\n- llm-login lazycorn\n\nRules:\n- Execute the shell command directly.\n- Keep output concise and include command result.\n- If command is missing, tell user to run installer and ensure ~/.local/bin is on PATH."
+    },
+    "llmadmin": {
+      "description": "Admin helper for Konekasa LLM settings and user limits",
+      "template": "Act as Konekasa LLM admin assistant for this repository.\n\nPrimary tasks you can execute:\n1) List users: GET /settings/users (optionally include_settings=true, q=..., page/page_size)\n2) Read user settings: GET /settings?email=\u003cemail\u003e\n3) Update prompt protection via POST /settings (self/admin/bulk)\n4) Read limits via node bin/user-limits.js --email \u003cemail\u003e --get\n5) Update limits via node bin/user-limits.js --email \u003cemail\u003e --set ...\n\nAuthentication rules (must follow exactly):\n- JWT source of truth: ~/.local/share/opencode/access-token.json (key: access_token)\n- Fallback source: ~/.config/opencode/opencode.json -\u003e provider.konekasa-anthropic.options.headers.Authorization (strip Bearer prefix)\n- Do not default to env var probing (ADMIN_JWT/JWT/TOKEN/API_TOKEN).\n- If both sources are empty, report exactly: no bearer token found in local config\n- Never print full JWT tokens or secrets.\n\nBuilt-in command reference (use directly; do not inspect scripts unless needed):\n- ADMIN_JWT=\"$(node -e 'const fs=require(\"fs\");const p=process.env.HOME+\"/.local/share/opencode/access-token.json\";try{const j=JSON.parse(fs.readFileSync(p,\"utf8\"));if(j\u0026\u0026j.access_token)process.stdout.write(j.access_token);}catch(e){}')\"; [ -n \"$ADMIN_JWT\" ] || ADMIN_JWT=\"$(node -e 'const fs=require(\"fs\");const p=process.env.HOME+\"/.config/opencode/opencode.json\";try{const c=JSON.parse(fs.readFileSync(p,\"utf8\"));const h=c?.provider?.[\"konekasa-anthropic\"]?.options?.headers?.Authorization||\"\";const m=h.match(/^Bearer\\s+(.+)$/);if(m)process.stdout.write(m[1]);}catch(e){}')\"; [ -n \"$ADMIN_JWT\" ] \u0026\u0026 curl -sS -H \"Authorization: Bearer $ADMIN_JWT\" \"https://llm-api.konekasa.com/settings/users?page=1\u0026page_size=25\"\n- ADMIN_JWT=\"$(node -e 'const fs=require(\"fs\");const p=process.env.HOME+\"/.local/share/opencode/access-token.json\";try{const j=JSON.parse(fs.readFileSync(p,\"utf8\"));if(j\u0026\u0026j.access_token)process.stdout.write(j.access_token);}catch(e){}')\"; [ -n \"$ADMIN_JWT\" ] || ADMIN_JWT=\"$(node -e 'const fs=require(\"fs\");const p=process.env.HOME+\"/.config/opencode/opencode.json\";try{const c=JSON.parse(fs.readFileSync(p,\"utf8\"));const h=c?.provider?.[\"konekasa-anthropic\"]?.options?.headers?.Authorization||\"\";const m=h.match(/^Bearer\\s+(.+)$/);if(m)process.stdout.write(m[1]);}catch(e){}')\"; [ -n \"$ADMIN_JWT\" ] \u0026\u0026 curl -sS -H \"Authorization: Bearer $ADMIN_JWT\" \"https://llm-api.konekasa.com/settings/users?include_settings=true\u0026page=1\u0026page_size=25\"\n- ADMIN_JWT=\"$(node -e 'const fs=require(\"fs\");const p=process.env.HOME+\"/.local/share/opencode/access-token.json\";try{const j=JSON.parse(fs.readFileSync(p,\"utf8\"));if(j\u0026\u0026j.access_token)process.stdout.write(j.access_token);}catch(e){}')\"; [ -n \"$ADMIN_JWT\" ] || ADMIN_JWT=\"$(node -e 'const fs=require(\"fs\");const p=process.env.HOME+\"/.config/opencode/opencode.json\";try{const c=JSON.parse(fs.readFileSync(p,\"utf8\"));const h=c?.provider?.[\"konekasa-anthropic\"]?.options?.headers?.Authorization||\"\";const m=h.match(/^Bearer\\s+(.+)$/);if(m)process.stdout.write(m[1]);}catch(e){}')\"; [ -n \"$ADMIN_JWT\" ] \u0026\u0026 curl -sS -H \"Authorization: Bearer $ADMIN_JWT\" \"https://llm-api.konekasa.com/settings/users?q=alice\u0026include_settings=true\"\n- ADMIN_JWT=\"$(node -e 'const fs=require(\"fs\");const p=process.env.HOME+\"/.local/share/opencode/access-token.json\";try{const j=JSON.parse(fs.readFileSync(p,\"utf8\"));if(j\u0026\u0026j.access_token)process.stdout.write(j.access_token);}catch(e){}')\"; [ -n \"$ADMIN_JWT\" ] || ADMIN_JWT=\"$(node -e 'const fs=require(\"fs\");const p=process.env.HOME+\"/.config/opencode/opencode.json\";try{const c=JSON.parse(fs.readFileSync(p,\"utf8\"));const h=c?.provider?.[\"konekasa-anthropic\"]?.options?.headers?.Authorization||\"\";const m=h.match(/^Bearer\\s+(.+)$/);if(m)process.stdout.write(m[1]);}catch(e){}')\"; [ -n \"$ADMIN_JWT\" ] \u0026\u0026 curl -sS -H \"Authorization: Bearer $ADMIN_JWT\" \"https://llm-api.konekasa.com/settings?email=\u003cemail\u003e\"\n- ADMIN_JWT=\"$(node -e 'const fs=require(\"fs\");const p=process.env.HOME+\"/.local/share/opencode/access-token.json\";try{const j=JSON.parse(fs.readFileSync(p,\"utf8\"));if(j\u0026\u0026j.access_token)process.stdout.write(j.access_token);}catch(e){}')\"; [ -n \"$ADMIN_JWT\" ] || ADMIN_JWT=\"$(node -e 'const fs=require(\"fs\");const p=process.env.HOME+\"/.config/opencode/opencode.json\";try{const c=JSON.parse(fs.readFileSync(p,\"utf8\"));const h=c?.provider?.[\"konekasa-anthropic\"]?.options?.headers?.Authorization||\"\";const m=h.match(/^Bearer\\s+(.+)$/);if(m)process.stdout.write(m[1]);}catch(e){}')\"; [ -n \"$ADMIN_JWT\" ] \u0026\u0026 curl -sS -X POST -H \"Authorization: Bearer $ADMIN_JWT\" -H \"Content-Type: application/json\" \"https://llm-api.konekasa.com/settings\" -d \"\u003cadmin-payload\u003e\"\n- node bin/user-limits.js --email \u003cemail\u003e --get\n- node bin/user-limits.js --email \u003cemail\u003e --set --tpm-limit 120000 --tpm-reset-duration 6h --rpm-limit 60 --rpm-reset-duration 15m\n\nFor write operations:\n- Show the exact command you will run and get explicit confirmation unless user already requested execution.\n- After execution, read back and summarize the effective values.\n- Keep output concise and operator-silent.\n\nOutput defaults:\n- Formalization should always be clear and in human-readable format.\n- For lists, output one item per line.\n- If list is long, show first 10 items then ... +N more.\n- Keep follow-up options to max 2 concise choices.\n\nIf user did not specify an action, ask one concise question and offer options:\n- list users\n- check one user settings\n- update prompt protection\n- check or update user limits"
+    }
+  },
+  "default_agent": "plan",
+  "disabled_providers": ["opencode", "opencode-go"],
+  "instructions": ["/home/azrizhaziq/.config/opencode/instructions.md"],
   "mcp": {
-    "figma": {
-      "type": "local",
-      "command": ["npx", "-y", "figma-developer-mcp", "--stdio"],
-      "environment": {
-        "FIGMA_API_KEY": "{env:FIGMA_API_KEY}"
-      },
-      "enabled": false
-    },
-    "context7": {
-      "type": "remote",
-      "url": "https://mcp.context7.com/mcp",
-      "headers": {
-        "CONTEXT7_API_KEY": "YOUR_API_KEY"
-      },
-      "enabled": true
-    },
     "atlassian": {
-      "type": "remote",
-      "url": "https://mcp.atlassian.com/v1/mcp",
-      "oauth": false,
+      "enabled": false,
       "headers": {
         "Authorization": "Bearer {env:JIRA_OPENCODE_PAT}"
       },
-      "enabled": false
+      "oauth": false,
+      "type": "remote",
+      "url": "https://mcp.atlassian.com/v1/mcp"
+    },
+    "context7": {
+      "enabled": true,
+      "headers": {
+        "CONTEXT7_API_KEY": "YOUR_API_KEY"
+      },
+      "type": "remote",
+      "url": "https://mcp.context7.com/mcp"
+    },
+    "figma": {
+      "command": ["npx", "-y", "figma-developer-mcp", "--stdio"],
+      "enabled": false,
+      "environment": {
+        "FIGMA_API_KEY": "{env:FIGMA_API_KEY}"
+      },
+      "type": "local"
     },
     "github": {
-      "type": "remote",
-      "url": "https://api.githubcopilot.com/mcp/",
-      "oauth": false,
+      "enabled": false,
       "headers": {
         "Authorization": "Bearer {env:GITHUB_MCP_PAT}",
-        "X-MCP-Toolsets": "context,users,orgs,repos,issues,pull_requests",
-        "X-MCP-Readonly": "true"
+        "X-MCP-Readonly": "true",
+        "X-MCP-Toolsets": "context,users,orgs,repos,issues,pull_requests"
       },
-      "enabled": false
+      "oauth": false,
+      "type": "remote",
+      "url": "https://api.githubcopilot.com/mcp/"
     }
+  },
+  "permission": {
+    "skill": {
+      "*": "ask"
+    }
+  },
+  "provider": {
+    "exampleai-anthropic": {
+      "models": {
+        "anthropic/claude-haiku-4-5": {
+          "limit": {
+            "context": 200000,
+            "output": 64000
+          },
+          "modalities": {
+            "input": ["text", "image"],
+            "output": ["text"]
+          },
+          "name": "Anthropic/Claude Haiku 4 5"
+        },
+        "anthropic/claude-opus-4-5": {
+          "limit": {
+            "context": 200000,
+            "output": 64000
+          },
+          "modalities": {
+            "input": ["text", "image"],
+            "output": ["text"]
+          },
+          "name": "Anthropic/Claude Opus 4 5",
+          "variants": {
+            "high": {
+              "thinking": {
+                "budgetTokens": 10000,
+                "type": "enabled"
+              }
+            },
+            "max": {
+              "thinking": {
+                "budgetTokens": 16000,
+                "type": "enabled"
+              }
+            },
+            "medium": {
+              "thinking": {
+                "budgetTokens": 5000,
+                "type": "enabled"
+              }
+            }
+          }
+        },
+        "anthropic/claude-opus-4-6": {
+          "limit": {
+            "context": 1000000,
+            "output": 128000
+          },
+          "modalities": {
+            "input": ["text", "image"],
+            "output": ["text"]
+          },
+          "name": "Anthropic/Claude Opus 4 6",
+          "variants": {
+            "high": {
+              "thinking": {
+                "budgetTokens": 10000,
+                "type": "enabled"
+              }
+            },
+            "max": {
+              "thinking": {
+                "budgetTokens": 16000,
+                "type": "enabled"
+              }
+            },
+            "medium": {
+              "thinking": {
+                "budgetTokens": 5000,
+                "type": "enabled"
+              }
+            }
+          }
+        },
+        "anthropic/claude-opus-4-7": {
+          "limit": {
+            "context": 1000000,
+            "output": 128000
+          },
+          "modalities": {
+            "input": ["text", "image"],
+            "output": ["text"]
+          },
+          "name": "Anthropic/Claude Opus 4 7",
+          "variants": {
+            "high": {
+              "thinking": {
+                "budgetTokens": 10000,
+                "type": "enabled"
+              }
+            },
+            "max": {
+              "thinking": {
+                "budgetTokens": 16000,
+                "type": "enabled"
+              }
+            },
+            "medium": {
+              "thinking": {
+                "budgetTokens": 5000,
+                "type": "enabled"
+              }
+            }
+          }
+        },
+        "anthropic/claude-sonnet-4-5": {
+          "limit": {
+            "context": 200000,
+            "output": 64000
+          },
+          "modalities": {
+            "input": ["text", "image"],
+            "output": ["text"]
+          },
+          "name": "Anthropic/Claude Sonnet 4 5",
+          "variants": {
+            "high": {
+              "thinking": {
+                "budgetTokens": 10000,
+                "type": "enabled"
+              }
+            },
+            "max": {
+              "thinking": {
+                "budgetTokens": 16000,
+                "type": "enabled"
+              }
+            },
+            "medium": {
+              "thinking": {
+                "budgetTokens": 5000,
+                "type": "enabled"
+              }
+            }
+          }
+        },
+        "anthropic/claude-sonnet-4-6": {
+          "limit": {
+            "context": 1000000,
+            "output": 64000
+          },
+          "modalities": {
+            "input": ["text", "image"],
+            "output": ["text"]
+          },
+          "name": "Anthropic/Claude Sonnet 4 6",
+          "variants": {
+            "high": {
+              "thinking": {
+                "budgetTokens": 10000,
+                "type": "enabled"
+              }
+            },
+            "max": {
+              "thinking": {
+                "budgetTokens": 16000,
+                "type": "enabled"
+              }
+            },
+            "medium": {
+              "thinking": {
+                "budgetTokens": 5000,
+                "type": "enabled"
+              }
+            }
+          }
+        }
+      },
+      "name": "AI Gateway (Anthropic)",
+      "npm": "@ai-sdk/anthropic",
+      "options": {
+        "apiKey": "{env:BATMAN_KEY}",
+        "baseURL": "https://llm-api.tools.procountor.com",
+        "headers": {
+          "Authorization": "Bearer {env:BATMAN_KEY}",
+          "x-api-key": "{env:BATMAN_KEY}"
+        }
+      }
+    },
+    "exampleai-gateway": {
+      "models": {
+        "openai/Kimi-K2.5": {
+          "limit": {
+            "context": 262144,
+            "output": 262144
+          },
+          "modalities": {
+            "input": ["text"],
+            "output": ["text"]
+          },
+          "name": "Openai/Kimi K2.5"
+        },
+        "openai/Mistral-Large-3": {
+          "limit": {
+            "context": 256000,
+            "output": 8191
+          },
+          "modalities": {
+            "input": ["text"],
+            "output": ["text"]
+          },
+          "name": "Openai/Mistral Large 3"
+        },
+        "openai/gpt-4.1": {
+          "limit": {
+            "context": 1047576,
+            "output": 32768
+          },
+          "modalities": {
+            "input": ["text", "image"],
+            "output": ["text"]
+          },
+          "name": "Openai/Gpt 4.1"
+        },
+        "openai/gpt-5.1": {
+          "limit": {
+            "context": 272000,
+            "output": 128000
+          },
+          "modalities": {
+            "input": ["text"],
+            "output": ["text"]
+          },
+          "name": "Openai/Gpt 5.1"
+        },
+        "openai/mistral-small-2503": {
+          "limit": {
+            "context": 128000,
+            "output": 128000
+          },
+          "modalities": {
+            "input": ["text"],
+            "output": ["text"]
+          },
+          "name": "Openai/Mistral Small 2503"
+        }
+      },
+      "name": "AI Gateway (OpenAI)",
+      "npm": "@ai-sdk/openai-compatible",
+      "options": {
+        "apiKey": "{env:BATMAN_KEY}",
+        "baseURL": "https://llm-api.tools.procountor.com",
+        "headers": {
+          "Authorization": "Bearer {env:BATMAN_KEY}",
+          "x-api-key": "{env:BATMAN_KEY}"
+        }
+      }
+    },
+    "exampleai-openai-native": {
+      "models": {
+        "openai/gpt-5.4": {
+          "limit": {
+            "context": 1050000,
+            "output": 128000
+          },
+          "modalities": {
+            "input": ["text", "image"],
+            "output": ["text"]
+          },
+          "name": "Openai/Gpt 5.4"
+        },
+        "openai/gpt-5.4-nano": {
+          "limit": {
+            "context": 1050000,
+            "output": 128000
+          },
+          "modalities": {
+            "input": ["text", "image"],
+            "output": ["text"]
+          },
+          "name": "Openai/Gpt 5.4 Nano"
+        }
+      },
+      "name": "AI Gateway (OpenAI Native)",
+      "npm": "@ai-sdk/openai",
+      "options": {
+        "apiKey": "{env:BATMAN_KEY}",
+        "baseURL": "https://llm-api.tools.procountor.com",
+        "headers": {
+          "Authorization": "Bearer {env:BATMAN_KEY}",
+          "x-api-key": "{env:BATMAN_KEY}"
+        }
+      }
+    }
+  },
+  "skills": {
+    "paths": [
+      "/home/azrizhaziq/.config/opencode/skills",
+      "/home/azrizhaziq/.agents/skills"
+    ]
   }
 }
