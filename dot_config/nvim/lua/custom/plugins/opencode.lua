@@ -37,7 +37,7 @@ return {
             preset = 'nerdfonts',
           },
           output = {
-            filetype = 'Opencode'
+            filetype = 'opencode_output'
           }
         },
 
@@ -52,7 +52,7 @@ return {
             ['<leader>oq'] = { 'close' }, -- Close UI windows
             ['<leader>os'] = { 'select_session' }, -- Select and load a opencode session
             ['<leader>oR'] = { 'rename_session' }, -- Rename current session
-            ['<leader>op'] = { 'configure_provider' }, -- Quick provider and model switch from predefined list
+            ['<leader>om'] = { 'configure_provider' }, -- Quick provider and model switch from predefined list
             ['<leader>oV'] = { 'configure_variant' }, -- Switch model variant for the current model
             ['<leader>oy'] = { 'add_visual_selection', mode = {'v'} },
             ['<leader>oY'] = { 'add_visual_selection_inline', mode = {'v'} }, -- Insert visual selection as inline code block in the input buffer

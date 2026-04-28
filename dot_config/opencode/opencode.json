@@ -102,10 +102,9 @@
     }
   },
   "provider": {
-    "exampleai-anthropic": {
+    "ai-anthropic": {
       "models": {
         "anthropic/claude-haiku-4-5": {
-          "description": "anthropic/claude-haiku-4-5 via ExampleAI AI Gateway",
           "limit": {
             "context": 200000,
             "output": 64000
@@ -283,7 +282,7 @@
         }
       }
     },
-    "exampleai-gateway": {
+    "ai-gateway": {
       "models": {
         "openai/Kimi-K2.5": {
           "limit": {
@@ -352,7 +351,7 @@
         }
       }
     },
-    "exampleai-openai-native": {
+    "ai-openai-native": {
       "models": {
         "openai/gpt-5.4": {
           "limit": {
