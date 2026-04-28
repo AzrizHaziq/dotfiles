@@ -48,16 +48,21 @@
   "command": {
     "llm-login": {
       "description": "Run local llm-login CLI for ecosystem setup",
-      "template": "Use this command as a direct shell launcher for the local Konekasa login CLI.\n\nWhen user runs /llm-login:\n- If ecosystem argument is provided, run: llm-login \u003cecosystem\u003e\n- If no argument is provided, run: llm-login\n\nExamples:\n- llm-login claude\n- llm-login opencode\n- llm-login continue\n- llm-login vscode\n- llm-login lazycorn\n\nRules:\n- Execute the shell command directly.\n- Keep output concise and include command result.\n- If command is missing, tell user to run installer and ensure ~/.local/bin is on PATH."
+      "template": ""
     },
     "llmadmin": {
       "description": "Admin helper for Konekasa LLM settings and user limits",
-      "template": "Act as Konekasa LLM admin assistant for this repository.\n\nPrimary tasks you can execute:\n1) List users: GET /settings/users (optionally include_settings=true, q=..., page/page_size)\n2) Read user settings: GET /settings?email=\u003cemail\u003e\n3) Update prompt protection via POST /settings (self/admin/bulk)\n4) Read limits via node bin/user-limits.js --email \u003cemail\u003e --get\n5) Update limits via node bin/user-limits.js --email \u003cemail\u003e --set ...\n\nAuthentication rules (must follow exactly):\n- JWT source of truth: ~/.local/share/opencode/access-token.json (key: access_token)\n- Fallback source: ~/.config/opencode/opencode.json -\u003e provider.konekasa-anthropic.options.headers.Authorization (strip Bearer prefix)\n- Do not default to env var probing (ADMIN_JWT/JWT/TOKEN/API_TOKEN).\n- If both sources are empty, report exactly: no bearer token found in local config\n- Never print full JWT tokens or secrets.\n\nBuilt-in command reference (use directly; do not inspect scripts unless needed):\n- ADMIN_JWT=\"$(node -e 'const fs=require(\"fs\");const p=process.env.HOME+\"/.local/share/opencode/access-token.json\";try{const j=JSON.parse(fs.readFileSync(p,\"utf8\"));if(j\u0026\u0026j.access_token)process.stdout.write(j.access_token);}catch(e){}')\"; [ -n \"$ADMIN_JWT\" ] || ADMIN_JWT=\"$(node -e 'const fs=require(\"fs\");const p=process.env.HOME+\"/.config/opencode/opencode.json\";try{const c=JSON.parse(fs.readFileSync(p,\"utf8\"));const h=c?.provider?.[\"konekasa-anthropic\"]?.options?.headers?.Authorization||\"\";const m=h.match(/^Bearer\\s+(.+)$/);if(m)process.stdout.write(m[1]);}catch(e){}')\"; [ -n \"$ADMIN_JWT\" ] \u0026\u0026 curl -sS -H \"Authorization: Bearer $ADMIN_JWT\" \"https://llm-api.konekasa.com/settings/users?page=1\u0026page_size=25\"\n- ADMIN_JWT=\"$(node -e 'const fs=require(\"fs\");const p=process.env.HOME+\"/.local/share/opencode/access-token.json\";try{const j=JSON.parse(fs.readFileSync(p,\"utf8\"));if(j\u0026\u0026j.access_token)process.stdout.write(j.access_token);}catch(e){}')\"; [ -n \"$ADMIN_JWT\" ] || ADMIN_JWT=\"$(node -e 'const fs=require(\"fs\");const p=process.env.HOME+\"/.config/opencode/opencode.json\";try{const c=JSON.parse(fs.readFileSync(p,\"utf8\"));const h=c?.provider?.[\"konekasa-anthropic\"]?.options?.headers?.Authorization||\"\";const m=h.match(/^Bearer\\s+(.+)$/);if(m)process.stdout.write(m[1]);}catch(e){}')\"; [ -n \"$ADMIN_JWT\" ] \u0026\u0026 curl -sS -H \"Authorization: Bearer $ADMIN_JWT\" \"https://llm-api.konekasa.com/settings/users?include_settings=true\u0026page=1\u0026page_size=25\"\n- ADMIN_JWT=\"$(node -e 'const fs=require(\"fs\");const p=process.env.HOME+\"/.local/share/opencode/access-token.json\";try{const j=JSON.parse(fs.readFileSync(p,\"utf8\"));if(j\u0026\u0026j.access_token)process.stdout.write(j.access_token);}catch(e){}')\"; [ -n \"$ADMIN_JWT\" ] || ADMIN_JWT=\"$(node -e 'const fs=require(\"fs\");const p=process.env.HOME+\"/.config/opencode/opencode.json\";try{const c=JSON.parse(fs.readFileSync(p,\"utf8\"));const h=c?.provider?.[\"konekasa-anthropic\"]?.options?.headers?.Authorization||\"\";const m=h.match(/^Bearer\\s+(.+)$/);if(m)process.stdout.write(m[1]);}catch(e){}')\"; [ -n \"$ADMIN_JWT\" ] \u0026\u0026 curl -sS -H \"Authorization: Bearer $ADMIN_JWT\" \"https://llm-api.konekasa.com/settings/users?q=alice\u0026include_settings=true\"\n- ADMIN_JWT=\"$(node -e 'const fs=require(\"fs\");const p=process.env.HOME+\"/.local/share/opencode/access-token.json\";try{const j=JSON.parse(fs.readFileSync(p,\"utf8\"));if(j\u0026\u0026j.access_token)process.stdout.write(j.access_token);}catch(e){}')\"; [ -n \"$ADMIN_JWT\" ] || ADMIN_JWT=\"$(node -e 'const fs=require(\"fs\");const p=process.env.HOME+\"/.config/opencode/opencode.json\";try{const c=JSON.parse(fs.readFileSync(p,\"utf8\"));const h=c?.provider?.[\"konekasa-anthropic\"]?.options?.headers?.Authorization||\"\";const m=h.match(/^Bearer\\s+(.+)$/);if(m)process.stdout.write(m[1]);}catch(e){}')\"; [ -n \"$ADMIN_JWT\" ] \u0026\u0026 curl -sS -H \"Authorization: Bearer $ADMIN_JWT\" \"https://llm-api.konekasa.com/settings?email=\u003cemail\u003e\"\n- ADMIN_JWT=\"$(node -e 'const fs=require(\"fs\");const p=process.env.HOME+\"/.local/share/opencode/access-token.json\";try{const j=JSON.parse(fs.readFileSync(p,\"utf8\"));if(j\u0026\u0026j.access_token)process.stdout.write(j.access_token);}catch(e){}')\"; [ -n \"$ADMIN_JWT\" ] || ADMIN_JWT=\"$(node -e 'const fs=require(\"fs\");const p=process.env.HOME+\"/.config/opencode/opencode.json\";try{const c=JSON.parse(fs.readFileSync(p,\"utf8\"));const h=c?.provider?.[\"konekasa-anthropic\"]?.options?.headers?.Authorization||\"\";const m=h.match(/^Bearer\\s+(.+)$/);if(m)process.stdout.write(m[1]);}catch(e){}')\"; [ -n \"$ADMIN_JWT\" ] \u0026\u0026 curl -sS -X POST -H \"Authorization: Bearer $ADMIN_JWT\" -H \"Content-Type: application/json\" \"https://llm-api.konekasa.com/settings\" -d \"\u003cadmin-payload\u003e\"\n- node bin/user-limits.js --email \u003cemail\u003e --get\n- node bin/user-limits.js --email \u003cemail\u003e --set --tpm-limit 120000 --tpm-reset-duration 6h --rpm-limit 60 --rpm-reset-duration 15m\n\nFor write operations:\n- Show the exact command you will run and get explicit confirmation unless user already requested execution.\n- After execution, read back and summarize the effective values.\n- Keep output concise and operator-silent.\n\nOutput defaults:\n- Formalization should always be clear and in human-readable format.\n- For lists, output one item per line.\n- If list is long, show first 10 items then ... +N more.\n- Keep follow-up options to max 2 concise choices.\n\nIf user did not specify an action, ask one concise question and offer options:\n- list users\n- check one user settings\n- update prompt protection\n- check or update user limits"
+      "template": ""
     }
   },
   "default_agent": "plan",
-  "disabled_providers": ["opencode", "opencode-go"],
-  "instructions": ["/home/azrizhaziq/.config/opencode/instructions.md"],
+  "disabled_providers": [
+    "opencode",
+    "opencode-go"
+  ],
+  "instructions": [
+    "/home/azrizhaziq/.config/opencode/instructions.md"
+  ],
   "mcp": {
     "atlassian": {
       "enabled": false,
@@ -77,7 +82,12 @@
       "url": "https://mcp.context7.com/mcp"
     },
     "figma": {
-      "command": ["npx", "-y", "figma-developer-mcp", "--stdio"],
+      "command": [
+        "npx",
+        "-y",
+        "figma-developer-mcp",
+        "--stdio"
+      ],
       "enabled": false,
       "environment": {
         "FIGMA_API_KEY": "{env:FIGMA_API_KEY}"
@@ -110,8 +120,13 @@
             "output": 64000
           },
           "modalities": {
-            "input": ["text", "image"],
-            "output": ["text"]
+            "input": [
+              "text",
+              "image"
+            ],
+            "output": [
+              "text"
+            ]
           },
           "name": "Anthropic/Claude Haiku 4 5"
         },
@@ -121,8 +136,13 @@
             "output": 64000
           },
           "modalities": {
-            "input": ["text", "image"],
-            "output": ["text"]
+            "input": [
+              "text",
+              "image"
+            ],
+            "output": [
+              "text"
+            ]
           },
           "name": "Anthropic/Claude Opus 4 5",
           "variants": {
@@ -152,8 +172,13 @@
             "output": 128000
           },
           "modalities": {
-            "input": ["text", "image"],
-            "output": ["text"]
+            "input": [
+              "text",
+              "image"
+            ],
+            "output": [
+              "text"
+            ]
           },
           "name": "Anthropic/Claude Opus 4 6",
           "variants": {
@@ -183,8 +208,13 @@
             "output": 128000
           },
           "modalities": {
-            "input": ["text", "image"],
-            "output": ["text"]
+            "input": [
+              "text",
+              "image"
+            ],
+            "output": [
+              "text"
+            ]
           },
           "name": "Anthropic/Claude Opus 4 7",
           "variants": {
@@ -214,8 +244,13 @@
             "output": 64000
           },
           "modalities": {
-            "input": ["text", "image"],
-            "output": ["text"]
+            "input": [
+              "text",
+              "image"
+            ],
+            "output": [
+              "text"
+            ]
           },
           "name": "Anthropic/Claude Sonnet 4 5",
           "variants": {
@@ -245,8 +280,13 @@
             "output": 64000
           },
           "modalities": {
-            "input": ["text", "image"],
-            "output": ["text"]
+            "input": [
+              "text",
+              "image"
+            ],
+            "output": [
+              "text"
+            ]
           },
           "name": "Anthropic/Claude Sonnet 4 6",
           "variants": {
@@ -275,7 +315,7 @@
       "npm": "@ai-sdk/anthropic",
       "options": {
         "apiKey": "{env:BATMAN_KEY}",
-        "baseURL": "https://llm-api.tools.procountor.com",
+        "baseURL": "https://llm-api.tools.procountor.com/v1",
         "headers": {
           "Authorization": "Bearer {env:BATMAN_KEY}",
           "x-api-key": "{env:BATMAN_KEY}"
@@ -290,8 +330,12 @@
             "output": 262144
           },
           "modalities": {
-            "input": ["text"],
-            "output": ["text"]
+            "input": [
+              "text"
+            ],
+            "output": [
+              "text"
+            ]
           },
           "name": "Openai/Kimi K2.5"
         },
@@ -301,8 +345,12 @@
             "output": 8191
           },
           "modalities": {
-            "input": ["text"],
-            "output": ["text"]
+            "input": [
+              "text"
+            ],
+            "output": [
+              "text"
+            ]
           },
           "name": "Openai/Mistral Large 3"
         },
@@ -312,8 +360,13 @@
             "output": 32768
           },
           "modalities": {
-            "input": ["text", "image"],
-            "output": ["text"]
+            "input": [
+              "text",
+              "image"
+            ],
+            "output": [
+              "text"
+            ]
           },
           "name": "Openai/Gpt 4.1"
         },
@@ -323,8 +376,12 @@
             "output": 128000
           },
           "modalities": {
-            "input": ["text"],
-            "output": ["text"]
+            "input": [
+              "text"
+            ],
+            "output": [
+              "text"
+            ]
           },
           "name": "Openai/Gpt 5.1"
         },
@@ -334,8 +391,12 @@
             "output": 128000
           },
           "modalities": {
-            "input": ["text"],
-            "output": ["text"]
+            "input": [
+              "text"
+            ],
+            "output": [
+              "text"
+            ]
           },
           "name": "Openai/Mistral Small 2503"
         }
@@ -344,7 +405,7 @@
       "npm": "@ai-sdk/openai-compatible",
       "options": {
         "apiKey": "{env:BATMAN_KEY}",
-        "baseURL": "https://llm-api.tools.procountor.com",
+        "baseURL": "https://llm-api.tools.procountor.com/v1",
         "headers": {
           "Authorization": "Bearer {env:BATMAN_KEY}",
           "x-api-key": "{env:BATMAN_KEY}"
@@ -359,8 +420,13 @@
             "output": 128000
           },
           "modalities": {
-            "input": ["text", "image"],
-            "output": ["text"]
+            "input": [
+              "text",
+              "image"
+            ],
+            "output": [
+              "text"
+            ]
           },
           "name": "Openai/Gpt 5.4"
         },
@@ -370,8 +436,13 @@
             "output": 128000
           },
           "modalities": {
-            "input": ["text", "image"],
-            "output": ["text"]
+            "input": [
+              "text",
+              "image"
+            ],
+            "output": [
+              "text"
+            ]
           },
           "name": "Openai/Gpt 5.4 Nano"
         }
@@ -380,7 +451,7 @@
       "npm": "@ai-sdk/openai",
       "options": {
         "apiKey": "{env:BATMAN_KEY}",
-        "baseURL": "https://llm-api.tools.procountor.com",
+        "baseURL": "https://llm-api.tools.procountor.com/v1",
         "headers": {
           "Authorization": "Bearer {env:BATMAN_KEY}",
           "x-api-key": "{env:BATMAN_KEY}"

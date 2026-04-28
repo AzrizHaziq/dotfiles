@@ -1,6 +1,9 @@
+~/.zshrc.d/local-machine.zsh
+
 .config/nvim/.git
 .config/yasb/yasb.log
 .config/nvim/.github
+
 .tmux/plugins/**
 tmux-**.log
 
