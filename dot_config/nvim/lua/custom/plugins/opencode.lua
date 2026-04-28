@@ -21,8 +21,9 @@ return {
       require('opencode').setup {
         keymap_prefix = '<leader>o',
         preferred_picker = 'snacks',
+        preferred_completion = 'blink',
         default_global_keymaps = true,
-        default_mode = 'build',
+        default_mode = 'plan',
         ui = {
           enable_treesitter_markdown = true,
           position = 'right',
@@ -35,38 +36,41 @@ return {
           icons = {
             preset = 'nerdfonts',
           },
+          output = {
+            filetype = 'Opencode'
+          }
         },
 
         keymap = {
           editor = {
-            -- <leader>og  toggle open/close
-            -- <leader>oi  open input window (current session)
-            -- <leader>oI  open input window (new session)
-            -- <leader>oo  open output window
-            -- <leader>ot  toggle focus between opencode and last window
-            -- <leader>oT  timeline picker (navigate/undo/redo/fork messages)
-            -- <leader>oq  close UI windows
-            -- <leader>oR  rename current session
-            -- <leader>oV  configure model variant
-            -- <leader>oy  add visual selection to context (visual mode)
-            -- <leader>oY  insert visual selection inline into input (visual mode)
-            -- <leader>oz  zoom in/out on opencode windows
-            -- <leader>ov  paste image from clipboard
-            -- <leader>od  open diff view of changed files
-            -- <leader>o]  navigate to next file diff
-            -- <leader>o[  navigate to previous file diff
-            -- <leader>oc  close diff view tab
-            -- <leader>ora revert all file changes since last prompt
-            -- <leader>ort revert current file changes since last prompt
-            -- <leader>orA revert all file changes since last session
-            -- <leader>orT revert current file changes since last session
-            -- <leader>orr restore a file to a restore point
-            -- <leader>orR restore all files to a restore point
-            -- <leader>ox  swap opencode pane left/right
-            -- <leader>ott toggle tools output (diffs, cmd output, etc.)
-            -- <leader>otr toggle reasoning output (thinking steps)
-            -- <leader>oa  select agent (build/plan/custom) [global]
-
+            ['<leader>og'] = { 'toggle' }, -- Open opencode. Close if opened
+            ['<leader>oi'] = { 'open_input' }, -- Opens and focuses on input window on insert mode
+            ['<leader>oI'] = { 'open_input_new_session' }, -- Opens and focuses on input window on insert mode. Creates a new session
+            ['<leader>oo'] = { 'open_output' }, -- Opens and focuses on output window
+            ['<leader>ot'] = { 'toggle_focus' }, -- Toggle focus between opencode and last window
+            ['<leader>oT'] = { 'timeline' }, -- Display timeline picker to navigate/undo/redo/fork messages
+            ['<leader>oq'] = { 'close' }, -- Close UI windows
+            ['<leader>os'] = { 'select_session' }, -- Select and load a opencode session
+            ['<leader>oR'] = { 'rename_session' }, -- Rename current session
+            ['<leader>op'] = { 'configure_provider' }, -- Quick provider and model switch from predefined list
+            ['<leader>oV'] = { 'configure_variant' }, -- Switch model variant for the current model
+            ['<leader>oy'] = { 'add_visual_selection', mode = {'v'} },
+            ['<leader>oY'] = { 'add_visual_selection_inline', mode = {'v'} }, -- Insert visual selection as inline code block in the input buffer
+            ['<leader>oz'] = { 'toggle_zoom' }, -- Zoom in/out on the Opencode windows
+            ['<leader>ov'] = { 'paste_image'}, -- Paste image from clipboard into current session
+            ['<leader>od'] = { 'diff_open' }, -- Opens a diff tab of a modified file since the last opencode prompt
+            ['<leader>o]'] = { 'diff_next' }, -- Navigate to next file diff
+            ['<leader>o['] = { 'diff_prev' }, -- Navigate to previous file diff
+            ['<leader>oc'] = { 'diff_close' }, -- Close diff view tab and return to normal editing
+            ['<leader>ora'] = { 'diff_revert_all_last_prompt' }, -- Revert all file changes since the last opencode prompt
+            ['<leader>ort'] = { 'diff_revert_this_last_prompt' }, -- Revert current file changes since the last opencode prompt
+            ['<leader>orA'] = { 'diff_revert_all' }, -- Revert all file changes since the last opencode session
+            ['<leader>orT'] = { 'diff_revert_this' }, -- Revert current file changes since the last opencode session
+            ['<leader>orr'] = { 'diff_restore_snapshot_file' }, -- Restore a file to a restore point
+            ['<leader>orR'] = { 'diff_restore_snapshot_all' }, -- Restore all files to a restore point
+            ['<leader>ox'] = { 'swap_position' }, -- Swap Opencode pane left/right
+            ['<leader>ott'] = { 'toggle_tool_output' }, -- Toggle tools output (diffs, cmd output, etc.)
+            ['<leader>otr'] = { 'toggle_reasoning_output' }, -- Toggle reasoning output (thinking steps) ['<leader>o/'] = { 'quick_chat', mode = { 'n', 'x' } }, -- Open quick chat input with selection context in visual mode or current line context in normal mode
             ['<leader>ol'] = { 'quick_chat', mode = { 'n', 'x' } }, -- quick chat with current line or visual selection as context
             ['<leader>oa'] = { 'agent', { 'select' } }, -- picker to select agent (build/plan/custom)
             ['<leader>os'] = false, -- disabled (was: select session)
@@ -74,32 +78,34 @@ return {
             ['<leader>o/'] = false, -- disabled (moved to <leader>ol)
           },
           input_window = {
-            -- <S-CR>      submit prompt
-            -- <C-c>       cancel running request
-            -- ~           pick a file and add to context
-            -- @           insert mention (file/agent)
-            -- /           slash commands
-            -- #           manage context items
-            -- <M-v>       paste image from clipboard
-            -- <tab>       toggle between input and output panes
-            -- <up>        previous prompt in history
-            -- <down>      next prompt in history
-            -- <M-m>       switch mode (build/plan)
-            -- <M-r>       cycle model variants
-
+            -- ['<S-cr>'] = { 'submit_input_prompt', mode = { 'n', 'i' } }, -- Submit prompt (normal mode and insert mode)
+            -- ['<C-c>'] = { 'cancel', defer_to_completion = true }, -- Cancel opencode request while it is running
+            -- ['~'] = { 'mention_file', mode = 'i' }, -- Pick a file and add to context. See File Mentions section
+            -- ['@'] = { 'mention', mode = 'i' }, -- Insert mention (file/agent)
+            -- ['/'] = { 'slash_commands', mode = 'i' }, -- Pick a command to run in the input window
+            -- ['#'] = { 'context_items', mode = 'i' }, -- Manage context items (current file, selection, diagnostics, mentioned files)
+            ['<M-v>'] = { 'paste_image', mode = 'i' }, -- Paste image from clipboard as attachment
+            -- ['<tab>'] = { 'toggle_pane', mode = { 'n', 'i' }, defer_to_completion = true }, -- Toggle between input and output panes
+            -- ['<up>'] = { 'prev_prompt_history', mode = { 'n', 'i' }, defer_to_completion = true }, -- Navigate to previous prompt in history
+            -- ['<down>'] = { 'next_prompt_history', mode = { 'n', 'i' }, defer_to_completion = true }, -- Navigate to next prompt in history
+            ['<M-m>'] = { 'switch_mode' }, -- Switch between modes (build/plan)
+            ['<M-r>'] = { 'cycle_variant', mode = { 'n', 'i' } }, -- Cycle through available model variants
             ['<esc>'] = false, -- disabled (use <leader>og to close)
           },
           output_window = {
-            -- ]]          next message in conversation
-            -- [[          previous message in conversation
-            -- <tab>       toggle between input and output panes
-            -- i           focus input window (insert mode)
-            -- <C-c>       cancel running request
-            -- <M-r>       cycle model variants
-            -- <leader>oS  select child session
-            -- <leader>oD  debug message
-            -- <leader>oO  debug output
-            -- <leader>ods debug session
+            -- ['<C-c>'] = { 'cancel' }, -- Cancel opencode request while it is running
+            -- [']]'] = { 'next_message' }, -- Navigate to next message in the conversation
+            -- ['[['] = { 'prev_message' }, -- Navigate to previous message in the conversation
+            -- ['<tab>'] = { 'toggle_pane', mode = { 'n', 'i' } }, -- Toggle between input and output panes
+            -- ['i'] = { 'focus_input', 'n' }, -- Focus on input window and enter insert mode at the end of the input from the output window
+            ['<M-r>'] = { 'cycle_variant', mode = { 'n' } }, -- Cycle through available model variants
+            ['<M-m>'] = { 'switch_mode' }, -- Switch between modes (build/plan)
+            -- ['<leader>oS'] = { 'select_child_session' }, -- Select and load a child session
+            -- ['<leader>oP'] = { 'select_parent_session' }, -- Go to parent session
+            -- ['<leader>oB'] = { 'select_sibling_session' }, -- Select sibling session (children of same parent)
+            -- ['<leader>oD'] = { 'debug_message' }, -- Open raw message in new buffer for debugging
+            -- ['<leader>oO'] = { 'debug_output' }, -- Open raw output in new buffer for debugging
+            -- ['<leader>ods'] = { 'debug_session' }, -- Open raw session in new buffer for debugging
 
             ['<esc>'] = false, -- disabled (use <leader>og to close)
           },
