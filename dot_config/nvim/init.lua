@@ -26,6 +26,7 @@ vim.opt.termguicolors = true
 require('lazy').setup({
   {
     'NMAC427/guess-indent.nvim',
+    event = { 'BufReadPost', 'BufNewFile' },
     opts = {
       filetype_exclude = {
         'netrw',
@@ -56,12 +57,12 @@ require('lazy').setup({
       -- Re-open all folds after a save, because conform's format_on_save
       -- triggers a buffer reload which causes ufo to re-apply folds and
       -- collapse them even after you've done zR.
-      vim.api.nvim_create_autocmd('BufWritePost', {
-        pattern = '*',
-        callback = function()
-          require('ufo').openAllFolds()
-        end,
-      })
+      -- vim.api.nvim_create_autocmd('BufWritePost', {
+      --   pattern = '*',
+      --   callback = function()
+      --     require('ufo').openAllFolds()
+      --   end,
+      -- })
 
       -- Custom fold text: show first line + compact line count inline
       local handler = function(virtText, lnum, endLnum, width, truncate)
@@ -819,7 +820,7 @@ require('lazy').setup({
   -- Highlight todo, notes, etc in comments
   { 'folke/todo-comments.nvim', event = 'VeryLazy', dependencies = { 'nvim-lua/plenary.nvim' }, opts = { signs = false } },
 
-  { 'numToStr/Comment.nvim', opts = {} },
+  { 'numToStr/Comment.nvim', event = { 'BufReadPost', 'BufNewFile' }, opts = {} },
 
   {
     'kylechui/nvim-surround',

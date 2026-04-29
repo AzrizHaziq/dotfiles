@@ -16,9 +16,9 @@ vim.api.nvim_create_autocmd('TextYankPost', {
   end,
 })
 
--- when switching to diff paint, then remove cursor line
--- TODO: seems like doesnt work with multiple tmux pane
-local cursorline_group = vim.api.nvim_create_augroup('cursorline', { clear = true })
+-- Show cursorline only in active window
+-- When switching to tmux pane or another nvim split, removes the highlighted line
+local cursorline_group = vim.api.nvim_create_augroup('active_cursorline', { clear = true })
 vim.api.nvim_create_autocmd({ 'VimEnter', 'WinEnter', 'BufWinEnter' }, {
   group = cursorline_group,
   callback = function()
@@ -53,22 +53,5 @@ vim.api.nvim_create_autocmd('FileType', {
   group = vim.api.nvim_create_augroup('no_auto_comment', {}),
   callback = function()
     vim.opt_local.formatoptions:remove { 'c', 'r', 'o' }
-  end,
-})
-
--- syntax highlighting for dotenv files
--- vim.api.nvim_create_autocmd('BufRead', {
---   group = vim.api.nvim_create_augroup('dotenv_ft', { clear = true }),
---   pattern = { '.env', '.env.*' },
---   callback = function()
---     vim.bo.filetype = 'dosini'
---   end,
--- })
-
--- show cursorline only in active window enable
-vim.api.nvim_create_autocmd({ 'WinEnter', 'BufEnter' }, {
-  group = vim.api.nvim_create_augroup('active_cursorline', { clear = true }),
-  callback = function()
-    vim.opt_local.cursorline = true
   end,
 })
