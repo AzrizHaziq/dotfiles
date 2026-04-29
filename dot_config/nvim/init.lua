@@ -287,42 +287,43 @@ require('lazy').setup({
           map('gra', vim.lsp.buf.code_action, '[G]oto Code [A]ction', { 'n', 'x' })
 
           -- Find references for the word under your cursor.
-          map('grr', Snacks.picker.lsp_references, '[G]oto [R]eferences')
+          map('grr', function() require('snacks').picker.lsp_references() end, '[G]oto [R]eferences')
 
           -- Jump to the implementation of the word under your cursor.
           --  Useful when your language has ways of declaring types without an actual implementation.
-          map('gri', Snacks.picker.lsp_implementations, '[G]oto [I]mplementation')
+          map('gri', function() require('snacks').picker.lsp_implementations() end, '[G]oto [I]mplementation')
 
           -- Jump to the definition of the word under your cursor.
           --  This is where a variable was first declared, or where a function is defined, etc.
           --  To jump back, press <C-t>.
-          map('gd', Snacks.picker.lsp_definitions, '[G]oto [D]efinition')
+          map('gd', function() require('snacks').picker.lsp_definitions() end, '[G]oto [D]efinition')
 
           -- map('gD', vim.lsp.buf.declaration, '[G]oto [D]eclaration')
-          map('gD', Snacks.picker.lsp_declarations, '[G]oto [D]eclaration')
+          map('gD', function() require('snacks').picker.lsp_declarations() end, '[G]oto [D]eclaration')
 
           -- Fuzzy find all the symbols in your current document.
           --  Symbols are things like variables, functions, types, etc.
-          map('gO', Snacks.picker.lsp_symbols, 'Open Document Symbols')
+          map('gO', function() require('snacks').picker.lsp_symbols() end, 'Open Document Symbols')
 
           -- Fuzzy find all the symbols in your current workspace.
           --  Similar to document symbols, except searches over your entire project.
-          map('gW', Snacks.picker.lsp_workspace_symbols, 'Open Workspace Symbols')
+          map('gW', function() require('snacks').picker.lsp_workspace_symbols() end, 'Open Workspace Symbols')
 
           -- Jump to the type of the word under your cursor.
           --  Useful when you're not sure what type a variable is and you want to see
           --  the definition of its *type*, not where it was *defined*.
-          map('grt', Snacks.picker.lsp_type_definitions, '[G]oto [T]ype Definition')
+          map('grt', function() require('snacks').picker.lsp_type_definitions() end, '[G]oto [T]ype Definition')
 
           -- This function resolves a difference between neovim nightly (version 0.11) and stable (version 0.10)
           ---@param client vim.lsp.Client
-          ---@param method vim.lsp.protocol.Method
+          ---@param method string
           ---@param bufnr? integer some lsp support methods only in specific files
           ---@return boolean
           local function client_supports_method(client, method, bufnr)
             if vim.fn.has 'nvim-0.11' == 1 then
               return client:supports_method(method, bufnr)
             else
+              ---@diagnostic disable-next-line: deprecated
               return client.supports_method(method, { bufnr = bufnr })
             end
           end
@@ -330,9 +331,9 @@ require('lazy').setup({
           -- The following two autocommands are used to highlight references of the
           -- word under your cursor when your cursor rests there for a little while.
           --    See `:help CursorHold` for information about when this is executed
-          --
           -- When you move your cursor, the highlights will be cleared (the second autocommand).
           local client = vim.lsp.get_client_by_id(event.data.client_id)
+
           if client and client_supports_method(client, vim.lsp.protocol.Methods.textDocument_documentHighlight, event.buf) then
             local highlight_augroup = vim.api.nvim_create_augroup('kickstart-lsp-highlight', { clear = false })
             vim.api.nvim_create_autocmd({ 'CursorHold', 'CursorHoldI' }, {
@@ -340,13 +341,11 @@ require('lazy').setup({
               group = highlight_augroup,
               callback = vim.lsp.buf.document_highlight,
             })
-
             vim.api.nvim_create_autocmd({ 'CursorMoved', 'CursorMovedI' }, {
               buffer = event.buf,
               group = highlight_augroup,
               callback = vim.lsp.buf.clear_references,
             })
-
             vim.api.nvim_create_autocmd('LspDetach', {
               group = vim.api.nvim_create_augroup('kickstart-lsp-detach', { clear = true }),
               callback = function(event2)
@@ -497,6 +496,7 @@ require('lazy').setup({
         'hadolint', -- Used to lint Dockerfiles
         'eslint_d', -- Used to lint JS/TS files
         'typescript-language-server', -- JS/TS LSP server
+        'some-sass-language-server', -- JS/TS LSP server
       })
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 

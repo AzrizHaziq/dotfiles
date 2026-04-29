@@ -60,13 +60,25 @@ return {
         enabled = true,
         ui_select = true,
         sources = {
-          files = { hidden = true },
+          files = { hidden = false },
           grep = {},
           explorer = {
             follow_file = false,
             git_status = true,
             git_untracked = true,
-            hidden = true,
+            hidden = true, -- Show hidden files (files starting with .)
+            ignored = true, -- Show gitignored files
+            exclude = { -- Exclude system files
+              '.git',
+              '.DS_Store',
+              '*.swp',
+              '*.swo',
+              '*~',
+              'node_modules/.cache',
+              '.cache',
+              'thumbs.db',
+              'desktop.ini',
+            },
             diagnostics = true,
             layout = { preset = 'sidebar', preview = false },
             win = {
@@ -84,6 +96,7 @@ return {
                   ['<C-j>'] = false,
                   ['<C-k>'] = false,
                   ['<C-l>'] = false,
+                  ['G'] = 'toggle_gitignored', -- Toggle gitignored files
                   -- ['<C-h>'] = 'tmux_left_pane',
                 },
               },
@@ -94,6 +107,12 @@ return {
               },
             },
             actions = {
+              -- Toggle gitignored files visibility
+              toggle_gitignored = function(picker)
+                picker.opts.ignored = not picker.opts.ignored
+                local Actions = require 'snacks.explorer.actions'
+                Actions.update(picker, { refresh = true })
+              end,
               -- tmux_left_pane  = function() require('nvim-tmux-navigation').NvimTmuxNavigateLeft() end,
             },
           },
@@ -386,7 +405,8 @@ return {
 --   h            close directory
 --   .            focus path entry
 --   /            grep from explorer
---   H            toggle hidden files
+--   H            toggle hidden files (dotfiles)
+--   G            toggle gitignored files (NEW!)
 --   I            toggle ignored files
 --   P            toggle preview
 --   a            add file or directory
