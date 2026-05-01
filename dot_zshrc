@@ -93,6 +93,9 @@ bindkey '^y' autosuggest-accept # zsh-autosuggestions
 export EDITOR='nvim'
 export VISUAL='nvim'
 
+# set vim mode when hit esc
+set -o vi
+
 # Compilation flags
 # export ARCHFLAGS="-arch $(uname -m)"
 

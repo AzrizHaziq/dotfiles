@@ -62,6 +62,12 @@ vim.keymap.set('v', '>', '>gv', { desc = 'indent right and reselect' })
 vim.keymap.set('n', '<leader>tw', '<cmd>set wrap!<CR>', { desc = '[T]oggle [w]ord wrap' })
 vim.keymap.set('n', '<leader>tW', ':set list!<CR>', { desc = '[T]oggle [W]hiteSpace' })
 vim.keymap.set('n', '<leader>tn', '<cmd>set relativenumber!<CR>', { desc = '[T]oggle [N]umber or relative number' })
+vim.keymap.set('n', '<leader>tN', function()
+  local enabled = vim.wo.number or vim.wo.relativenumber
+  vim.wo.number = not enabled
+  vim.wo.relativenumber = not enabled
+end, { desc = '[T]oggle all line [N]umbers' })
+
 vim.keymap.set('n', '<leader>td', function()
   vim.diagnostic.enable(not vim.diagnostic.is_enabled())
 end, { desc = '[T]oggle [D]iagnostics' })
