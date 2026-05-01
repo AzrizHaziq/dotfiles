@@ -104,6 +104,17 @@
       "oauth": false,
       "type": "remote",
       "url": "https://api.githubcopilot.com/mcp/"
+    },
+    "chrome-devtools": {
+      "type": "local",
+      "enabled": true,
+      "command": [
+        "npx", 
+        "-y", 
+        "chrome-devtools-mcp@latest",
+        "--executablePath", "/usr/bin/google-chrome-stable",
+        "--headless"
+      ]
     }
   },
   "permission": {
