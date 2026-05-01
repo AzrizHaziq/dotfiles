@@ -107,7 +107,7 @@
     },
     "chrome-devtools": {
       "type": "local",
-      "enabled": true,
+      "enabled": false,
       "command": [
         "npx", 
         "-y", 

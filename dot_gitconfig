@@ -9,12 +9,28 @@
 [credential "https://dev.azure.com"]
   useHttpPath = true
 
+[include]
+  path = ~/.config/delta/catppuccin.gitconfig
+
 [core]
   editor ="nvim"
   autocrlf = input
+  pager = delta
+
+[interactive]
+  diffFilter = delta --color-only
+
+[delta]
+  features = catppuccin-mocha
+  navigate = true
+  line-numbers = true
+  dark = true
+
+[merge]
+  conflictStyle = zdiff3
 
 [diff]
-  external = difft
+  colorMoved = default
 
 [status]
   branch = true
