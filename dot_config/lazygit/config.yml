@@ -42,3 +42,6 @@ customCommands:
     description: Commit changes without pre-commit hook
     command: git commit -n -m '{{index .PromptResponses 0}}'
     context: files
+
+services:
+  'github-window-wsl.com': 'github:github.com'

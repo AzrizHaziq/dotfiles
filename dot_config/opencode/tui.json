@@ -3,5 +3,13 @@
   "keybinds": {
     "variant_cycle": "<leader>r",
     "variant_list": "<leader>shift+r"
-  }
+  },
+  "plugin": [
+    [
+      "@ishaksebsib/opencode-tree",
+      {
+        "storageScope": "global"
+      }
+    ]
+  ]
 }
