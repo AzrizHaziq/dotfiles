@@ -90,10 +90,12 @@ fi
 # Load heavy plugins with zsh-defer for optimal startup performance
 # These load sequentially after prompt appears, with proper keyboard input handling
 # Keep stderr visible (+2) for debugging
+zsh-defer +2 source $ZSH/plugins/colored-man-pages/colored-man-pages.plugin.zsh
 zsh-defer +2 source $ZSH/custom/plugins/zsh-vi-mode/zsh-vi-mode.plugin.zsh
 zsh-defer +2 source $ZSH/custom/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-zsh-defer +2 source $ZSH/custom/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
 zsh-defer +2 source $ZSH/custom/plugins/you-should-use/you-should-use.plugin.zsh
+zsh-defer +2 source $ZSH/custom/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
+zsh-defer +2 source $ZSH/custom/plugins/zsh-fzf-history-search/zsh-fzf-history-search.plugin.zsh
 
 ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE="20"
 ZSH_AUTOSUGGEST_USE_ASYNC=1
