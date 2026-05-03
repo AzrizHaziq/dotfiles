@@ -475,5 +475,14 @@
       "/home/azrizhaziq/.config/opencode/skills",
       "/home/azrizhaziq/.agents/skills"
     ]
-  }
+  },
+  "plugin": [
+    "opencode-fff-search", 
+    [
+      "@ishaksebsib/opencode-tree",
+      {
+        "storageScope": "global"
+      }
+    ]
+  ]
 }

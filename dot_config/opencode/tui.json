@@ -3,12 +3,5 @@
   "keybinds": {
     "variant_list": "<leader>r"
   },
-  "plugin": [
-    [
-      "@ishaksebsib/opencode-tree",
-      {
-        "storageScope": "global"
-      }
-    ]
-  ]
+  "plugin": []
 }
