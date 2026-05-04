@@ -36,11 +36,14 @@ return {
           },
           output = {
             filetype = 'opencode_output',
+            tools = {
+              use_folds = false,
+              -- folding_threshold = 10
+            }
           },
         },
         keymap = {
           editor = {
-            ['<leader>og'] = { 'toggle' },
             ['<leader>oi'] = { 'open_input' },
             ['<leader>oI'] = { 'open_input_new_session' },
             ['<leader>oo'] = { 'open_output' },
@@ -70,8 +73,7 @@ return {
             ['<leader>otr'] = { 'toggle_reasoning_output' },
             ['<leader>ol'] = { 'quick_chat', mode = { 'n', 'x' } },
             ['<leader>oa'] = { 'agent', { 'select' } },
-            ['<leader>os'] = false,
-            ['<leader>op'] = false,
+            ['<leader>op'] = { 'toggle' },
             ['<leader>o/'] = false,
           },
           input_window = {
