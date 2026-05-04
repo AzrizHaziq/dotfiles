@@ -17,16 +17,6 @@ ZSH_THEME="catppuccin"
 CATPPUCCIN_FLAVOR="mocha"
 CATPPUCCIN_SHOW_TIME=true
 
-DISABLE_AUTO_UPDATE="true"
-DISABLE_MAGIC_FUNCTIONS="true"
-DISABLE_COMPFIX="true"
-
-# Set list of themes to pick from when loading at random
-# Setting this variable when ZSH_THEME=random will cause zsh to load
-# a theme from this variable instead of looking in $ZSH/themes/
-# If set to an empty array, this variable will have no effect.
-# ZSH_THEME_RANDOM_CANDIDATES=( "robbyrussell" "agnoster" )
-
 # Uncomment the following line to use case-sensitive completion.
 # CASE_SENSITIVE="true"
 
@@ -35,30 +25,7 @@ DISABLE_COMPFIX="true"
 # HYPHEN_INSENSITIVE="true"
 
 # Uncomment one of the following lines to change the auto-update behavior
-# zstyle ':omz:update' mode disabled  # disable automatic updates
-zstyle ':omz:update' mode auto      # update automatically without asking
-# zstyle ':omz:update' mode reminder  # just remind me to update when it's time
-
-# Uncomment the following line to change how often to auto-update (in days).
-# zstyle ':omz:update' frequency 13
-
-# Uncomment the following line if pasting URLs and other text is messed up.
-# DISABLE_MAGIC_FUNCTIONS="true"
-
-# Uncomment the following line to disable colors in ls.
-# DISABLE_LS_COLORS="true"
-
-# Uncomment the following line to disable auto-setting terminal title.
-# DISABLE_AUTO_TITLE="true"
-
-# Uncomment the following line to enable command auto-correction.
-# ENABLE_CORRECTION="true"
-
-# Uncomment the following line to display red dots whilst waiting for completion.
-# You can also set it to another string to have that shown instead of the default red dots.
-# e.g. COMPLETION_WAITING_DOTS="%F{yellow}waiting...%f"
-# Caution: this setting can cause issues with multiline prompts in zsh < 5.7.1 (see #5765)
-# COMPLETION_WAITING_DOTS="true"
+zstyle ':omz:update' frequency 7
 
 # Uncomment the following line if you want to disable marking untracked files
 # under VCS as dirty. This makes repository status check for large repositories
@@ -73,14 +40,9 @@ zstyle ':omz:update' mode auto      # update automatically without asking
 # see 'man strftime' for details.
 # HIST_STAMPS="mm/dd/yyyy"
 
-# Would you like to use another custom folder than $ZSH/custom?
-# ZSH_CUSTOM=/path/to/new-custom-folder
-
 plugins=(
-  git  # Commented out for performance - using custom alias 'gs' instead
+  git
   chezmoi
-  # colored-man-pages
-  # zsh-vi-mode  # Deferred for performance - loaded after prompt appears
 )
 
 if [ -d "$HOME/.oh-my-zsh" ]; then
@@ -96,12 +58,12 @@ zsh-defer +2 source $ZSH/custom/plugins/zsh-syntax-highlighting/zsh-syntax-highl
 zsh-defer +2 source $ZSH/custom/plugins/you-should-use/you-should-use.plugin.zsh
 zsh-defer +2 source $ZSH/custom/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
 zsh-defer +2 source $ZSH/custom/plugins/zsh-fzf-history-search/zsh-fzf-history-search.plugin.zsh
+zsh-defer +2 source $ZSH/custom/plugins/fzf-tab/fzf-tab.plugin.zsh # Load fzf-tab LAST to bind widgets after all other plugins
 
 ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE="20"
 ZSH_AUTOSUGGEST_USE_ASYNC=1
 
 # User configuration
-
 # export MANPATH="/usr/local/man:$MANPATH"
 
 # You may need to manually set your language environment
@@ -110,6 +72,7 @@ ZSH_AUTOSUGGEST_USE_ASYNC=1
 export EDITOR='nvim'
 export VISUAL='nvim'
 
+# bindkey -s '^Xgc' 'git commit -m ""\C-b' ## ctrl+x+g+c
 alias zshreset="rm ~/.zcompdump && source ~/.zshrc && exec zsh"
 alias pn="pnpm"
 alias y="yarn"
@@ -135,13 +98,6 @@ alias cz="chezmoi"
 alias lz="lazygit"
 alias op="opencode"
 
-# Docker CLI completions:
-# Docker Desktop can install zsh completion files under ~/.docker/completions.
-# Adding that directory to fpath lets `compinit` load completions for commands like `docker` and `docker compose`.
-if [ -d "$HOME/.docker/completions" ]; then
-  fpath=("$HOME/.docker/completions" $fpath)
-fi
-
 # Faster compinit with cache validation - only run once per day
 autoload -Uz compinit
 local dump_file="${ZDOTDIR:-$HOME}/.zcompdump"
@@ -154,6 +110,45 @@ else
   # Compile dump file in background for next time
   { zcompile "$dump_file" } &!
 fi
+
+# ============================================
+# fzf-tab configuration (load before plugins)
+# ============================================
+# Set descriptions format to enable group support
+zstyle ':completion:*:descriptions' format '[%d]'
+
+# Enable filename colorizing
+zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
+
+# Force zsh not to show completion menu (let fzf-tab handle it)
+zstyle ':completion:*' menu no
+
+# Use tmux floating popup for fzf-tab (requires tmux >= 3.2)
+zstyle ':fzf-tab:*' fzf-command ftb-tmux-popup
+
+# Preview directory contents when completing cd
+zstyle ':fzf-tab:complete:cd:*' fzf-preview 'eza -1 --color=always $realpath'
+
+# Git branch preview (git checkout, git switch, etc.)
+zstyle ':fzf-tab:complete:git-(checkout|switch):*' fzf-preview 'git log --oneline -20 $word'
+
+# Git commit log preview
+zstyle ':fzf-tab:complete:git-commit:*' fzf-preview 'git log --oneline -20'
+
+# Docker container/image preview
+zstyle ':fzf-tab:complete:docker:argument-1:' fzf-preview 'docker ps --all --format "table {{.ID}}\t{{.Names}}\t{{.Status}}"'
+zstyle ':fzf-tab:complete:docker-container:argument-1:' fzf-preview 'docker ps --all --format "table {{.ID}}\t{{.Names}}\t{{.Status}}"'
+
+# npm script preview (show scripts from package.json)
+zstyle ':fzf-tab:complete:npm:argument-1:' fzf-preview 'jq .scripts < package.json 2>/dev/null | grep -E "^\s+\"" | sed "s/\"//g"'
+zstyle ':fzf-tab:complete:npm-run-script:argument-1:' fzf-preview 'jq .scripts < package.json 2>/dev/null'
+
+# Disable sort for certain commands to preserve order
+zstyle ':completion:*:git-checkout:*' sort false
+zstyle ':completion:*:git-switch:*' sort false
+
+# Custom fzf flags (optional, uncomment if needed)
+# zstyle ':fzf-tab:*' fzf-flags --color=fg:1,fg+:2 --bind=tab:accept
 
 export PATH="$HOME/.local/bin:$PATH"
 export PATH="/home/azrizhaziq/.bun/bin:$PATH"
@@ -209,7 +204,7 @@ function vi_mode_prompt_info() {
   esac
 }
 
-PROMPT='$(vi_mode_prompt_info) '"$PROMPT"
+PROMPT+='$(vi_mode_prompt_info) '
 RPS1="%F{240}loading%f"
 
 function zvm_config() {
