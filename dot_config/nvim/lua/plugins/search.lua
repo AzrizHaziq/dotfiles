@@ -40,7 +40,7 @@ return {
       keymaps = {
         close = '<Esc>',
         select = '<CR>',
-        select_split = '<C-s>',
+        select_split = '<C-h>',
         select_vsplit = '<C-v>',
         select_tab = '<C-t>',
         move_up = { '<Up>', '<C-p>' },

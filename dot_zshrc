@@ -87,6 +87,7 @@ alias ls="eza"
 alias ghd="gh dash" #  gh extension install dlvhdr/gh-dash
 alias v="nvim"
 
+alias cd="z"
 alias gs="git status"
 alias c="clear"
 alias s="du -hs * | sort -rh | head -5" # sort by size
@@ -96,6 +97,7 @@ alias gip="curl ipinfo.io/ip && curl ipinfo.io/org" # get ip and org
 alias f="find . -name" # find files
 alias cz="chezmoi"
 alias lz="lazygit"
+alias ld="lazydocker"
 alias op="opencode"
 
 # Faster compinit with cache validation - only run once per day

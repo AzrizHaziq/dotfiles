@@ -12,7 +12,7 @@ return {
     config = function()
       vim.keymap.set('n', 'zR', require('ufo').openAllFolds)
       vim.keymap.set('n', 'zM', require('ufo').closeAllFolds)
-      vim.keymap.set('n', 'zf', 'zMzv', { desc = 'Focus: Fold everything except current cursor' })
+      vim.keymap.set('n', 'zf', 'zMzvzz', { desc = 'Focus: Fold everything except current cursor' })
 
       local handler = function(virtText, lnum, endLnum, width, truncate)
         local newVirtText = {}

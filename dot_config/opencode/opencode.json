@@ -70,8 +70,8 @@
         "Authorization": "Bearer {env:JIRA_OPENCODE_PAT}"
       },
       "oauth": false,
-      "type": "remote",
-      "url": "https://mcp.atlassian.com/v1/mcp"
+      "url": "https://mcp.atlassian.com/v1/sse",
+      "type": "remote"
     },
     "context7": {
       "enabled": true,

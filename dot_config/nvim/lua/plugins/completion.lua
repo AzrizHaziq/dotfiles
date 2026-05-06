@@ -1,3 +1,9 @@
+-- NVIM 0.12+ Completion System
+-- Using blink.cmp (Lua-native, high-performance completion)
+-- - blink.cmp v1: Modern async completion with snippet integration
+-- - LuaSnip v2: Multi-language snippet engine
+-- - lazydev: Neovim/Lua API completions
+-- - blink.compat: Legacy nvim-cmp source compatibility layer
 return {
   {
     'saghen/blink.cmp',

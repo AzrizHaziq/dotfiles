@@ -1,4 +1,23 @@
+-- Neovim 0.12+ Configuration
+-- Requires: Neovim >= 0.12 (uses vim.uv, modern LSP APIs)
 require 'core'
+
+--[[ local ok, ui2 = pcall(require, 'vim._core.ui2')
+if ok then
+  ui2.enable {
+    enable = true,
+    msg = {
+      targets = {
+        msg = 'pager',
+        lua_error = 'pager',
+        search_count = 'cmd',
+        [''] = 'msg',
+      },
+      -- cmd = { height = 0.5 },
+      msg = { timeout = 3000 },
+    } 
+  }
+end ]]
 
 require('lazy').setup({
   { import = 'plugins' },

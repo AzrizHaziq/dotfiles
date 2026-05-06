@@ -23,7 +23,7 @@ return {
         },
         color = {
           enabled = 'green',
-          disabled = 'yellow',
+          disabled = 'gray',
         },
       },
       scroll = {
@@ -55,6 +55,9 @@ return {
         --  ["<c-t>"] = "terminal",
         --  ["I"] = "toggle_ignored",
         --  ["Z"] = "explorer_close_all",
+      },
+      terminal = {
+        enabled = false,
       },
       picker = {
         enabled = true,
@@ -88,18 +91,17 @@ return {
                   ['<BS>'] = 'explorer_up',
                 },
               },
-              list = {
-                keys = {
-                  ['<Esc>'] = false,
-                  ['<C-v>'] = 'edit_vsplit',
-                  ['<C-h>'] = false,
-                  ['<C-j>'] = false,
-                  ['<C-k>'] = false,
-                  ['<C-l>'] = false,
-                  ['G'] = 'toggle_gitignored', -- Toggle gitignored files
-                  -- ['<C-h>'] = 'tmux_left_pane',
-                },
-              },
+               list = {
+                 keys = {
+                   ['<Esc>'] = false,
+                   ['<C-v>'] = 'edit_vsplit',
+                   ['<C-h>'] = 'edit_split',
+                   ['<C-j>'] = false,
+                   ['<C-k>'] = false,
+                   ['<C-l>'] = false,
+                   ['G'] = 'toggle_gitignored', -- Toggle gitignored files
+                 },
+               },
               preview = {
                 keys = {
                   ['<Esc>'] = false,

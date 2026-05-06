@@ -72,9 +72,6 @@ vim.keymap.set('n', '<leader>td', function()
   vim.diagnostic.enable(not vim.diagnostic.is_enabled())
 end, { desc = '[T]oggle [D]iagnostics' })
 
--- seems like will not be using this
--- vim.keymap.set('t', '<Esc><Esc>', '<C-\\><C-n>', { desc = 'Exit terminal mode' })
-
 vim.keymap.set('n', '<leader>wa', '<cmd>wa<CR>', { desc = '[W]rite [A]ll files' })
 vim.keymap.set('n', 'J', 'mzJ`z', { desc = 'Join lines and keep cursor position' })
 
@@ -109,6 +106,8 @@ vim.keymap.set('x', 'p', 'P', { desc = 'Paste Without Override' })
 vim.keymap.set('n', '<leader>ff', 'g=', { desc = 'Another format way' })
 vim.keymap.set('n', '<leader>fv', vim.lsp.buf.format, { desc = 'Vim lsp buf format' })
 
+vim.keymap.set('n', '<leader><tab><tab>', "<cmd>tabnew<CR>", { desc = 'New Tab' })
+
 -- this trigger external command
 -- vim.keymap.set('x', 'gt', "c<C-r>=system('tcc', getreg('\"'))[:-2]<CR>", { desc = 'Titleize Text' })
 
@@ -118,3 +117,23 @@ vim.keymap.set('n', '<leader>fv', vim.lsp.buf.format, { desc = 'Vim lsp buf form
 vim.keymap.set('n', '<leader>rr', '<cmd>restart<cr>', {
   desc = 'Restart Neovim (:restart)',
 })
+
+
+-- spelling keymaps (default nvim)
+-- ]s / [s → next/prev misspelled word
+-- z= → spelling suggestions on misspelled word
+-- zg → add word to spellfile
+-- zw → mark word as wrong
+-- zu → undo spelling correction
+-- :set spell → enable spell checking
+-- :set nospell → disable spell checking
+
+-- gra → code actions
+-- gri → implementations
+-- grn → rename
+-- grr → references
+-- grt → type definition
+-- grx → run codelens
+-- gO → document symbols
+-- Ctrl-S in Insert mode → signature help
+

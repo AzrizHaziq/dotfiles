@@ -16,6 +16,7 @@ vim.o.ignorecase = true
 vim.o.smartcase = true
 vim.o.signcolumn = 'yes'
 vim.o.laststatus = 3
+vim.opt.cmdheight = 0
 vim.o.splitright = true
 vim.o.splitbelow = true
 vim.o.list = true
