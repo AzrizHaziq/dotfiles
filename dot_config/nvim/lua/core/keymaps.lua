@@ -73,6 +73,7 @@ vim.keymap.set('n', '<leader>td', function()
 end, { desc = '[T]oggle [D]iagnostics' })
 
 vim.keymap.set('n', '<leader>wa', '<cmd>wa<CR>', { desc = '[W]rite [A]ll files' })
+vim.keymap.set({ 'n', 'i' }, '<C-s>', '<cmd>w<CR>', { desc = 'Save file' })
 vim.keymap.set('n', 'J', 'mzJ`z', { desc = 'Join lines and keep cursor position' })
 
 vim.keymap.set('n', '<left>', '<cmd>echo "Use h to move!!"<CR>')
@@ -127,6 +128,13 @@ vim.keymap.set('n', '<leader>rr', '<cmd>restart<cr>', {
 -- zu → undo spelling correction
 -- :set spell → enable spell checking
 -- :set nospell → disable spell checking
+
+-- Command abbreviations for typos :wq
+vim.cmd 'cnoreabbrev W w'
+vim.cmd 'cnoreabbrev Wq wq'
+vim.cmd 'cnoreabbrev WQ wq'
+vim.cmd 'cnoreabbrev Q q'
+vim.cmd 'cnoreabbrev Qa qa'
 
 -- gra → code actions
 -- gri → implementations
