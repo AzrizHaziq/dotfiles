@@ -59,24 +59,6 @@ return {
       terminal = {
         enabled = false,
       },
-      dim = {
-        scope = {
-          min_size = 5,
-          max_size = 20,
-          siblings = true,
-        },
-        animate = {
-          enabled = vim.fn.has("nvim-0.10") == 1,
-          easing = "outQuad",
-          duration = {
-            step = 20,
-            total = 300,
-          },
-        },
-        filter = function(buf)
-          return vim.g.snacks_dim ~= false and vim.b[buf].snacks_dim ~= false and vim.bo[buf].buftype == ""
-        end,
-      },
       picker = {
         enabled = true,
         ui_select = true,
@@ -214,8 +196,7 @@ return {
       { '<leader>hf', function() require('snacks').picker.git_log_file() end, mode = 'n', desc = '[H]istory [F]ile', },
       { '<leader>hl', function() require('snacks').picker.git_log_line() end, mode = 'n', desc = '[H]istory [L]og line for file', },
 
-       { '<leader>rN', function() require('snacks').rename.rename_file() end, desc = 'Fast Rename Current File' },
-       { '<leader>tD', function() require('snacks').dim.toggle() end, desc = '[T]oggle [D]im' },
+      { 'grf', function() require('snacks').rename.rename_file() end, desc = 'LSP: Rename Current File' },
    },
    }
 }
