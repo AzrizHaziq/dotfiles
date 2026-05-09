@@ -5,6 +5,8 @@ vim.o.mouse = 'a'
 vim.o.showmode = false
 vim.o.guicursor = 'n-v-c:block,i-ci-ve-t:ver25,r-cr:hor20,o:hor50,a:blinkwait700-blinkoff400-blinkon250'
 vim.opt.termguicolors = true
+
+-- vim.g.root_spec = { "lsp", { ".git", "lua" }, "cwd" } // set root project
 -- vim.opt.autocomplete = true 
 
 vim.schedule(function()
