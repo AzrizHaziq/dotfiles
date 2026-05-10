@@ -100,7 +100,7 @@ return {
         desc = '[S]earch [F]iles',
       },
       {
-        '<leader>sg',
+        '<leader>ss',
         function()
           local cwd = vim.fn.getcwd()
           require('fff').live_grep {

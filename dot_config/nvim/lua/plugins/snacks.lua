@@ -65,6 +65,15 @@ return {
         sources = {
           files = { hidden = false },
           grep = {},
+          buffers = {
+            win = {
+              input = {
+                keys = {
+                  ["<c-d>"] = { "bufdelete", mode = { "n", "i" } },
+                },
+              },
+            },
+          },
           explorer = {
             follow_file = false,
             git_status = true,
@@ -151,10 +160,10 @@ return {
                 start_insert = true,
               })
 
-              local context = require("opencode.context")
-              for _, file in ipairs(files) do
-                context.add_file(file)
-              end
+               local context = require("opencode.context")
+               for _, file in ipairs(files) do
+                 context.add_file(file)
+               end
             end
           end,
         },
@@ -188,7 +197,7 @@ return {
       { '<leader>sk', function() require('snacks').picker.keymaps() end, desc = '[S]earch [K]eymaps', },
       { '<leader>sr', function() require('snacks').picker.resume() end, desc = '[S]earch [R]esume', },
       { '<leader>sd', function() require('snacks').picker.diagnostics() end, desc = '[S]earch [D]iagnostics', },
-      { '<leader>ss', function() require('snacks').picker() end, desc = '[S]earch [S]nacks pickers', },
+      { '<leader>sp', function() require('snacks').picker() end, desc = '[S]earch snacks [P]ickers', },
 
       -- { '<leader>sw', function() require('snacks').picker.grep_word() end, mode = { 'n', 'x' }, desc = '[S]earch current [W]ord', }, -- Replaced by FFF
       -- { '<leader>so', function() require('snacks').picker.grep_buffers() end, desc = '[S]earch [O]pen buffers', }, -- Replaced by FFF
