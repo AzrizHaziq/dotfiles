@@ -6,7 +6,6 @@ vim.o.showmode = false
 vim.o.guicursor = 'n-v-c:block,i-ci-ve-t:ver25,r-cr:hor20,o:hor50,a:blinkwait700-blinkoff400-blinkon250'
 vim.opt.termguicolors = true
 -- vim.opt.numberwidth = 4
-
 -- Fixed-width statuscolumn to prevent shifting with relativenumber
 -- vim.opt.statuscolumn = "%s%=%{v:virtnum < 1 ? (v:relnum ? printf('%3d', v:relnum) : printf('%3d', v:lnum)) : ''} "
 
