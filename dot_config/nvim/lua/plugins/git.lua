@@ -27,6 +27,25 @@ return {
           vim.keymap.set(mode, l, r, opts)
         end
 
+        local function hunk_diff_file_floating()
+          local file = vim.fn.expand '%:p'
+          local cwd = vim.fn.getcwd()
+
+          -- Build tmux command with proper shell quoting
+          -- shellescape adds single quotes, so file will be 'path/to/file'
+          local escaped_file = vim.fn.shellescape(file)
+          local escaped_cwd = vim.fn.shellescape(cwd)
+
+          -- Use bash -c to properly interpret the command
+          local cmd = string.format(
+            "tmux display-popup -w 80%% -h 80%% -d %s -E \"bash -c 'cd %s && hunk diff -- %s'\"",
+            escaped_cwd,
+            escaped_cwd,
+            escaped_file
+          )
+          os.execute(cmd)
+        end
+
         map('n', ']c', function()
           if vim.wo.diff then
             vim.cmd.normal { ']c', bang = true }
@@ -57,13 +76,11 @@ return {
         map('n', '<leader>hb', gitsigns.blame_line, { desc = 'git [b]lame line' })
         map('n', '<leader>hB', gitsigns.toggle_current_line_blame, { desc = 'toggle git [B]lame line' })
         map('n', '<leader>hq', gitsigns.setqflist, { desc = 'git hunk [q]uickfix list (all changes in this file)' })
-        map('n', '<leader>hQ', function()
-          gitsigns.setqflist 'all'
-        end, { desc = 'git hunk [Q]uickfix list (all files in repo)' })
+        map('n', '<leader>hQ', function() gitsigns.setqflist 'all' end, { desc = 'git hunk [Q]uickfix list (all files in repo)' })
         map('n', '<leader>hd', gitsigns.diffthis, { desc = 'git [d]iff against index' })
-        map('n', '<leader>hD', function()
-          gitsigns.diffthis '@'
-        end, { desc = 'git [D]iff against last commit' })
+        map('n', '<leader>hD', function() gitsigns.diffthis '@' end, { desc = 'git [D]iff against last commit' })
+        map('n', '<leader>hF', hunk_diff_file_floating, { desc = 'hunk [F]ile diff (floating tmux)' })
+
         map({ 'o', 'x' }, 'ih', gitsigns.select_hunk)
       end,
     },

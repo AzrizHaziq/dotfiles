@@ -217,9 +217,8 @@ return {
 
       -- { '<leader>sf', function() local cwd = snacks_explorer_cwd() require('snacks').picker.files { cwd = cwd, title = 'Find Files in ' .. vim.fn.fnamemodify(cwd, ':~') } end, desc = '[S]earch [F]iles', },
       -- { '<leader>ss', function() local cwd = snacks_explorer_cwd() require('snacks').picker.grep { cwd = cwd, title = 'Live Grep in ' .. vim.fn.fnamemodify(cwd, ':~') } end, desc = '[S]earch by [G]rep', },
-
       -- { '<leader>sw', function() require('snacks').picker.grep_word() end, mode = { 'n', 'x' }, desc = '[S]earch current [W]ord', }, -- Replaced by FFF
-      -- { '<leader>so', function() require('snacks').picker.grep_buffers() end, desc = '[S]earch [O]pen buffers', }, -- Replaced by FFF
+      -- { '<leader>sb', function() require('snacks').picker.grep_buffers() end, desc = '[S]earch [O]pen buffers', }, -- Replaced by FFF
 
       { '<leader>hf', function() require('snacks').picker.git_log_file() end, mode = 'n', desc = '[H]istory [F]ile', },
       { '<leader>hl', function() require('snacks').picker.git_log_line() end, mode = 'n', desc = '[H]istory [L]og line for file', },

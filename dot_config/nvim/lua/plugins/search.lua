@@ -133,7 +133,7 @@ return {
         desc = '[S]earch current [W]ord',
       },
       {
-        '<leader>so',
+        '<leader>sb',
         function()
           local buffers = {}
           for _, buf in ipairs(vim.api.nvim_list_bufs()) do
