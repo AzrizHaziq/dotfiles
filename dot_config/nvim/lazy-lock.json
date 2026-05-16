@@ -34,7 +34,6 @@
   "nvim-web-devicons": { "branch": "master", "commit": "2795c26c916bb3c57dde308b82be51971fa92747" },
   "opencode.nvim": { "branch": "main", "commit": "4ae5d4582880b9bb061bc0572d2af6b1612e6217" },
   "plenary.nvim": { "branch": "master", "commit": "74b06c6c75e4eeb3108ec01852001636d85a932b" },
-  "promise-async": { "branch": "main", "commit": "119e8961014c9bfaf1487bf3c2a393d254f337e2" },
   "render-markdown.nvim": { "branch": "main", "commit": "629eb9533ec989d9d5c6cab8f3ad5372422c24e0" },
   "schemastore.nvim": { "branch": "main", "commit": "e0883b20e0af3d43aa0a7030864d781cd306ab72" },
   "showkeys": { "branch": "main", "commit": "cb0a50296f11f1e585acffba8c253b9e8afc1f84" },
@@ -43,6 +42,6 @@
   "tmux.nvim": { "branch": "main", "commit": "32ceaf2793582955ef9576809730878c4d2d9426" },
   "todo-comments.nvim": { "branch": "main", "commit": "31e3c38ce9b29781e4422fc0322eb0a21f4e8668" },
   "trouble.nvim": { "branch": "main", "commit": "bd67efe408d4816e25e8491cc5ad4088e708a69a" },
-  "undotree": { "branch": "main", "commit": "c01f3150561bf277c12ab9e511d172261a1abdfa" },
+  "undotree": { "branch": "main", "commit": "02b69aed427b848c4dca483fc5e9524b6019c296" },
   "which-key.nvim": { "branch": "main", "commit": "3aab2147e74890957785941f0c1ad87d0a44c15a" }
 }

@@ -86,13 +86,6 @@ vim.keymap.set('n', '<leader>fv', vim.lsp.buf.format, { desc = '[F]ormat buffer 
 
 vim.keymap.set('n', '<leader>tw', '<cmd>set wrap!<CR>', { desc = '[T]oggle [w]ord wrap' })
 vim.keymap.set('n', '<leader>ts', ':set list!<CR>', { desc = '[T]oggle [s]pace visibility' })
-vim.keymap.set('n', '<leader>tn', '<cmd>set relativenumber!<CR>', { desc = '[T]oggle relative [n]umbers' })
-vim.keymap.set('n', '<leader>tN', function()
-  local enabled = vim.wo.number or vim.wo.relativenumber
-  vim.wo.number = not enabled
-  vim.wo.relativenumber = not enabled
-end, { desc = '[T]oggle all [N]umbers' })
-
 vim.keymap.set('n', '<leader>td', function()
   vim.diagnostic.enable(not vim.diagnostic.is_enabled())
 end, { desc = '[T]oggle [D]iagnostics' })
