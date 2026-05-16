@@ -1,7 +1,7 @@
 encryption = "age"
 
 [diff]
-  pager = "delta"
+  pager = "hunk pager"
 
 [age]
 identity = "/home/azrizhaziq/.config/chezmoi/age.txt"

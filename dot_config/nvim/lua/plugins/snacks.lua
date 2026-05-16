@@ -59,6 +59,22 @@ return {
       terminal = {
         enabled = false,
       },
+      image = {
+        enabled = true,
+        doc = {
+          enabled = true,
+          inline = true, -- render images inline in markdown/html
+          float = true,
+          max_width = 80,
+          max_height = 40,
+        },
+        wo = {
+          wrap = false,
+          number = false,
+          relativenumber = false,
+          signcolumn = 'no',
+        },
+      },
       picker = {
         enabled = true,
         ui_select = true,
@@ -198,6 +214,9 @@ return {
       { '<leader>sr', function() require('snacks').picker.resume() end, desc = '[S]earch [R]esume', },
       { '<leader>sd', function() require('snacks').picker.diagnostics() end, desc = '[S]earch [D]iagnostics', },
       { '<leader>sp', function() require('snacks').picker() end, desc = '[S]earch snacks [P]ickers', },
+
+      -- { '<leader>sf', function() local cwd = snacks_explorer_cwd() require('snacks').picker.files { cwd = cwd, title = 'Find Files in ' .. vim.fn.fnamemodify(cwd, ':~') } end, desc = '[S]earch [F]iles', },
+      -- { '<leader>ss', function() local cwd = snacks_explorer_cwd() require('snacks').picker.grep { cwd = cwd, title = 'Live Grep in ' .. vim.fn.fnamemodify(cwd, ':~') } end, desc = '[S]earch by [G]rep', },
 
       -- { '<leader>sw', function() require('snacks').picker.grep_word() end, mode = { 'n', 'x' }, desc = '[S]earch current [W]ord', }, -- Replaced by FFF
       -- { '<leader>so', function() require('snacks').picker.grep_buffers() end, desc = '[S]earch [O]pen buffers', }, -- Replaced by FFF

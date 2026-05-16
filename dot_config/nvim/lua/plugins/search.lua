@@ -1,6 +1,8 @@
 return {
   {
     'dmtrKovalenko/fff.nvim',
+    -- enabled = false,
+    event = "VeryLazy",
     build = function()
       require('fff.download').download_or_build_binary()
     end,

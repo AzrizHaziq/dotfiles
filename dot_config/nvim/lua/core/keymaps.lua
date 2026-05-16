@@ -1,9 +1,117 @@
-vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
-vim.keymap.set('n', 'U', '<C-r>')
+-- ============================================================================
+-- BASIC NAVIGATION & EDITING
+-- ============================================================================
 
-vim.cmd 'nnoremap j gj'
-vim.cmd 'nnoremap k gk'
-vim.cmd 'nmap <leader>ce :e ~/.config/nvim/init.lua<CR>'
+-- Clear search highlights on escape
+vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>', { desc = 'Clear search highlights' })
+
+-- Undo/Redo
+vim.keymap.set('n', 'U', '<C-r>', { desc = 'Redo' })
+
+-- Move by visual lines (wrap-aware)
+vim.keymap.set('n', 'j', 'gj', { desc = 'Move down (visual line)' })
+vim.keymap.set('n', 'k', 'gk', { desc = 'Move up (visual line)' })
+
+-- Prevent arrow keys (training wheels)
+vim.keymap.set('n', '<left>', '<cmd>echo "Use h to move!!"<CR>', { noremap = true })
+vim.keymap.set('n', '<right>', '<cmd>echo "Use l to move!!"<CR>', { noremap = true })
+vim.keymap.set('n', '<up>', '<cmd>echo "Use k to move!!"<CR>', { noremap = true })
+vim.keymap.set('n', '<down>', '<cmd>echo "Use j to move!!"<CR>', { noremap = true })
+
+-- ============================================================================
+-- WINDOW NAVIGATION
+-- ============================================================================
+
+if vim.env.TMUX == nil then
+  vim.keymap.set('n', '<C-h>', '<C-w><C-h>', { desc = 'Move focus to the left window' })
+  vim.keymap.set('n', '<C-l>', '<C-w><C-l>', { desc = 'Move focus to the right window' })
+  vim.keymap.set('n', '<C-j>', '<C-w><C-j>', { desc = 'Move focus to the lower window' })
+  vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
+end
+
+-- ============================================================================
+-- LINE MANIPULATION
+-- ============================================================================
+
+-- Join lines while keeping cursor position
+vim.keymap.set('n', 'J', 'mzJ`z', { desc = 'Join lines and keep cursor position' })
+
+-- Move lines up/down (VSCode-style)
+vim.keymap.set('n', '<C-Up>', "<Cmd>execute 'move .-' . (v:count1 + 1)<CR>==", { desc = 'Move line up' })
+vim.keymap.set('n', '<C-Down>', "<Cmd>execute 'move .+' . v:count1<CR>==", { desc = 'Move line down' })
+vim.keymap.set('i', '<C-Up>', '<esc><Cmd>m .-2<CR>==gi', { desc = 'Move line up' })
+vim.keymap.set('i', '<C-Down>', '<esc><Cmd>m .+1<CR>==gi', { desc = 'Move line down' })
+vim.keymap.set('x', '<C-Up>', ":<C-u>execute \"'<,'>move '<-\" . (v:count1 + 1)<CR>gv=gv", { desc = 'Move selection up' })
+vim.keymap.set('x', '<C-Down>', ":<C-u>execute \"'<,'>move '>+\" . v:count1<CR>gv=gv", { desc = 'Move selection down' })
+
+-- ============================================================================
+-- INDENTATION & VISUAL MODE
+-- ============================================================================
+
+-- Maintain selection after indent
+vim.keymap.set('v', '<', '<gv', { desc = 'Indent left and reselect' })
+vim.keymap.set('v', '>', '>gv', { desc = 'Indent right and reselect' })
+
+-- Preserve selection and cursor on yank in visual mode
+vim.keymap.set('x', 'y', 'ygv<Esc>', { desc = 'Yank and preserve selection' })
+vim.keymap.set('x', 'p', 'P', { desc = 'Paste without override' })
+
+-- ============================================================================
+-- DELETION & CLIPBOARD
+-- ============================================================================
+
+-- Delete into void (don't overwrite clipboard)
+vim.keymap.set({ 'n', 'x' }, 'x', '"_x', { desc = 'Delete character into void' })
+vim.keymap.set({ 'n', 'x' }, '<Del>', '"_x', { desc = 'Delete character into void' })
+
+-- ============================================================================
+-- FILE OPERATIONS & SAVING
+-- ============================================================================
+
+-- Quick save
+vim.keymap.set({ 'n', 'i' }, '<C-s>', '<cmd>w<CR>', { desc = 'Save file' })
+
+-- Write operations
+vim.keymap.set('n', '<leader>wa', '<cmd>wa<CR>', { desc = '[W]rite [A]ll files' })
+-- ============================================================================
+-- FORMATTING
+-- ============================================================================
+
+-- LSP format (primary method)
+vim.keymap.set('n', '<leader>fv', vim.lsp.buf.format, { desc = '[F]ormat buffer (LSP)' })
+
+-- ============================================================================
+-- TOGGLE OPTIONS
+-- ============================================================================
+
+vim.keymap.set('n', '<leader>tw', '<cmd>set wrap!<CR>', { desc = '[T]oggle [w]ord wrap' })
+vim.keymap.set('n', '<leader>ts', ':set list!<CR>', { desc = '[T]oggle [s]pace visibility' })
+vim.keymap.set('n', '<leader>tn', '<cmd>set relativenumber!<CR>', { desc = '[T]oggle relative [n]umbers' })
+vim.keymap.set('n', '<leader>tN', function()
+  local enabled = vim.wo.number or vim.wo.relativenumber
+  vim.wo.number = not enabled
+  vim.wo.relativenumber = not enabled
+end, { desc = '[T]oggle all [N]umbers' })
+
+vim.keymap.set('n', '<leader>td', function()
+  vim.diagnostic.enable(not vim.diagnostic.is_enabled())
+end, { desc = '[T]oggle [D]iagnostics' })
+
+-- ============================================================================
+-- TABS
+-- ============================================================================
+
+vim.keymap.set('n', '<leader><tab><tab>', '<cmd>tabnew<CR>', { desc = 'New tab' })
+
+-- ============================================================================
+-- UTILITY
+-- ============================================================================
+
+vim.keymap.set('n', '<leader>rr', '<cmd>restart<cr>', { desc = 'Restart Neovim' })
+
+-- ============================================================================
+-- COPY PATH (with helper functions)
+-- ============================================================================
 
 local function get_explorer_item()
   if _G.Snacks == nil or Snacks.picker == nil then
@@ -55,93 +163,35 @@ end
 vim.keymap.set('n', '<leader>ca', copy_absolute_path, { desc = 'Copy absolute path with line:col' })
 vim.keymap.set('n', '<leader>cr', copy_relative_path, { desc = 'Copy relative path with line:col' })
 
--- keep on highlight text and can hit multiple time < or >
-vim.keymap.set('v', '<', '<gv', { desc = 'indent left and reselect' })
-vim.keymap.set('v', '>', '>gv', { desc = 'indent right and reselect' })
+-- ============================================================================
+-- COMMAND ABBREVIATIONS (typo fixes)
+-- ============================================================================
 
-vim.keymap.set('n', '<leader>tw', '<cmd>set wrap!<CR>', { desc = '[T]oggle [w]ord wrap' })
-vim.keymap.set('n', '<leader>tW', ':set list!<CR>', { desc = '[T]oggle [W]hiteSpace' })
-vim.keymap.set('n', '<leader>tn', '<cmd>set relativenumber!<CR>', { desc = '[T]oggle [N]umber or relative number' })
-vim.keymap.set('n', '<leader>tN', function()
-  local enabled = vim.wo.number or vim.wo.relativenumber
-  vim.wo.number = not enabled
-  vim.wo.relativenumber = not enabled
-end, { desc = '[T]oggle all line [N]umbers' })
-
-vim.keymap.set('n', '<leader>td', function()
-  vim.diagnostic.enable(not vim.diagnostic.is_enabled())
-end, { desc = '[T]oggle [D]iagnostics' })
-
-vim.keymap.set('n', '<leader>wa', '<cmd>wa<CR>', { desc = '[W]rite [A]ll files' })
-vim.keymap.set({ 'n', 'i' }, '<C-s>', '<cmd>w<CR>', { desc = 'Save file' })
-vim.keymap.set('n', 'J', 'mzJ`z', { desc = 'Join lines and keep cursor position' })
-
-vim.keymap.set('n', '<left>', '<cmd>echo "Use h to move!!"<CR>')
-vim.keymap.set('n', '<right>', '<cmd>echo "Use l to move!!"<CR>')
-vim.keymap.set('n', '<up>', '<cmd>echo "Use k to move!!"<CR>')
-vim.keymap.set('n', '<down>', '<cmd>echo "Use j to move!!"<CR>')
-
-if vim.env.TMUX == nil then
-  vim.keymap.set('n', '<C-h>', '<C-w><C-h>', { desc = 'Move focus to the left window' })
-  vim.keymap.set('n', '<C-l>', '<C-w><C-l>', { desc = 'Move focus to the right window' })
-  vim.keymap.set('n', '<C-j>', '<C-w><C-j>', { desc = 'Move focus to the lower window' })
-  vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
-end
-
--- like vscode alt+down/up move loc up down swapping
--- from https://github.com/nickjj/dotfiles/blob/master/.config/nvim/lua/config/keymaps.lua
-vim.keymap.set('n', '<C-Up>', "<Cmd>execute 'move .-' . (v:count1 + 1)<CR>==", { desc = 'Move Up' })
-vim.keymap.set('n', '<C-Down>', "<Cmd>execute 'move .+' . v:count1<CR>==", { desc = 'Move Down' })
-vim.keymap.set('i', '<C-Down>', '<esc><Cmd>m .+1<CR>==gi', { desc = 'Move Down' })
-vim.keymap.set('i', '<C-Up>', '<esc><Cmd>m .-2<CR>==gi', { desc = 'Move Up' })
-vim.keymap.set('x', '<C-Down>', ":<C-u>execute \"'<,'>move '>+\" . v:count1<CR>gv=gv", { desc = 'Move Down' })
-vim.keymap.set('x', '<C-Up>', ":<C-u>execute \"'<,'>move '<-\" . (v:count1 + 1)<CR>gv=gv", { desc = 'Move Up' })
-
-vim.keymap.set({ 'n', 'x' }, 'x', '"_x', { desc = 'Delete Chars Into Void' })
--- vim.keymap.set({ 'n', 'x' }, 'X', '"_D', { desc = 'Delete to EOL Into Void' })
-vim.keymap.set({ 'n', 'x' }, '<Del>', '"_x', { desc = 'Delete Chars Into Void' })
-
-vim.keymap.set('x', 'y', 'ygv<Esc>', { desc = 'Yank Preserve Cursor' })
-vim.keymap.set('x', 'p', 'P', { desc = 'Paste Without Override' })
-
-vim.keymap.set('n', '<leader>ff', 'g=', { desc = 'Another format way' })
-vim.keymap.set('n', '<leader>fv', vim.lsp.buf.format, { desc = 'Vim lsp buf format' })
-
-vim.keymap.set('n', '<leader><tab><tab>', "<cmd>tabnew<CR>", { desc = 'New Tab' })
-
--- this trigger external command
--- vim.keymap.set('x', 'gt', "c<C-r>=system('tcc', getreg('\"'))[:-2]<CR>", { desc = 'Titleize Text' })
-
--- tab stuff
--- vim.keymap.set("n", "<leader>to", "<cmd>tabnew<CR>")   --open new tab
-
-vim.keymap.set('n', '<leader>rr', '<cmd>restart<cr>', {
-  desc = 'Restart Neovim (:restart)',
-})
-
-
--- spelling keymaps (default nvim)
--- ]s / [s → next/prev misspelled word
--- z= → spelling suggestions on misspelled word
--- zg → add word to spellfile
--- zw → mark word as wrong
--- zu → undo spelling correction
--- :set spell → enable spell checking
--- :set nospell → disable spell checking
-
--- Command abbreviations for typos :wq
 vim.cmd 'cnoreabbrev W w'
+vim.cmd 'cnoreabbrev Wa wa'
 vim.cmd 'cnoreabbrev Wq wq'
 vim.cmd 'cnoreabbrev WQ wq'
 vim.cmd 'cnoreabbrev Q q'
 vim.cmd 'cnoreabbrev Qa qa'
 
--- gra → code actions
--- gri → implementations
--- grn → rename
--- grr → references
--- grt → type definition
--- grx → run codelens
--- gO → document symbols
--- Ctrl-S in Insert mode → signature help
+-- ============================================================================
+-- NOTES: Default keymaps not remapped
+-- ============================================================================
 
+-- Spelling (built-in):
+--   ]s / [s       → next/prev misspelled word
+--   z=            → spelling suggestions
+--   zg            → add to spellfile
+--   zw            → mark as wrong
+--   zu            → undo correction
+--   :set spell    → enable spell checking
+
+-- LSP (set by lsp.lua):
+--   gra           → code actions
+--   gri           → implementations
+--   grn           → rename
+--   grr           → references
+--   grt           → type definition
+--   grx           → run codelens
+--   gO            → document symbols
+--   <C-S>         → signature help (insert mode)

@@ -1,0 +1,180 @@
+#:schema https://github.com/joshmedeski/sesh/raw/main/sesh.schema.json
+
+# ═══════════════════════════════════════════════════════════════════════════
+# SESH CONFIGURATION
+# ═══════════════════════════════════════════════════════════════════════════
+
+# ───────────────────────────────────────────────────────────────────────────
+# TUI Settings
+# ───────────────────────────────────────────────────────────────────────────
+[tui]
+prompt = "> "
+placeholder = "Filter sessions... "
+show_icons = true
+
+# ───────────────────────────────────────────────────────────────────────────
+# Default Session Behavior
+# ───────────────────────────────────────────────────────────────────────────
+[default_session]
+startup_command = "nvim"
+preview_command = "eza --all --git --icons --color=always {}"
+
+# ───────────────────────────────────────────────────────────────────────────
+# Window Definitions
+# ───────────────────────────────────────────────────────────────────────────
+
+# Editor window with vertical split (nvim + terminal)
+[[window]]
+name = "editor"
+startup_script = "tmux split-window -h -p 30 && tmux select-pane -L && nvim"
+
+# Development window with 3 panes (editor top, terminal bottom-left, logs bottom-right)
+[[window]]
+name = "dev"
+startup_script = """
+tmux split-window -v -p 30 && \
+tmux split-window -h && \
+tmux select-pane -t 0 && \
+nvim
+"""
+
+# Git window
+[[window]]
+name = "git"
+startup_script = "lazygit"
+
+# Server/logs window
+[[window]]
+name = "server"
+startup_script = "echo 'Server logs...'"
+
+# Test window
+[[window]]
+name = "test"
+startup_script = "echo 'Run tests here'"
+
+# Database window
+[[window]]
+name = "db"
+startup_script = "echo 'Database console'"
+
+# Docker window with split (docker ps top, docker logs bottom)
+[[window]]
+name = "docker"
+startup_script = """
+tmux split-window -v -p 40 && \
+tmux select-pane -t 0 && \
+watch -n 2 docker ps && \
+tmux select-pane -t 1
+"""
+
+# Monitoring window with 4 panes (top/htop/disk/network)
+[[window]]
+name = "monitor"
+startup_script = """
+tmux split-window -v && \
+tmux split-window -h && \
+tmux select-pane -t 0 && \
+tmux split-window -h && \
+tmux select-pane -t 0 && top && \
+tmux select-pane -t 1 && htop && \
+tmux select-pane -t 2 && df -h && \
+tmux select-pane -t 3 && nethogs
+"""
+
+# ───────────────────────────────────────────────────────────────────────────
+# Session Configurations - Quick Access Configs
+# ───────────────────────────────────────────────────────────────────────────
+
+# Neovim config - quick edit, use Ctrl-\ L to swap back
+[[session]]
+name = "⚙️ nvim"
+path = "~/.config/nvim"
+startup_command = "nvim init.lua"
+preview_command = "eza --tree --level=2 --icons ~/.config/nvim"
+
+# Tmux config - quick edit
+[[session]]
+name = "⚙️ tmux"
+path = "~"
+startup_command = "nvim .tmux.conf"
+preview_command = "bat --color=always ~/.tmux.conf"
+
+# Zsh config - quick edit
+[[session]]
+name = "⚙️ zsh"
+path = "~"
+startup_command = "nvim .zshrc"
+preview_command = "bat --color=always ~/.zshrc"
+
+# Sesh config - quick edit
+[[session]]
+name = "⚙️ sesh"
+path = "~/.config/sesh"
+startup_command = "nvim sesh.toml"
+preview_command = "bat --color=always ~/.config/sesh/sesh.toml"
+
+# Chezmoi dotfiles manager
+[[session]]
+name = "⚙️ chezmoi"
+path = "~"
+startup_command = "chezmoi cd"
+
+# Dotfiles - full management with git
+[[session]]
+name = "dotfiles"
+path = "~"
+windows = ["editor", "git"]
+
+# Full development session - editor, git, server, tests
+[[session]]
+name = "dev-full"
+path = "~/projects"
+windows = ["dev", "git", "server", "test"]
+
+# System monitoring session
+[[session]]
+name = "monitor"
+path = "~"
+windows = ["monitor"]
+
+# Example: Web project with specific layout
+[[session]]
+name = "web-project"
+path = "~/projects/web"
+startup_command = "nvim"
+windows = ["git", "server", "db"]
+
+# ───────────────────────────────────────────────────────────────────────────
+# Wildcard Configurations
+# ───────────────────────────────────────────────────────────────────────────
+
+# All projects get editor + git windows
+[[wildcard]]
+pattern = "~/projects/*"
+startup_command = "nvim"
+windows = ["git"]
+
+# Work projects get full dev setup
+[[wildcard]]
+pattern = "~/work/*"
+startup_command = "nvim"
+windows = ["dev", "git", "server", "test"]
+
+# ───────────────────────────────────────────────────────────────────────────
+# Advanced Window Examples (commented for reference)
+# ───────────────────────────────────────────────────────────────────────────
+
+# Complex 6-pane layout example:
+# [[window]]
+# name = "complex"
+# startup_script = """
+# tmux split-window -v -p 66 && \
+# tmux split-window -v -p 50 && \
+# tmux select-pane -t 0 && \
+# tmux split-window -h -p 50 && \
+# tmux select-pane -t 2 && \
+# tmux split-window -h -p 50 && \
+# tmux select-pane -t 4 && \
+# tmux split-window -h -p 50
+# """
