@@ -80,6 +80,41 @@ vim.keymap.set('n', '<leader>wa', '<cmd>wa<CR>', { desc = '[W]rite [A]ll files' 
 -- LSP format (primary method)
 vim.keymap.set('n', '<leader>fv', vim.lsp.buf.format, { desc = '[F]ormat buffer (LSP)' })
 
+-- JSON deep sort and format
+local function format_json_deep()
+  local filename = vim.fn.expand '%'
+  
+  -- Check if current file is JSON
+  if not filename:match('%.json$') then
+    vim.notify('Not a JSON file', vim.log.levels.WARN)
+    return
+  end
+  
+  -- Get entire buffer content
+  local lines = vim.api.nvim_buf_get_lines(0, 0, -1, false)
+  local content = table.concat(lines, '\n')
+  
+  -- Call sort-json-deep with error handling
+  local result = vim.fn.system('sort-json-deep', content)
+  
+  -- Check for errors
+  if vim.v.shell_error ~= 0 then
+    vim.notify('JSON format error: ' .. result, vim.log.levels.ERROR)
+    return
+  end
+  
+  -- Split result back into lines and update buffer
+  local sorted_lines = vim.split(result, '\n')
+  -- Remove trailing empty line if present
+  if sorted_lines[#sorted_lines] == '' then
+    table.remove(sorted_lines)
+  end
+  vim.api.nvim_buf_set_lines(0, 0, -1, false, sorted_lines)
+  vim.notify('JSON sorted and formatted', vim.log.levels.INFO)
+end
+
+vim.keymap.set('n', '<leader>fj', format_json_deep, { desc = '[F]ormat [J]SON (deep sort)' })
+
 -- ============================================================================
 -- TOGGLE OPTIONS
 -- ============================================================================
