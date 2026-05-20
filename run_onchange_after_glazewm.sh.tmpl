@@ -1,0 +1,38 @@
+#!/bin/bash
+
+# This script syncs GlazeWM config between Windows and WSL (copy, not symlink)
+# Hash: {{ env "USER" }}
+# Last modified: {{ now | date "2006-01-02" }}
+
+windows_glazewm="/mnt/c/Users/JasniAzrizHaziq/.glzr/glazewm/config.yaml"
+wsl_glazewm="$HOME/.config/glazewm/config.yaml"
+
+# Ensure directories exist
+mkdir -p "$HOME/.config/glazewm"
+mkdir -p "/mnt/c/Users/JasniAzrizHaziq/.glzr/glazewm"
+
+# Remove any symlinks that might exist
+if [ -L "$windows_glazewm" ]; then
+  echo "Removing Windows symlink..."
+  rm "$windows_glazewm"
+fi
+
+# Sync from Windows to WSL if Windows file exists and is newer
+if [ -f "$windows_glazewm" ]; then
+  if [ ! -f "$wsl_glazewm" ] || [ "$windows_glazewm" -nt "$wsl_glazewm" ]; then
+    echo "Syncing GlazeWM config: Windows → WSL"
+    cp "$windows_glazewm" "$wsl_glazewm"
+    echo "✓ Copied to $wsl_glazewm"
+  fi
+fi
+
+# Sync from WSL to Windows if WSL file exists and is newer
+if [ -f "$wsl_glazewm" ]; then
+  if [ ! -f "$windows_glazewm" ] || [ "$wsl_glazewm" -nt "$windows_glazewm" ]; then
+    echo "Syncing GlazeWM config: WSL → Windows"
+    cp "$wsl_glazewm" "$windows_glazewm"
+    echo "✓ Copied to $windows_glazewm"
+  fi
+fi
+
+echo "✓ GlazeWM config sync complete"
