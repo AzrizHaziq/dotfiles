@@ -15,6 +15,34 @@
       "prompt": "Execute directly after building context. Make the smallest correct change, preserve project patterns, avoid unnecessary abstractions, and verify the result when practical. Keep responses concise and factual. Use the caveman skill when the user asks for extreme brevity or token efficiency. Use the caveman-commit skill when the user asks for commit-message help.",
       "temperature": 0.2
     },
+    "code-reviewer": {
+      "color": "secondary",
+      "description": "Reviews GitHub PRs with GitHub MCP access",
+      "mode": "subagent",
+      "permission": {
+        "skill": {
+          "caveman": "allow",
+          "caveman-help": "allow",
+          "caveman-review": "allow"
+        }
+      },
+      "prompt": "Analyze GitHub PR from URL. Check code quality, logic, design patterns, potential bugs. Use caveman-review skill for terse feedback. Output: max 2-3 lines per issue, straight to point. No fluff. Format: [file:line] issue → fix.",
+      "steps": 5,
+      "temperature": 0.3
+    },
+    "coordinator": {
+      "color": "primary",
+      "description": "Routes requests to specialist agents",
+      "mode": "primary",
+      "permission": {
+        "skill": {
+          "caveman": "allow",
+          "caveman-help": "allow"
+        }
+      },
+      "prompt": "You are a coordinator. Route user requests to specialists. If user mentions @code-reviewer or asks to review GitHub PR, invoke code-reviewer agent. If user asks for security scan with @security-auditor, invoke that agent. Otherwise handle directly. Be terse.",
+      "temperature": 0.2
+    },
     "explore": {
       "color": "secondary",
       "description": "Read-only codebase exploration and summarization",
@@ -44,34 +72,6 @@
       "prompt": "Inspect and plan first. Search and read before deciding. Be concise. Produce actionable plans, assumptions, and risks. Ask only short clarifying questions when ambiguity blocks a correct solution. Do not rush into edits when planning is more appropriate. Use the caveman skill when the user asks for extreme brevity or token efficiency. Use the find-skills skill when the user asks about available skills or how to extend capabilities.",
       "temperature": 0.2
     },
-    "coordinator": {
-      "color": "primary",
-      "description": "Routes requests to specialist agents",
-      "mode": "primary",
-      "permission": {
-        "skill": {
-          "caveman": "allow",
-          "caveman-help": "allow"
-        }
-      },
-      "prompt": "You are a coordinator. Route user requests to specialists. If user mentions @code-reviewer or asks to review GitHub PR, invoke code-reviewer agent. If user asks for security scan with @security-auditor, invoke that agent. Otherwise handle directly. Be terse.",
-      "temperature": 0.2
-    },
-    "code-reviewer": {
-      "color": "secondary",
-      "description": "Reviews GitHub PRs with GitHub MCP access",
-      "mode": "subagent",
-      "permission": {
-        "skill": {
-          "caveman": "allow",
-          "caveman-review": "allow",
-          "caveman-help": "allow"
-        }
-      },
-      "prompt": "Analyze GitHub PR from URL. Check code quality, logic, design patterns, potential bugs. Use caveman-review skill for terse feedback. Output: max 2-3 lines per issue, straight to point. No fluff. Format: [file:line] issue → fix.",
-      "temperature": 0.3,
-      "steps": 5
-    },
     "security-auditor": {
       "color": "secondary",
       "description": "Scans code for security vulnerabilities",
@@ -83,8 +83,8 @@
         }
       },
       "prompt": "Scan code/repo for security issues: XSS, SQL injection, auth flaws, exposed secrets, insecure crypto. Check OWASP Top 10. Terse output only. Format: [vulnerability] [location] → [fix]. Use caveman style.",
-      "temperature": 0.1,
-      "steps": 3
+      "steps": 3,
+      "temperature": 0.1
     }
   },
   "command": {
@@ -112,8 +112,20 @@
         "Authorization": "Bearer {env:JIRA_OPENCODE_PAT}"
       },
       "oauth": false,
-      "url": "https://mcp.atlassian.com/v1/sse",
-      "type": "remote"
+      "type": "remote",
+      "url": "https://mcp.atlassian.com/v1/sse"
+    },
+    "chrome-devtools": {
+      "command": [
+        "npx",
+        "-y",
+        "chrome-devtools-mcp@latest",
+        "--executablePath",
+        "/usr/bin/google-chrome-stable",
+        "--headless"
+      ],
+      "enabled": false,
+      "type": "local"
     },
     "context7": {
       "enabled": true,
@@ -146,17 +158,6 @@
       "oauth": false,
       "type": "remote",
       "url": "https://api.githubcopilot.com/mcp/"
-    },
-    "chrome-devtools": {
-      "type": "local",
-      "enabled": false,
-      "command": [
-        "npx", 
-        "-y", 
-        "chrome-devtools-mcp@latest",
-        "--executablePath", "/usr/bin/google-chrome-stable",
-        "--headless"
-      ]
     }
   },
   "permission": {
@@ -164,6 +165,15 @@
       "*": "ask"
     }
   },
+  "plugin": [
+    "opencode-fff-search",
+    [
+      "@ishaksebsib/opencode-tree",
+      {
+        "storageScope": "global"
+      }
+    ]
+  ],
   "provider": {
     "ai-anthropic": {
       "models": {
@@ -517,14 +527,5 @@
       "/home/azrizhaziq/.config/opencode/skills",
       "/home/azrizhaziq/.agents/skills"
     ]
-  },
-  "plugin": [
-    "opencode-fff-search", 
-    [
-      "@ishaksebsib/opencode-tree",
-      {
-        "storageScope": "global"
-      }
-    ]
-  ]
+  }
 }
