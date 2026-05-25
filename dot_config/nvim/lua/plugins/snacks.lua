@@ -204,7 +204,7 @@ return {
       { '<leader>gl', function() require('snacks').lazygit.log() end, desc = 'Lazygit Logs', },
       { '<leader>gf', function() require('snacks').lazygit.log_file() end, desc = 'Lazygit File Logs', },
 
-      { '<leader>eb', function() require('snacks').picker.buffers() end, desc = '[E]xplorer [B]uffers', },
+      { '<leader>ee', function() require('snacks').picker.buffers() end, desc = '[E]xplorer [B]uffers', },
       { '<leader>ed', function() require('snacks').picker.diagnostics() end, desc = '[E]xplorer [D]iagnostics', },
       { '<leader>eg', function() require('snacks').picker.git_status() end, desc = '[E]xplorer [G]it changes', },
       { '<leader>er', function() require('snacks').explorer.reveal() end, desc = '[Explorer] [R]eveal current file', },
@@ -212,7 +212,6 @@ return {
       { '<leader>sh', function() require('snacks').picker.help() end, desc = '[S]earch [H]elp', },
       { '<leader>sk', function() require('snacks').picker.keymaps() end, desc = '[S]earch [K]eymaps', },
       { '<leader>sr', function() require('snacks').picker.resume() end, desc = '[S]earch [R]esume', },
-      { '<leader>sd', function() require('snacks').picker.diagnostics() end, desc = '[S]earch [D]iagnostics', },
       { '<leader>sp', function() require('snacks').picker() end, desc = '[S]earch snacks [P]ickers', },
 
       -- { '<leader>sf', function() local cwd = snacks_explorer_cwd() require('snacks').picker.files { cwd = cwd, title = 'Find Files in ' .. vim.fn.fnamemodify(cwd, ':~') } end, desc = '[S]earch [F]iles', },
