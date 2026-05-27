@@ -44,6 +44,7 @@ zstyle ':omz:update' frequency 7
 # HIST_STAMPS="mm/dd/yyyy"
 
 plugins=(
+  zsh-vi-mode
   git
   chezmoi
 )
@@ -56,7 +57,7 @@ fi
 # These load sequentially after prompt appears, with proper keyboard input handling
 # Keep stderr visible (+2) for debugging
 zsh-defer +2 source "$BREW_PREFIX/opt/zsh-fast-syntax-highlighting/share/zsh-fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh"
-zsh-defer +2 source "$BREW_PREFIX/opt/zsh-vi-mode/share/zsh-vi-mode/zsh-vi-mode.plugin.zsh"
+# zsh-defer +2 source "$BREW_PREFIX/opt/zsh-vi-mode/share/zsh-vi-mode/zsh-vi-mode.plugin.zsh"
 zsh-defer +2 source "$BREW_PREFIX/opt/zsh-autosuggestions/share/zsh-autosuggestions/zsh-autosuggestions.zsh"
 zsh-defer +2 source "$BREW_PREFIX/share/zsh-you-should-use/you-should-use.plugin.zsh"
 zsh-defer +2 source $ZSH/plugins/colored-man-pages/colored-man-pages.plugin.zsh

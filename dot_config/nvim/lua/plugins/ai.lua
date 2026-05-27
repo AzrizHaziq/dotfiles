@@ -78,8 +78,8 @@ return {
           },
           input_window = {
             ['<M-v>'] = { 'paste_image', mode = 'i' },
-            ['<M-m>'] = { 'switch_mode' },
-            ['<M-r>'] = { 'cycle_variant', mode = { 'n', 'i' } },
+            ['<M-m>'] = { 'switch_mode', mode = { 'n', 'i' } },
+            ['<M-t>'] = { 'cycle_variant', mode = { 'n', 'i' } },
             ['<esc>'] = false,
           },
           output_window = {

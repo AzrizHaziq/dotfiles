@@ -9,7 +9,7 @@ git:
 
 gui:
   showPanelJumps: true
-  border: rounded
+  border: 'thick'
   nerdFontsVersion: "3"
   skipDiscardChangeWarning: true
   theme:
@@ -17,7 +17,7 @@ gui:
       - "#89b4fa"
       - bold
     inactiveBorderColor:
-      - "#a6adc8"
+      - "#555555"
     optionsTextColor:
       - "#89b4fa"
     selectedLineBgColor:
