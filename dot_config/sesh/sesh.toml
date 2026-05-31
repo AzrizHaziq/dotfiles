@@ -59,6 +59,12 @@ startup_command = "nvim .tmux.conf"
 preview_command = "bat --color=always ~/.tmux.conf"
 
 [[session]]
+name = "niri"
+path = "~/.config/niri"
+startup_command = "nvim ."
+preview_command = "eza --tree --level=2 --icons ~/.config/niri"
+
+[[session]]
 name = "zsh"
 path = "~"
 startup_command = "nvim .zshrc"

@@ -99,9 +99,11 @@ alias grep="grep --color=auto -n" # colorize grep output
 alias hs="history | grep --color=auto -n" # colorize history output
 alias gip="curl ipinfo.io/ip && curl ipinfo.io/org" # get ip and org
 alias f="find . -name" # find files
+
 alias cz="chezmoi"
 alias lz="lazygit"
 alias ld="lazydocker"
+alias lj="lazyjournal"
 alias op="opencode"
 
 # Faster compinit with cache validation - only run once per day
