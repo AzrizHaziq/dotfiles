@@ -116,17 +116,18 @@ return {
                   ['<BS>'] = 'explorer_up',
                 },
               },
-               list = {
-                 keys = {
-                   ['<Esc>'] = false,
-                   ['<C-v>'] = 'edit_vsplit',
-                   ['<C-h>'] = 'edit_split',
-                   ['<C-j>'] = false,
-                   ['<C-k>'] = false,
-                   ['<C-l>'] = false,
-                   ['G'] = 'toggle_gitignored', -- Toggle gitignored files
-                 },
-               },
+              list = {
+                keys = {
+                  ["<c-t>"] = false, -- disable terminal
+                  ['<Esc>'] = false,
+                  ['<C-v>'] = 'edit_vsplit',
+                  ['<C-h>'] = false,
+                  ['<C-j>'] = false,
+                  ['<C-k>'] = false,
+                  ['<C-l>'] = false,
+                  ['G'] = 'toggle_gitignored', -- Toggle gitignored files
+                },
+              },
               preview = {
                 keys = {
                   ['<Esc>'] = false,
