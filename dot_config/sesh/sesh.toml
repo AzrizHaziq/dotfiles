@@ -85,4 +85,3 @@ windows = ["editor", "git"]
 pattern = "~/work/*"
 startup_command = "nvim ."
 windows = ["git", "server", "opencode"]
-
