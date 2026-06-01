@@ -4,6 +4,6 @@ encryption = "age"
   pager = "hunk pager"
 
 [age]
-identity = "/home/azrizhaziq/.config/chezmoi/age.txt"
+identity = "~/.config/chezmoi/age.txt"
 recipient = "age1aqpyvksf5qfjcxs9ffjgynpa7h7ryra8mfacgs9ne7dr5lca0e3qx52ae5"
 

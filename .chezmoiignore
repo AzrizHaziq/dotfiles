@@ -1,5 +1,7 @@
 ~/.zshrc.d/local-machine.zsh
 
+./dot_config/chezmoi/age.txt
+
 .config/nvim/.git
 .config/yasb/yasb.log
 .config/nvim/.github

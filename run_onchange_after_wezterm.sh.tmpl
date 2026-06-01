@@ -2,7 +2,25 @@
 
 # Hash to trigger on changes: {{ include "dot_config/wezterm/wezterm.lua" | sha256sum }}
 
+# Skip if source config doesn't exist on this machine
+if [ ! -f "$HOME/.config/wezterm/wezterm.lua" ]; then
+  echo "WezTerm deploy: ~/.config/wezterm/wezterm.lua not found, skipping."
+  exit 0
+fi
+
+# Skip if not running in a WSL+Windows environment
+if ! command -v cmd.exe >/dev/null 2>&1 || ! command -v wslpath >/dev/null 2>&1; then
+  echo "WezTerm deploy: cmd.exe or wslpath not found, skipping."
+  exit 0
+fi
+
 windows_home="$(wslpath "$(cmd.exe /c "echo %USERPROFILE%" 2>/dev/null | tr -d '\r')")"
+
+# Skip if Windows home could not be detected
+if [ -z "$windows_home" ] || [ ! -d "$windows_home" ]; then
+  echo "WezTerm deploy: Windows home not detected, skipping."
+  exit 0
+fi
 
 echo "Deploying WezTerm config to Windows home..."
 cp "$HOME/.config/wezterm/wezterm.lua" "$windows_home/.wezterm.lua"

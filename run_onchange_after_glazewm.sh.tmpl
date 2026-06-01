@@ -4,6 +4,18 @@
 # Hash: {{ env "USER" }}
 # Last modified: {{ now | date "2006-01-02" }}
 
+# Skip if Windows drive not mounted
+if [ ! -d "/mnt/c" ]; then
+  echo "GlazeWM sync: /mnt/c not found, skipping."
+  exit 0
+fi
+
+# Skip if Windows user dir not present
+if [ ! -d "/mnt/c/Users/JasniAzrizHaziq" ]; then
+  echo "GlazeWM sync: /mnt/c/Users/JasniAzrizHaziq not found, skipping."
+  exit 0
+fi
+
 windows_glazewm="/mnt/c/Users/JasniAzrizHaziq/.glzr/glazewm/config.yaml"
 wsl_glazewm="$HOME/.config/glazewm/config.yaml"
 

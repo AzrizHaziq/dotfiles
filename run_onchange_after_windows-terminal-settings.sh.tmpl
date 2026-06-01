@@ -2,7 +2,25 @@
 
 # Hash to trigger on changes: {{ include "dot_config/windows-terminal/settings.json" | sha256sum }}
 
+# Skip if source settings don't exist on this machine
+if [ ! -f "$HOME/.config/windows-terminal/settings.json" ]; then
+  echo "Windows Terminal deploy: ~/.config/windows-terminal/settings.json not found, skipping."
+  exit 0
+fi
+
+# Skip if not running in a WSL+Windows environment
+if ! command -v cmd.exe >/dev/null 2>&1 || ! command -v wslpath >/dev/null 2>&1; then
+  echo "Windows Terminal deploy: cmd.exe or wslpath not found, skipping."
+  exit 0
+fi
+
 windows_home="$(wslpath "$(cmd.exe /c "echo %USERPROFILE%" 2>/dev/null | tr -d '\r')")"
+
+# Skip if Windows home could not be detected
+if [ -z "$windows_home" ] || [ ! -d "$windows_home" ]; then
+  echo "Windows Terminal deploy: Windows home not detected, skipping."
+  exit 0
+fi
 
 echo "Deploying Windows Terminal settings to Windows AppData..."
 mkdir -p "$windows_home/AppData/Local/Packages/Microsoft.WindowsTerminal_8wekyb3d8bbwe/LocalState"
