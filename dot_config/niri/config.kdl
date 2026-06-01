@@ -9,8 +9,19 @@
 input {
     keyboard {
         xkb {
-            // Remap CapsLock to Hyper (Super) and disable CapsLock.
-            options "ctrl:nocaps,caps:hyper"
+            // You can set rules, model, layout, variant and options.
+            // For more information, see xkeyboard-config(7).
+
+            // For example:
+            // layout "us,ru"
+            // options "grp:win_space_toggle,compose:ralt,ctrl:nocaps"
+
+            // Remap CapsLock to Mod (Super) and disable CapsLock.
+            options "ctrl:nocaps,caps:super"
+
+            // If this section is empty, niri will fetch xkb settings
+            // from org.freedesktop.locale1. You can control these using
+            // localectl set-x11-keymap.
         }
 
         // Enable numlock on startup, omitting this setting disables it.
@@ -103,7 +114,7 @@ input {
 // https://niri-wm.github.io/niri/Configuration:-Layout
 layout {
     // Set gaps around windows in logical pixels.
-    gaps 10
+    gaps 16
 
     // When to center a column when changing focus, options are:
     // - "never", default behavior, focusing an off-screen column will keep at the left
@@ -126,7 +137,7 @@ layout {
         // fixed 1920
     }
 
-    // You can also customize the heights that "switch-preset-window-height" (Mod+Shift+R) toggles between.
+    // You can also customize the heights that "switch-preset-window-height" (Mod+Ctrl+Shift+R) toggles between.
     // preset-window-heights { }
 
     // You can change the default width of the new windows.
@@ -151,23 +162,21 @@ layout {
         // off
 
         // How many logical pixels the ring extends out from the windows.
-        width 2
+        width 4
 
-        active-color "#b4befe" 
-        inactive-color "#6c7086"
         // Colors can be set in a variety of ways:
         // - CSS named colors: "red"
         // - RGB hex: "#rgb", "#rgba", "#rrggbb", "#rrggbbaa"
         // - CSS-like notation: "rgb(255, 127, 0)", rgba(), hsl() and a few others.
 
         // Color of the ring on the active monitor.
-        // active-color "#7fc8ff"
+        active-color "#7fc8ff"
 
         // Color of the ring on inactive monitors.
         //
         // The focus ring only draws around the active window, so the only place
         // where you can see its inactive-color is on other monitors.
-        // inactive-color "#505050"
+        inactive-color "#505050"
 
         // You can also use gradients. They take precedence over solid colors.
         // Gradients are rendered the same as CSS linear-gradient(angle, from, to).
@@ -191,9 +200,9 @@ layout {
         // If you enable the border, you probably want to disable the focus ring.
         off
 
-        active-color "#b4befe" 
-        inactive-color "#6c7086"
-        width 2
+        width 4
+        active-color "#ffc87f"
+        inactive-color "#505050"
 
         // Color of the border around windows that request your attention.
         urgent-color "#9b0000"
@@ -209,7 +218,7 @@ layout {
     // You can enable drop shadows for windows.
     shadow {
         // Uncomment the next line to enable shadows.
-        on
+        // on
 
         // By default, the shadow draws only around its window, and not behind it.
         // Uncomment this setting to make the shadow draw behind its window.
@@ -262,14 +271,14 @@ layout {
 // See the binds section below for more spawn examples.
 
 // This line starts waybar, a commonly used bar for Wayland compositors.
-// spawn-at-startup "waybar"
+spawn-at-startup "waybar"
 
 // To run a shell command (with variables, pipes, etc.), use spawn-sh-at-startup:
 // spawn-sh-at-startup "qs -c ~/source/qs/MyAwesomeShell"
 
 hotkey-overlay {
-    // Uncomment this line to disable the "Important Hotkeys" pop-up at startup. Mod+Shift+/
-    skip-at-startup
+    // Uncomment this line to disable the "Important Hotkeys" pop-up at startup.
+    // skip-at-startup
 }
 
 // Uncomment this line to ask the clients to omit their client-side decorations if possible.
@@ -292,7 +301,7 @@ screenshot-path "~/Pictures/Screenshots/Screenshot from %Y-%m-%d %H-%M-%S.png"
 // https://niri-wm.github.io/niri/Configuration:-Animations
 animations {
     // Uncomment to turn off all animations.
-    off
+    // off
 
     // Slow down all animations by this factor. Values below 1 speed them up instead.
     // slowdown 3.0
@@ -356,7 +365,7 @@ binds {
     Mod+Shift+Slash { show-hotkey-overlay; }
 
     // Suggested binds for running programs: terminal, app launcher, screen locker.
-    Mod+T hotkey-overlay-title="Open a Terminal: kitty" { spawn "kitty"; }
+    Mod+T hotkey-overlay-title="Open a Terminal: alacritty" { spawn "alacritty"; }
     Mod+D hotkey-overlay-title="Run an Application: fuzzel" { spawn "fuzzel"; }
     Super+Alt+L hotkey-overlay-title="Lock the Screen: swaylock" { spawn "swaylock"; }
 
@@ -377,6 +386,7 @@ binds {
     // Example media keys mapping using playerctl.
     // This will work with any MPRIS-enabled media player.
     XF86AudioPlay        allow-when-locked=true { spawn-sh "playerctl play-pause"; }
+    XF86AudioPause       allow-when-locked=true { spawn-sh "playerctl play-pause"; }
     XF86AudioStop        allow-when-locked=true { spawn-sh "playerctl stop"; }
     XF86AudioPrev        allow-when-locked=true { spawn-sh "playerctl previous"; }
     XF86AudioNext        allow-when-locked=true { spawn-sh "playerctl next"; }
@@ -544,11 +554,14 @@ binds {
     // Expel the bottom window from the focused column to the right.
     Mod+Period { expel-window-from-column; }
 
+    // Cycle through widths set in preset-column-widths.
     Mod+R { switch-preset-column-width; }
     // Cycling through the presets in reverse order is also possible.
-    // Mod+R { switch-preset-column-width-back; }
-    Mod+Shift+R { switch-preset-window-height; }
+    Mod+Shift+R { switch-preset-column-width-back; }
+
+    Mod+Ctrl+Shift+R { switch-preset-window-height; }
     Mod+Ctrl+R { reset-window-height; }
+
     Mod+F { maximize-column; }
     Mod+Shift+F { fullscreen-window; }
 
@@ -621,5 +634,3 @@ binds {
     // moving the mouse or pressing any other key.
     Mod+Shift+P { power-off-monitors; }
 }
-
-include "dms/outputs.kdl"

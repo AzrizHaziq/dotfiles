@@ -34,13 +34,9 @@ return {
           icons = {
             preset = 'nerdfonts',
           },
-          picker = {
-            snacks_layout = 'layout' -- `layout` opts to pass to Snacks.picker.pick({ layout = ... })
-          },
           output = {
             filetype = 'opencode_output',
             tools = {
-              show_output = true,
               use_folds = false,
               -- folding_threshold = 10
             }
