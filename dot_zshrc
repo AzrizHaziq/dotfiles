@@ -57,12 +57,13 @@ fi
 # These load sequentially after prompt appears, with proper keyboard input handling
 # Keep stderr visible (+2) for debugging
 # zsh-defer +2 source "$BREW_PREFIX/opt/zsh-vi-mode/share/zsh-vi-mode/zsh-vi-mode.plugin.zsh"
-zsh-defer +2 source "$BREW_PREFIX/opt/zsh-autosuggestions/share/zsh-autosuggestions/zsh-autosuggestions.zsh"
-zsh-defer +2 source "$BREW_PREFIX/share/zsh-you-should-use/you-should-use.plugin.zsh"
-# zsh-defer +2 source "$BREW_PREFIX/opt/zsh-fast-syntax-highlighting/share/zsh-fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh"
-zsh-defer +2 source $ZSH/plugins/colored-man-pages/colored-man-pages.plugin.zsh
+zsh-defer +2 source $ZSH/custom/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.plugin.zsh
+zsh-defer +2 source $ZSH/custom/plugins/colored-man-pages/colored-man-pages.plugin.zsh
 zsh-defer +2 source $ZSH/custom/plugins/zsh-fzf-history-search/zsh-fzf-history-search.plugin.zsh
-zsh-defer +2 source "$BREW_PREFIX/opt/fzf-tab/share/fzf-tab/fzf-tab.zsh" # Load fzf-tab LAST to bind widgets after all other plugins
+zsh-defer +2 source $ZSH/custom/plugins/zsh-autosuggestions/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+zsh-defer +2 source $ZSH/custom/plugins/zsh-autocomplete/zsh-autocomplete.plugin.zsh
+zsh-defer +2 source $ZSH/custom/plugins/you-should-use/you-should-use.plugin.zsh
+zsh-defer +2 source $ZSH/custom/plugins/fzf-tab/fzf-tab.zsh # Load fzf-tab LAST to bind widgets after all other plugins
 
 ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE="20"
 ZSH_AUTOSUGGEST_USE_ASYNC=1
@@ -87,8 +88,10 @@ alias wd="cd /home/azrizhaziq/work"
 alias pbcopy="clip.exe"
 
 alias cat="bat"
-alias ls="eza"
-alias ghd="gh dash" #  gh extension install dlvhdr/gh-dash
+alias ls="eza --icons=always --color=always --group-directories-first" # General replacement for 'ls'
+alias ll="eza --long --header --icons=always --git --group-directories-first" # Detailed list view mapped to 'll'
+alias lt="ll --tree --level=2"
+
 alias v="nvim"
 
 alias cd="z"
