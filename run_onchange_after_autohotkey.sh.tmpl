@@ -1,0 +1,32 @@
+#!/bin/bash
+
+# Hash to trigger on changes: {{ include "dot_config/autohotkey/azrizhaziq_key.ahk" | sha256sum }}
+
+# Skip if source AutoHotkey script doesn't exist
+if [ ! -f "$HOME/.config/autohotkey/azrizhaziq_key.ahk" ]; then
+  echo "AutoHotkey deploy: ~/.config/autohotkey/azrizhaziq_key.ahk not found, skipping."
+  exit 0
+fi
+
+# Skip if not running in a WSL+Windows environment
+if ! command -v cmd.exe >/dev/null 2>&1 || ! command -v wslpath >/dev/null 2>&1; then
+  echo "AutoHotkey deploy: cmd.exe or wslpath not found, skipping."
+  exit 0
+fi
+
+windows_home="$(wslpath "$(cmd.exe /c "echo %USERPROFILE%" 2>/dev/null | tr -d '\r')")"
+
+# Skip if Windows home could not be detected
+if [ -z "$windows_home" ] || [ ! -d "$windows_home" ]; then
+  echo "AutoHotkey deploy: Windows home not detected, skipping."
+  exit 0
+fi
+
+autohotkey_dir="$windows_home/OneDrive - Accountor Holding Oy/Documents/AutoHotkey"
+
+# Create directory if it doesn't exist
+mkdir -p "$autohotkey_dir"
+
+echo "Deploying AutoHotkey script to Windows..."
+cp "$HOME/.config/autohotkey/azrizhaziq_key.ahk" "$autohotkey_dir/azrizhaziq key.ahk"
+echo "AutoHotkey script deployed successfully to: $autohotkey_dir/azrizhaziq key.ahk"
