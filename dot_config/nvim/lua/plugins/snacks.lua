@@ -116,18 +116,19 @@ return {
                   ['<BS>'] = 'explorer_up',
                 },
               },
-              list = {
-                keys = {
-                  ["<c-t>"] = false, -- disable terminal
-                  ['<Esc>'] = false,
-                  ['<C-v>'] = 'edit_vsplit',
-                  ['<C-h>'] = false,
-                  ['<C-j>'] = false,
-                  ['<C-k>'] = false,
-                  ['<C-l>'] = false,
-                  ['G'] = 'toggle_gitignored', -- Toggle gitignored files
-                },
-              },
+               list = {
+                 keys = {
+                   ["<c-t>"] = false, -- disable terminal
+                   ['<Esc>'] = false,
+                   ['<C-v>'] = 'edit_vsplit',
+                   ['<C-h>'] = false,
+                   ['<C-j>'] = false,
+                   ['<C-k>'] = false,
+                   ['<C-l>'] = false,
+                   ['G'] = 'toggle_gitignored', -- Toggle gitignored files
+                   ['<leader>/'] = 'fff_grep_here' -- using fff
+                 },
+               },
               preview = {
                 keys = {
                   ['<Esc>'] = false,
@@ -141,7 +142,16 @@ return {
                 local Actions = require 'snacks.explorer.actions'
                 Actions.update(picker, { refresh = true })
               end,
-              -- tmux_left_pane  = function() require('nvim-tmux-navigation').NvimTmuxNavigateLeft() end,
+
+              -- Open FFF grep scoped to current explorer folder
+              fff_grep_here = function(picker)
+                local cwd = picker:dir() or vim.fn.getcwd()
+                require('fff').live_grep({
+                  base_path = cwd,
+                  title = 'Grep in ' .. vim.fn.fnamemodify(cwd, ':~'),
+                })
+                picker:close()
+              end,
             },
           },
         },
