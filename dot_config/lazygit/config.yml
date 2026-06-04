@@ -2,11 +2,9 @@ notARepository: "quit"
 promptToReturnFromSubprocess: false
 os:
   editPreset: nvim
-
 git:
   pagers:
     - useExternalDiffGitConfig: true
-
 gui:
   showPanelJumps: true
   border: 'thick'
@@ -32,8 +30,12 @@ gui:
       - "#cdd6f4"
     searchingActiveBorderColor:
       - "#f9e2af"
-
 customCommands:
+  - key: W
+    context: "files"
+    description: "Generate commit message with caveman-commit skill"
+    command: "opencode run -m github-copilot/claude-haiku-4.5 --agent build --command commit"
+    output: "terminal"
   - key: w
     prompts:
       - type: input
@@ -42,6 +44,5 @@ customCommands:
     description: Commit changes without pre-commit hook
     command: git commit -n -m '{{index .PromptResponses 0}}'
     context: files
-
 services:
   'github-window-wsl.com': 'github:github.com'
