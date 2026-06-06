@@ -107,6 +107,7 @@ alias cz="chezmoi"
 alias lz="lazygit"
 alias ld="lazydocker"
 alias lj="lazyjournal"
+alias ts="tailscale"
 alias op="opencode"
 
 # Faster compinit with cache validation - only run once per day
