@@ -4,7 +4,9 @@ os:
   editPreset: nvim
 git:
   pagers:
-    - useExternalDiffGitConfig: true
+    # - useExternalDiffGitConfig: true
+    - colorArg: always
+      pager: hunk pager --mode split --line-numbers
 gui:
   showPanelJumps: true
   border: 'thick'
@@ -33,9 +35,10 @@ gui:
 customCommands:
   - key: W
     context: "files"
-    description: "Generate commit message with caveman-commit skill"
-    command: "opencode run -m github-copilot/claude-haiku-4.5 --agent build --command commit"
-    output: "terminal"
+    description: "AI commit: generate msg + auto-commit (caveman-commit)"
+    command: "zsh -c 'source ~/.zshrc && lazygit-ai-commit'"
+    loadingText: "Generating AI commit..."
+    output: terminal
   - key: w
     prompts:
       - type: input

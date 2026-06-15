@@ -88,11 +88,6 @@
     }
   },
   "command": {
-    "commit": {
-      "description": "Auto-commit with caveman-commit message",
-      "agent": "build",
-      "template": "Use caveman-commit skill to generate commit message for staged changes, then commit directly.\n\n1. Run `git diff --cached` to review\n2. Generate message (subject ≤50 chars, bullets for desc)\n3. Commit: `git commit -m <msg>`\n\n"
-    },
     "llm-login": {
       "description": "Run local llm-login CLI for ecosystem setup",
       "template": ""
