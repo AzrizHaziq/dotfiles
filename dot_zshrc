@@ -9,9 +9,6 @@ source ~/.oh-my-zsh/custom/plugins/zsh-defer/zsh-defer.plugin.zsh
 # Path to your Oh My Zsh installation.
 export ZSH="$HOME/.oh-my-zsh"
 
-# Homebrew prefix (works across Linux, macOS Intel, macOS Apple Silicon)
-export BREW_PREFIX="$(brew --prefix)"
-
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time Oh My Zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
@@ -28,7 +25,7 @@ CATPPUCCIN_SHOW_TIME=true
 # HYPHEN_INSENSITIVE="true"
 
 # Uncomment one of the following lines to change the auto-update behavior
-zstyle ':omz:update' frequency 7
+# zstyle ':omz:update' frequency 7
 
 # Uncomment the following line if you want to disable marking untracked files
 # under VCS as dirty. This makes repository status check for large repositories
@@ -43,30 +40,38 @@ zstyle ':omz:update' frequency 7
 # see 'man strftime' for details.
 # HIST_STAMPS="mm/dd/yyyy"
 
-plugins=(
-  zsh-vi-mode
-  git
-  chezmoi
-)
+# HISTFILE =~/.zsh_history
+HISTSIZE=70000
+SAVEHIST=70000
+
+setopt HIST_IGNORE_SPACE # Don't save when prefixed with space
+setopt HIST_IGNORE_DUPS  # Don't save duplicate lines
+setopt SHARE_HISTORY     # Share history between sessions
+
+plugins=(zsh-vi-mode git)
 
 if [ -d "$HOME/.oh-my-zsh" ]; then
   source "$ZSH/oh-my-zsh.sh"
 fi
 
-# Load heavy plugins with zsh-defer for optimal startup performance
-# These load sequentially after prompt appears, with proper keyboard input handling
-# Keep stderr visible (+2) for debugging
-# zsh-defer +2 source "$BREW_PREFIX/opt/zsh-vi-mode/share/zsh-vi-mode/zsh-vi-mode.plugin.zsh"
-zsh-defer +2 source $ZSH/custom/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.plugin.zsh
-zsh-defer +2 source $ZSH/custom/plugins/colored-man-pages/colored-man-pages.plugin.zsh
-zsh-defer +2 source $ZSH/custom/plugins/zsh-fzf-history-search/zsh-fzf-history-search.plugin.zsh
-zsh-defer +2 source $ZSH/custom/plugins/zsh-autosuggestions/share/zsh-autosuggestions/zsh-autosuggestions.zsh
-zsh-defer +2 source $ZSH/custom/plugins/zsh-autocomplete/zsh-autocomplete.plugin.zsh
-zsh-defer +2 source $ZSH/custom/plugins/you-should-use/you-should-use.plugin.zsh
-zsh-defer +2 source $ZSH/custom/plugins/fzf-tab/fzf-tab.zsh # Load fzf-tab LAST to bind widgets after all other plugins
+eval "$(zoxide init zsh)"
+eval "$(mise activate zsh)"
 
 ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE="20"
 ZSH_AUTOSUGGEST_USE_ASYNC=1
+# Load heavy plugins with zsh-defer for optimal startup performance
+# These load sequentially after prompt appears, with proper keyboard input handling
+zsh-defer +2 source $ZSH/custom/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.plugin.zsh
+zsh-defer +2 source $ZSH/custom/plugins/colored-man-pages/colored-man-pages.plugin.zsh
+zsh-defer +2 source $ZSH/custom/plugins/zsh-fzf-history-search/zsh-fzf-history-search.plugin.zsh
+zsh-defer +2 source $ZSH/custom/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
+zsh-defer +2 bindkey '^Y' autosuggest-accept
+zsh-defer +2 source $ZSH/custom/plugins/zsh-autocomplete/zsh-autocomplete.plugin.zsh
+zsh-defer +2 source $ZSH/custom/plugins/you-should-use/you-should-use.plugin.zsh
+zsh-defer +2 source $ZSH/custom/plugins/zsh-history-substring-search/zsh-history-substring-search.plugin.zsh
+zsh-defer +2 bindkey '^P' history-substring-search-up
+zsh-defer +2 bindkey '^N' history-substring-search-down
+zsh-defer +2 source $ZSH/custom/plugins/fzf-tab/fzf-tab.zsh # Load fzf-tab LAST to bind widgets after all other plugins
 
 # User configuration
 # export MANPATH="/usr/local/man:$MANPATH"
@@ -78,14 +83,12 @@ export EDITOR='nvim'
 export VISUAL='nvim'
 
 # bindkey -s '^Xgc' 'git commit -m ""\C-b' ## ctrl+x+g+c
-alias zshreset="rm ~/.zcompdump && source ~/.zshrc && exec zsh"
 alias pn="pnpm"
 alias y="yarn"
 alias omz="omz update"
 
 alias wdd="cd /mnt/c/Repos"
 alias wd="cd /home/azrizhaziq/work"
-alias pbcopy="clip.exe"
 
 alias cat="bat"
 alias ls="eza --icons=always --color=always --group-directories-first" # General replacement for 'ls'
@@ -93,6 +96,7 @@ alias ll="eza --long --header --icons=always --git --group-directories-first" # 
 alias lt="ll --tree --level=2"
 
 alias v="nvim"
+alias vim="nvim"
 
 alias cd="z"
 alias gs="git status"
@@ -102,6 +106,8 @@ alias grep="grep --color=auto -n" # colorize grep output
 alias hs="history | grep --color=auto -n" # colorize history output
 alias gip="curl ipinfo.io/ip && curl ipinfo.io/org" # get ip and org
 alias f="find . -name" # find files
+alias zshreset="source ~/.zshrc && exec zsh"
+alias zshupdate="omz update"
 
 alias cz="chezmoi"
 alias lz="lazygit"
@@ -109,60 +115,7 @@ alias ld="lazydocker"
 alias lj="lazyjournal"
 alias op="opencode"
 
-# Faster compinit with cache validation - only run once per day
-autoload -Uz compinit
-local dump_file="${ZDOTDIR:-$HOME}/.zcompdump"
-
-# Only run compinit once a day (check if dump file is older than 24h)
-if [[ -n $dump_file(#qNmh-24) ]]; then
-  compinit -C -d "$dump_file"  # Use cache, skip check
-else
-  compinit -d "$dump_file"     # Full check once per day
-  # Compile dump file in background for next time
-  { zcompile "$dump_file" } &!
-fi
-
-# ============================================
-# fzf-tab configuration (load before plugins)
-# ============================================
-# Set descriptions format to enable group support
-zstyle ':completion:*:descriptions' format '[%d]'
-
-# Enable filename colorizing
-zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
-
-# Force zsh not to show completion menu (let fzf-tab handle it)
-zstyle ':completion:*' menu no
-
-# Use tmux floating popup for fzf-tab (requires tmux >= 3.2)
-zstyle ':fzf-tab:*' fzf-command ftb-tmux-popup
-
-# Preview directory contents when completing cd
-zstyle ':fzf-tab:complete:cd:*' fzf-preview 'eza -1 --color=always $realpath'
-
-# Git branch preview (git checkout, git switch, etc.)
-zstyle ':fzf-tab:complete:git-(checkout|switch):*' fzf-preview 'git log --oneline -20 $word'
-
-# Git commit log preview
-zstyle ':fzf-tab:complete:git-commit:*' fzf-preview 'git log --oneline -20'
-
-# Docker container/image preview
-zstyle ':fzf-tab:complete:docker:argument-1:' fzf-preview 'docker ps --all --format "table {{.ID}}\t{{.Names}}\t{{.Status}}"'
-zstyle ':fzf-tab:complete:docker-container:argument-1:' fzf-preview 'docker ps --all --format "table {{.ID}}\t{{.Names}}\t{{.Status}}"'
-
-# npm script preview (show scripts from package.json)
-zstyle ':fzf-tab:complete:npm:argument-1:' fzf-preview 'jq .scripts < package.json 2>/dev/null | grep -E "^\s+\"" | sed "s/\"//g"'
-zstyle ':fzf-tab:complete:npm-run-script:argument-1:' fzf-preview 'jq .scripts < package.json 2>/dev/null'
-
-# Disable sort for certain commands to preserve order
-zstyle ':completion:*:git-checkout:*' sort false
-zstyle ':completion:*:git-switch:*' sort false
-
-# Custom fzf flags (optional, uncomment if needed)
-# zstyle ':fzf-tab:*' fzf-flags --color=fg:1,fg+:2 --bind=tab:accept
-
 export PATH="$HOME/.local/bin:$PATH"
-export PATH="/home/azrizhaziq/.bun/bin:$PATH"
 
 # Keep a sane PATH in all environments and remove duplicates.
 typeset -U path PATH
@@ -204,122 +157,6 @@ fi
 [ -f ~/.zshrc.d/secrets.zsh ] && source ~/.zshrc.d/secrets.zsh
 [ -f ~/.zshrc.d/local-machine.zsh ] && source ~/.zshrc.d/local-machine.zsh
 
-function sesh-sessions() {
-  {
-    exec </dev/tty
-    exec <&1
-    local session
-    session=$(sesh list -t -c | fzf --height 40% --reverse --border-label ' sesh ' --border --prompt '⚡  ')
-    zle reset-prompt > /dev/null 2>&1 || true
-    [[ -z "$session" ]] && return
-    sesh connect $session
-  }
-}
-
-zle     -N             sesh-sessions
-bindkey -M vicmd '^S' sesh-sessions
-bindkey -M viins '^S' sesh-sessions
-
-
-function vi_mode_prompt_info() {
-  MODE_INDICATOR="%F{${catppuccin_blue}}%f"
-  INSERT_MODE_INDICATOR="%F{${catppuccin_green}}✎%f"
-
-  case $ZVM_MODE in
-    $ZVM_MODE_NORMAL) print -rn -- "$MODE_INDICATOR" ;;
-    *) print -rn -- "$INSERT_MODE_INDICATOR" ;;
-  esac
-}
-
-PROMPT+='$(vi_mode_prompt_info) '
-RPS1="%F{240}loading%f"
-
-function zvm_config() {
-  ZVM_LINE_INIT_MODE=$ZVM_MODE_INSERT
-  ZVM_SYSTEM_CLIPBOARD_ENABLED=true
-  ZVM_INIT_MODE=sourcing           # Initialization style
-}
-
-function zvm_after_init() {
-  zvm_bindkey viins '^P' up-line-or-beginning-search
-  zvm_bindkey viins '^N' down-line-or-beginning-search
-  bindkey -M viins '^Y' autosuggest-accept
-}
-
-function zvm_after_select_vi_mode() {
-  # The "Refresh" Hook (Crucial for instant icon changes)
-  zle reset-prompt 2>/dev/null
-}
-
-# Defer zoxide initialization - loads after prompt appears
-if (( $+commands[zoxide] )); then
-  zsh-defer +2 eval "$(zoxide init zsh)"
-fi
-
-# Defer mise activation - loads after prompt appears
-if (( $+commands[mise] )); then
-  zsh-defer +2 eval "$(mise activate zsh)"
-fi
-
-zsh-defer -c 'RPS1=""' # zsh defer loading done
-
-# ============================================================================
-# Lazygit AI Commit Helper
-# ============================================================================
-lazygit-ai-commit() {
-  set -e
-  local DIFF_FILE=$(mktemp)
-  trap "rm -f $DIFF_FILE" EXIT
-
-  # Capture staged diff
-  git diff --cached --no-ext-diff > "$DIFF_FILE"
-  
-  if [ ! -s "$DIFF_FILE" ]; then
-    echo "❌ No staged changes to commit"
-    return 1
-  fi
-
-  echo "🤖 Generating commit message..."
-  
-  # Multiline prompt for AI
-  local PROMPT="You are a commit message generator using caveman-commit skill.
-      Analyze the attached diff and generate a conventional commit message.
-      desc must be in bullet points and after last points add new line.
-      marker = >>>>>>>>>>>>>>>>>>>
-      That's it. Start your response with the marker."
-
-  # Call opencode
-  local RAW=$(opencode run --agent build \
-    --model github-copilot/claude-haiku-4.5 \
-    --file "$DIFF_FILE" -- \
-    "$PROMPT" 2>&1)
-  
-  # Extract commit message after marker
-  # Keep blank lines for proper commit format (title + blank + body)
-  local MSG=$(echo "$RAW" \
-    | awk '/^>>>>>>>>>>>>>>>>>>>/{flag=1; next} flag' \
-    | sed 's/\x1b\[[0-9;]*m//g' \
-    | sed 's/^```.*$//; s/^```$//;')
-  
-  if [ -z "$MSG" ]; then
-    echo "❌ AI generation failed. Opening manual commit..."
-    git commit
-    return $?
-  fi
-
-  echo "📝 Commit message:"
-  echo "$MSG"
-  echo ""
-  
-  # Commit with generated message
-  echo "$MSG" | git commit -F -
-  
-  if [ $? -eq 0 ]; then
-    echo "✅ Committed successfully"
-  else
-    echo "❌ Commit failed. Opening manual commit..."
-    git commit
-  fi
-}
+zsh-defer +2 source ~/.zshrc.d/functions.zsh
 
 # zprof
