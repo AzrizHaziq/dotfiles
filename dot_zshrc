@@ -14,11 +14,6 @@ plugins=(
 
 [ -d "$HOME/.oh-my-zsh" ] && source "$ZSH/oh-my-zsh.sh"
 
-# --- Prompt (must be synchronous — renders immediately) ---
-fpath+=("$(brew --prefix)/share/zsh/site-functions")
-autoload -U promptinit; promptinit
-prompt pure
-
 # --- History ---
 HISTSIZE=70000
 SAVEHIST=70000
@@ -47,6 +42,12 @@ path=(
   $path
 )
 export PATH
+
+# --- Prompt (must be synchronous — renders immediately) ---
+fpath+=("$(brew --prefix)/share/zsh/site-functions")
+autoload -U promptinit; promptinit
+prompt pure
+
 
 # FZF catppuccin mocha theme — github.com/catppuccin/fzf
 export FZF_DEFAULT_OPTS=" \
