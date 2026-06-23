@@ -126,7 +126,8 @@ return {
                   ['<C-k>'] = false,
                   ['<C-l>'] = false,
                   ['G'] = 'toggle_gitignored', -- Toggle gitignored files
-                  ['<leader>/'] = 'fff_grep_here' -- using fff
+                  ['<leader>ca'] = 'copy_absolute',
+                  ['<leader>cr'] = 'copy_relative'
                 },
               },
               preview = {
@@ -136,21 +137,40 @@ return {
               },
             },
             actions = {
+              copy_relative = function(picker)
+                local selected = picker:selected({ fallback = true })
+                if selected and #selected > 0 then
+                  local cwd = picker:dir() or vim.fn.getcwd()
+                  for _, item in ipairs(selected) do
+                    if item.file then
+                      local rel_path = vim.fn.fnamemodify(item.file, ':.' .. cwd)
+                      vim.fn.setreg('+', rel_path)
+                      Snacks.notify.info('Copied: ' .. rel_path)
+                      break
+                    end
+                  end
+                end
+              end,
+
+              copy_absolute = function(picker)
+                local selected = picker:selected({ fallback = true })
+                if selected and #selected > 0 then
+                  for _, item in ipairs(selected) do
+                    if item.file then
+                      local abs_path = vim.fn.fnamemodify(item.file, ':p')
+                      vim.fn.setreg('+', abs_path)
+                      Snacks.notify.info('Copied: ' .. abs_path)
+                      break
+                    end
+                  end
+                end
+              end,
+
               -- Toggle gitignored files visibility
               toggle_gitignored = function(picker)
                 picker.opts.ignored = not picker.opts.ignored
                 local Actions = require 'snacks.explorer.actions'
                 Actions.update(picker, { refresh = true })
-              end,
-
-              -- Open FFF grep scoped to current explorer folder
-              fff_grep_here = function(picker)
-                local cwd = picker:dir() or vim.fn.getcwd()
-                require('fff').live_grep({
-                  base_path = cwd,
-                  title = 'Grep in ' .. vim.fn.fnamemodify(cwd, ':~'),
-                })
-                picker:close()
               end,
             },
           },
@@ -234,6 +254,7 @@ return {
       { '<leader>hl', function() require('snacks').picker.git_log_line() end, mode = 'n', desc = '[H]istory [L]og line for file', },
 
       { 'grf', function() require('snacks').rename.rename_file() end, desc = 'LSP: Rename Current File' },
+      { '<leader>wz', function() require('snacks').picker.zoxide() end, desc = "[W]orkspace [Z]oxide" }
    },
    }
 }
