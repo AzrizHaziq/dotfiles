@@ -36,7 +36,7 @@ require('lazy').setup({
       keys = '🗝',
       plugin = '🔌',
       runtime = '💻',
-     require = '🌙',
+      require = '🌙',
       source = '📄',
       start = '🚀',
       task = '📌',

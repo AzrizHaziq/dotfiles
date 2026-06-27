@@ -18,6 +18,10 @@ vim.keymap.set('n', '<right>', '<cmd>echo "Use l to move!!"<CR>', { noremap = tr
 vim.keymap.set('n', '<up>', '<cmd>echo "Use k to move!!"<CR>', { noremap = true })
 vim.keymap.set('n', '<down>', '<cmd>echo "Use j to move!!"<CR>', { noremap = true })
 
+vim.keymap.set('n', 'H', '^', { desc = 'Move to start of line' })
+vim.keymap.set('n', 'L', 'g_', { desc = 'Move to end of line' })
+
+
 -- ============================================================================
 -- WINDOW NAVIGATION
 -- ============================================================================
