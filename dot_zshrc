@@ -10,15 +10,20 @@ ZSH_THEME=""
 plugins=(
   git
   colored-man-pages
+  vi-mode
 )
 
 [ -d "$HOME/.oh-my-zsh" ] && source "$ZSH/oh-my-zsh.sh"
 
 # --- History ---
-HISTSIZE=70000
-SAVEHIST=70000
-setopt HIST_IGNORE_SPACE
-setopt HIST_IGNORE_DUPS
+export HISTFILE="~/.zsh_history"
+export HISTSIZE=50000          # History lines stored in memory.
+export SAVEHIST=50000          # History lines stored on disk.
+setopt EXTENDED_HISTORY        # Save history with timestamps.
+setopt INC_APPEND_HISTORY_TIME # Immediately append commands and track duration.
+setopt HIST_IGNORE_ALL_DUPS    # Never add duplicate entries.
+setopt HIST_IGNORE_SPACE       # Ignore commands that start with a space.
+setopt HIST_REDUCE_BLANKS      # Remove unnecessary blank lines.
 setopt SHARE_HISTORY
 
 # --- Environment ---
@@ -138,4 +143,3 @@ zsh-defer +1 _load_ui_plugins
 zsh-defer +2 _load_env_tools
 zsh-defer -c 'RPS1=""' # zsh defer loading done
 # zprof
-
