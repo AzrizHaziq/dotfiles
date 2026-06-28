@@ -154,6 +154,39 @@ return {
             },
           },
         },
+        harper_ls = {
+          settings = {
+            ['harper-ls'] = {
+              userDictPath = vim.fn.expand('~/.config/nvim/harper/user_dictionary.txt'),
+              workspaceDictPath = '',
+              fileDictPath = '',
+              linters = {
+                SpellCheck = true,
+                SpelledNumbers = false,
+                AnA = true,
+                SentenceCapitalization = true,
+                UnclosedQuotes = true,
+                WrongApostrophe = false,
+                LongSentences = true,
+                RepeatedWords = true,
+                Spaces = true,
+                CorrectNumberSuffix = true,
+              },
+              codeActions = {
+                ForceStable = false,
+              },
+              markdown = {
+                IgnoreLinkTitle = false,
+              },
+              diagnosticSeverity = 'hint',
+              isolateEnglish = false,
+              dialect = 'American',
+              maxFileLength = 120000,
+              ignoredLintsPath = '',
+              excludePatterns = {},
+            },
+          },
+        },
       }
 
       local ensure_installed = vim.tbl_keys(servers or {})
@@ -165,6 +198,7 @@ return {
         'eslint_d',
         'typescript-language-server',
         'some-sass-language-server',
+        'harper-ls',
       })
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 

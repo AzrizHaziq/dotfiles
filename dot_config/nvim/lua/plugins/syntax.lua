@@ -14,12 +14,22 @@ return {
     "shellRaining/hlchunk.nvim",
     event = { "BufReadPre", "BufNewFile" },
     config = function()
+      local C = require('catppuccin.palettes').get_palette 'mocha'
+
       require("hlchunk").setup({
         chunk = {
-          enable = true
+          enable = true,
+          chars = {
+            right_arrow = '◉' -- ● ○ ◉
+          },
         },
         indent = {
-          enable = true
+          enable = true,
+          chars = { "¦" } -- │┆┊
+        },
+        line_num = {
+          enable = true,
+          style = C.lavender
         }
       })
     end
