@@ -215,10 +215,16 @@ return {
           end,
         },
         win = {
+          preview = {
+            wo = { wrap = true }
+          },
           input = {
             keys = {
               -- Use <localleader>o or any preferred key to send files to opencode
               ["<localleader>o"] = { "opencode_send", mode = { "n", "i" } },
+              ["<c-u>"] = { "preview_scroll_up", mode = { "i", "n" } },
+              ["<c-d>"] = { "preview_scroll_down", mode = { "i", "n" } },
+              ["<a-z>"] = { "toggle_maximize", mode = { "i", "n" } },
             },
           },
         },

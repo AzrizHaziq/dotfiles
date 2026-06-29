@@ -91,10 +91,13 @@ return {
         end,
       })
 
+      -- Dim unused symbols (ts_ls reports them as hints via DiagnosticUnnecessary)
+      vim.api.nvim_set_hl(0, 'DiagnosticUnnecessary', { fg = '#6b7280', italic = true })
+
       vim.diagnostic.config {
         severity_sort = true,
         float = { border = 'rounded', source = 'if_many' },
-        underline = { severity = vim.diagnostic.severity.ERROR },
+        underline = { severity = { min = vim.diagnostic.severity.HINT } },
         signs = vim.g.have_nerd_font and {
           text = {
             [vim.diagnostic.severity.ERROR] = '󰅚 ',
@@ -157,7 +160,7 @@ return {
         harper_ls = {
           settings = {
             ['harper-ls'] = {
-              userDictPath = vim.fn.expand('~/.config/nvim/harper/user_dictionary.txt'),
+              userDictPath = vim.fn.expand('~/.config/dictionary/user.txt'),
               workspaceDictPath = '',
               fileDictPath = '',
               linters = {

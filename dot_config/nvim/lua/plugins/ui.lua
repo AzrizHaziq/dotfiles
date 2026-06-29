@@ -1,7 +1,18 @@
 return {
   {
+    "nvzone/minty",
+    cmd = { "Shades", "Huefy" }, -- Lazy loads the commands
+    keys = {
+      { "<leader>cs", "<cmd>Shades<cr>", desc = "Open Minty Shades (Color Palette)" },
+      { "<leader>ch", "<cmd>Huefy<cr>", desc = "Open Minty Huefy (Color Picker)" },
+    },
+    dependencies = {
+      { "nvzone/volt", lazy = true }, -- Required dependency
+    },
+  },
+
+  {
     'kevinhwang91/nvim-ufo',
-    enabled = false,
     dependencies = 'kevinhwang91/promise-async',
     event = 'VeryLazy',
     init = function()
@@ -57,6 +68,7 @@ return {
       }
     end,
   },
+
   {
     'folke/which-key.nvim',
     event = 'VeryLazy',
@@ -114,6 +126,7 @@ return {
       },
     },
   },
+
   {
     'nvim-lualine/lualine.nvim',
     event = 'VeryLazy',
@@ -355,6 +368,7 @@ return {
       }
     end,
   },
+
   {
     'sphamba/smear-cursor.nvim',
     event = 'BufReadPre',
@@ -365,6 +379,7 @@ return {
       smear_insert_mode = true,
     },
   },
+
   {
     'nvzone/showkeys',
     enabled = false,
