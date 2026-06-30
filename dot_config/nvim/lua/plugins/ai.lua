@@ -38,16 +38,16 @@ return {
             filetype = 'opencode_output',
             tools = {
               use_folds = false,
-              -- folding_threshold = 10
+              folding_threshold = 50
             }
           },
         },
         keymap = {
           editor = {
             ['<leader>oi'] = { 'open_input' },
-            ['<leader>oI'] = { 'open_input_new_session' },
-            ['<leader>oo'] = { 'open_output' },
-            ['<leader>ot'] = { 'toggle_focus' },
+            ['<leader>on'] = { 'open_input_new_session' },
+            ['<leader>oo'] = false,
+            ['<leader>ot'] = false,
             ['<leader>oT'] = { 'timeline' },
             ['<leader>oq'] = { 'close' },
             ['<leader>os'] = { 'select_session' },
@@ -72,17 +72,18 @@ return {
             ['<leader>ott'] = { 'toggle_tool_output' },
             ['<leader>otr'] = { 'toggle_reasoning_output' },
             ['<leader>ol'] = { 'quick_chat', mode = { 'n', 'x' } },
-            ['<leader>oa'] = { 'agent', { 'select' } },
+            ['<leader>oa'] = false,
             ['<leader>op'] = { 'toggle' },
             ['<leader>o/'] = false,
           },
           input_window = {
-            ['<M-v>'] = { 'paste_image', mode = 'i' },
+            ['<M-V>'] = { 'paste_image', mode = 'i' },
             ['<M-m>'] = { 'switch_mode', mode = { 'n', 'i' } },
             ['<M-t>'] = { 'cycle_variant', mode = { 'n', 'i' } },
             ['<esc>'] = false,
           },
           output_window = {
+            ['<M-V>'] = { 'paste_image', mode = 'i' },
             ['<M-r>'] = { 'cycle_variant', mode = { 'n' } },
             ['<M-m>'] = { 'switch_mode' },
             ['<esc>'] = false,
