@@ -1,3 +1,6 @@
+-- Set default format-on-save --[[ state  ]](can toggle with <leader>tf)
+vim.g.enable_autoformat = true
+
 return {
   {
     'stevearc/conform.nvim',
@@ -43,21 +46,22 @@ return {
 
         return {
           timeout_ms = 3000,
-          lsp_format = 'fallback',
+          lsp_format = 'fallback', -- Replaced true with fallback to avoid LSP/formatter race conditions
         }
       end,
       formatters_by_ft = {
         lua = { 'stylua' },
-        javascript = { 'prettierd', 'prettier', stop_after_first = true },
-        typescript = { 'prettierd', 'prettier', stop_after_first = true },
-        javascriptreact = { 'prettierd', 'prettier', stop_after_first = true },
-        typescriptreact = { 'prettierd', 'prettier', stop_after_first = true },
-        css = { 'prettierd', 'prettier', stop_after_first = true },
-        scss = { 'prettierd', 'prettier', stop_after_first = true },
-        html = { 'prettierd', 'prettier', stop_after_first = true },
-        json = { 'prettierd', 'prettier', stop_after_first = true },
-        yaml = { 'prettierd', 'prettier', stop_after_first = true },
-        markdown = { 'prettierd', 'prettier', stop_after_first = true },
+        -- Inner arrays tell Conform to pick ONE layout engine, then always run ESLint after it
+        javascript = { 'prettier', 'eslint_d' },
+        typescript = { 'prettier', 'eslint_d' },
+        javascriptreact = { 'prettier', 'eslint_d' },
+        typescriptreact = { 'prettier', 'eslint_d' },
+        css = { 'prettier', stop_after_first = true },
+        scss = { 'prettier', stop_after_first = true },
+        html = { 'prettier', stop_after_first = true },
+        json = { 'prettier', stop_after_first = true },
+        yaml = { 'prettier', stop_after_first = true },
+        markdown = { 'prettier', stop_after_first = true },
         sql = { 'sql_formatter' },
       },
     },
