@@ -203,11 +203,11 @@ keybindings:
 
   # Change focus from tiling windows -> floating -> fullscreen.
   - commands: ["wm-cycle-focus"]
-    bindings: ["f13+t"]
+    bindings: ["f13+e"]
 
   # Change the focused window to be tiling.q
   - commands: ["toggle-tiling"]
-    bindings: ["f13+shift+t"]
+    bindings: ["f13+shift+e"]
 
   # As an alternative to the resize keybindings above, resize mode enables
   # resizing via arrow keys or HJKL. The binding mode is defined above with

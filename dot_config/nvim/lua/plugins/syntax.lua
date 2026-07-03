@@ -22,6 +22,12 @@ return {
           chars = {
             right_arrow = '◉' -- ● ○ ◉
           },
+          duration = 200,
+          delay = 1,
+          style = {
+            {fg = C.blue },
+            {fg = C.maroon }
+          }
         },
         indent = {
           enable = true,
@@ -29,7 +35,7 @@ return {
         },
         line_num = {
           enable = true,
-          style = C.lavender
+          style = C.lavender,
         }
       })
     end
