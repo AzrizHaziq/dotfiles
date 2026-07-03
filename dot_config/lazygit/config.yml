@@ -33,6 +33,21 @@ gui:
       - "#cdd6f4"
     searchingActiveBorderColor:
       - "#f9e2af"
+
+keybinding:
+  universal:
+    nextTab: l
+    prevTab: h
+    nextBlock-alt: <disabled>
+    prevBlock-alt: <disabled>
+    jumpToBlock:
+      - "0"
+      - "1"
+      - "2"
+      - "4"
+      - "5"
+    focusMainView: 3
+
 customCommands:
   - key: W
     context: "files"
