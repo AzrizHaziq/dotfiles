@@ -11,37 +11,90 @@ return {
     },
   },
   {
-    "shellRaining/hlchunk.nvim",
-    event = { "BufReadPre", "BufNewFile" },
+    'shellRaining/hlchunk.nvim',
+    event = { 'BufReadPre', 'BufNewFile' },
     config = function()
       local C = require('catppuccin.palettes').get_palette 'mocha'
 
-      require("hlchunk").setup({
+      require('hlchunk').setup {
         chunk = {
           enable = true,
           chars = {
-            right_arrow = '◉' -- ● ○ ◉
+            right_arrow = '◉', -- ● ○ ◉
           },
           duration = 200,
           delay = 1,
           style = {
-            {fg = C.blue },
-            {fg = C.maroon }
-          }
+            { fg = C.blue },
+            { fg = C.maroon },
+          },
         },
         indent = {
           enable = true,
-          chars = { "¦" } -- │┆┊
+          chars = { '¦' }, -- │┆┊
         },
         line_num = {
           enable = true,
           style = C.lavender,
-        }
-      })
-    end
+        },
+      }
+    end,
   },
+
   {
     'nvim-treesitter/nvim-treesitter',
+    lazy = false,
+    build = ':TSUpdate',
+    branch = 'main',
+    config = function()
+      -- Configure treesitter using its official native setup function
+      require('nvim-treesitter.configs').setup {
+        -- Replaces your local parsers table completely
+        ensure_installed = {
+          'bash',
+          'c',
+          'diff',
+          'html',
+          'lua',
+          'luadoc',
+          'markdown',
+          'markdown_inline',
+          'query',
+          'vim',
+          'vimdoc',
+          'css',
+          'scss',
+          'javascript',
+          'typescript',
+          'tsx',
+          'json',
+          'yaml',
+          'regex',
+        },
+
+        -- Replaces your manual autocmd logic entirely
+        -- Automatically installs a missing parser whenever you open a new filetype
+        auto_install = true,
+
+        -- Enables rich, faster syntax highlighting natively
+        highlight = {
+          enable = true,
+          -- Option: set to true if you want to run standard vim regex highlighting
+          -- alongside treesitter (usually left false for performance)
+          additional_vim_regex_highlighting = false,
+        },
+
+        -- Replaces your manual indent logic block safely
+        indent = {
+          enable = true,
+        },
+      }
+    end,
+  },
+
+  {
+    'nvim-treesitter/nvim-treesitter',
+    enable = false,
     lazy = false,
     build = ':TSUpdate',
     branch = 'main',

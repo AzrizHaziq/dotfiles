@@ -33,6 +33,14 @@ return {
             },
           },
         },
+        custom_highlights = function(colors)
+          return {
+            TreesitterContext = { bg = colors.mantle },
+            TreesitterContextLineNumber = { bg = colors.mantle },
+            TreesitterContextBottom = { link = 'NONE' },
+            TreesitterContextLineNumberBottom = { link = 'NONE' },
+          }
+        end,
       }
       vim.cmd.colorscheme 'catppuccin'
     end,

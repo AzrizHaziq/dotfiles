@@ -27,6 +27,9 @@ vim.keymap.set('n', '<down>', '<cmd>echo "Use j to move!!"<CR>', { noremap = tru
 vim.keymap.set('n', 'H', '^', { desc = 'Move to start of line' })
 vim.keymap.set('n', 'L', 'g_', { desc = 'Move to end of line' })
 
+-- horizontal scrolling
+vim.keymap.set('n', 'zl', '5zl', { desc = 'Scroll right' })
+vim.keymap.set('n', 'zh', '5zh', { desc = 'Scroll left' })
 
 -- ============================================================================
 -- WINDOW NAVIGATION
