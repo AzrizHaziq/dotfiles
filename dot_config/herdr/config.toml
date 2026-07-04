@@ -1,36 +1,68 @@
 onboarding = false
 
 [theme]
-name = "tokyo-night"
+  name = "tokyo-night"
 
 [ui.toast]
-delivery = "terminal"
+  delivery = "terminal"
 
 [ui.sound]
-enabled = true
-
-# [keys]
-# prefix = "ctrl+b"
-# new_workspace = "n"
-# rename_workspace = "N"
-# close_workspace = "D"
-# reload_config = "R"      # optional, unset by default
-# new_tab = "c"
-# split_vertical = "|"
-# split_horizontal = "_"
-# close_pane = "x"
-# fullscreen = "f"
-# resize_mode = "r"
-# toggle_sidebar = "b"
-# # previous_workspace = "ctrl+alt+["
-# # next_workspace = "ctrl+alt+]"
-# rename_tab = "C"
-# # previous_tab = "T"
-# # next_tab = "t"
-# focus_pane_left = "ctrl+h"
-# focus_pane_down = "ctrl+j"
-# focus_pane_up = "ctrl+k"
-# focus_pane_right = "ctrl+l"
+  enabled = true
 
 [ui]
-show_agent_labels_on_pane_borders = true
+  show_agent_labels_on_pane_borders = true
+
+[keys]
+  prefix = "ctrl+\\"
+
+  switch_tab = "prefix+1..9"
+  switch_workspace = "prefix+ctrl+1..9"
+  focus_agent = "prefix+alt+1..9"
+
+  # Session
+  detach = "prefix+q"
+  goto = "prefix+s"
+
+  # Workspaces
+  workspace_picker = "prefix+w"
+  new_workspace = "prefix+shift+n"
+  rename_workspace = "prefix+shift+w"
+  close_workspace = "prefix+shift+d"
+  new_worktree = "prefix+shift+g"
+
+  navigate_workspace_up = "p"
+  navigate_workspace_down = "n"
+  navigate_pane_left = "h"
+  navigate_pane_down = "j"
+  navigate_pane_up = "k"
+  navigate_pane_right = "l"
+
+  # Tabs
+  new_tab = "prefix+c"
+  previous_tab = "prefix+p"
+  next_tab = "prefix+n"
+  rename_tab = "prefix+shift+t"
+  close_tab = "prefix+shift+x"
+
+  # Pane swap
+  swap_pane_left = "prefix+shift+h"
+  swap_pane_down = "prefix+shift+j"
+  swap_pane_up = "prefix+shift+k"
+  swap_pane_right = "prefix+shift+l"
+
+  # Pane cycle
+  cycle_pane_next = "prefix+tab"
+  cycle_pane_previous = "prefix+shift+tab"
+
+  # Pane management
+  split_vertical = "prefix+|"
+  split_horizontal = "prefix+_"
+  close_pane = "prefix+x"
+  zoom = "prefix+z"
+  resize_mode = "prefix+r"
+
+  # UI
+  toggle_sidebar = "prefix+b"
+  copy_mode = "prefix+["
+
+
