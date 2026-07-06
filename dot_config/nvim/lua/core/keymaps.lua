@@ -35,12 +35,12 @@ vim.keymap.set('n', 'zh', '5zh', { desc = 'Scroll left' })
 -- WINDOW NAVIGATION
 -- ============================================================================
 
-if vim.env.TMUX == nil then
-  vim.keymap.set('n', '<C-h>', '<C-w><C-h>', { desc = 'Move focus to the left window' })
-  vim.keymap.set('n', '<C-l>', '<C-w><C-l>', { desc = 'Move focus to the right window' })
-  vim.keymap.set('n', '<C-j>', '<C-w><C-j>', { desc = 'Move focus to the lower window' })
-  vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
-end
+-- if vim.env.TMUX == nil then
+--   vim.keymap.set('n', '<C-h>', '<C-w><C-h>', { desc = 'Move focus to the left window' })
+--   vim.keymap.set('n', '<C-l>', '<C-w><C-l>', { desc = 'Move focus to the right window' })
+--   vim.keymap.set('n', '<C-j>', '<C-w><C-j>', { desc = 'Move focus to the lower window' })
+--   vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
+-- end
 
 -- ============================================================================
 -- LINE MANIPULATION
@@ -110,7 +110,7 @@ local function format_json_deep()
   local filename = vim.fn.expand '%'
 
   -- Check if current file is JSON
-  if not filename:match('%.json$') then
+  if not filename:match '%.json$' then
     vim.notify('Not a JSON file', vim.log.levels.WARN)
     return
   end

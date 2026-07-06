@@ -21,7 +21,8 @@ onboarding = false
 
   # Session
   detach = "prefix+q"
-  goto = "prefix+s"
+  goto = "prefix+g"
+  # settings = "prefix+e"
 
   # Workspaces
   workspace_picker = "prefix+w"
@@ -65,4 +66,54 @@ onboarding = false
   toggle_sidebar = "prefix+b"
   copy_mode = "prefix+["
 
+[[keys.command]]
+  key = "prefix+s"
+  type = "plugin_action"
+  command = "cloudmanic.herdr-plus.projects"
+  description = "herdr-plus: projects"
 
+[[keys.command]]
+  key = "prefix+a"
+  type = "plugin_action"
+  command = "cloudmanic.herdr-plus.quick-actions"
+  description = "herdr-plus: quick actions"
+
+[[keys.command]]
+  key = "ctrl+h"
+  type = "plugin_action"
+  command = "herdr-splits.nav-left"
+
+[[keys.command]]
+  key = "ctrl+j"
+  type = "plugin_action"
+  command = "herdr-splits.nav-down"
+
+[[keys.command]]
+  key = "ctrl+k"
+  type = "plugin_action"
+  command = "herdr-splits.nav-up"
+
+[[keys.command]]
+  key = "ctrl+l"
+  type = "plugin_action"
+  command = "herdr-splits.nav-right"
+
+[[keys.command]]
+  key = "alt+h"
+  type = "plugin_action"
+  command = "herdr-splits.resize-left"
+
+[[keys.command]]
+  key = "alt+j"
+  type = "plugin_action"
+  command = "herdr-splits.resize-down"
+
+[[keys.command]]
+  key = "alt+k"
+  type = "plugin_action"
+  command = "herdr-splits.resize-up"
+
+[[keys.command]]
+  key = "alt+l"
+  type = "plugin_action"
+  command = "herdr-splits.resize-right"

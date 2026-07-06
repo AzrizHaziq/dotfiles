@@ -1,0 +1,35 @@
+
+name = "Config"
+description = "dot config folders"
+group = "Personal"
+working_dir = "~/.config"
+
+[[tabs]]
+  name = "nvim"
+  command = "cd nvim; nvim ."
+
+[[tabs]]
+  name = "herdr"
+  command = "cd herdr; nvim ."
+
+[[tabs]]
+  name = "lazygit"
+  command = "cd lazygit; nvim ."
+
+[[tabs]]
+  name = "opencode"
+  command = "cd opencode; nvim ."
+
+[[tabs]]
+  name = "hunk diff"
+  command = "cd hunk; nvim ."
+
+
+[[tabs]]
+  name = "niri"
+  command = "cd niri; nvim ."
+
+[[tabs]]
+  name = "kitty"
+  command = "cd kitty; nvim ."
+
