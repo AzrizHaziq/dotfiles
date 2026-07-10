@@ -1,1 +1,1 @@
-vim.lsp.set_log_level("debug")
+vim.lsp.log_levels 'debug'
