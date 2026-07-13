@@ -10,7 +10,7 @@ git:
       pager: hunk pager --mode split --line-numbers
 gui:
   showPanelJumps: true
-  border: 'thick'
+  border: "thick"
   nerdFontsVersion: "3"
   skipDiscardChangeWarning: true
   theme:
@@ -55,13 +55,11 @@ customCommands:
     command: "zsh -c 'source ~/.zshrc.d/functions.zsh && lazygit-ai-commit'"
     loadingText: "Generating AI commit..."
     output: terminal
-  - key: w
-    prompts:
-      - type: input
-        title: Commit summary
-        initialValue: ""
-    description: Commit changes without pre-commit hook
-    command: git commit -n -m '{{index .PromptResponses 0}}'
-    context: files
+  - key: F
+    context: localBranches
+    description: Push --no-verify
+    command: git push --no-verify --force-with-lease
+    loadingText: "Pushing (no verify)..."
+    output: terminal
 services:
-  'github-window-wsl.com': 'github:github.com'
+  "github-window-wsl.com": "github:github.com"
