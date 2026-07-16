@@ -5,14 +5,8 @@
 -- Clear search highlights on escape
 vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>', { desc = 'Clear search highlights' })
 
--- Center screen when scrolling half-page (Page Down/Up)
-vim.keymap.set('n', '<C-d>', '<C-d>zz', { desc = 'Page down and center' })
-vim.keymap.set('n', '<C-u>', '<C-u>zz', { desc = 'Page up and center' })
-vim.keymap.set('n', 'n', 'nzzzv', { desc = 'Next search result (centered)' })
-vim.keymap.set('n', 'N', 'Nzzzv', { desc = 'Previous search result (centered)' })
-
 -- Undo/Redo
-vim.keymap.set('n', 'U', '<C-r>', { desc = 'Redo' })
+vim.keymap.set('n', 'U', '<C-r>', { desc = 'Redo last change' })
 
 -- Move by visual lines (wrap-aware)
 vim.keymap.set('n', 'j', 'gj', { desc = 'Move down (visual line)' })
@@ -32,6 +26,26 @@ vim.keymap.set('n', 'zl', '5zl', { desc = 'Scroll right' })
 vim.keymap.set('n', 'zh', '5zh', { desc = 'Scroll left' })
 
 vim.keymap.set('i', 'jj', '<Esc>', { desc = 'insert mode esc', nowait = true })
+vim.keymap.set('n', '<leader>ep', '<C-^>', { desc = '[E]xplore [p]revious buffer' })
+
+-- Center buffer while navigating
+vim.keymap.set('n', '<C-u>', '<C-u>zz', { desc = 'Scroll up and center cursor' })
+vim.keymap.set('n', '<C-d>', '<C-d>zz', { desc = 'Scroll down and center cursor' })
+vim.keymap.set('n', '{', '{zz', { desc = 'Jump to previous paragraph and center' })
+vim.keymap.set('n', '}', '}zz', { desc = 'Jump to next paragraph and center' })
+vim.keymap.set('n', 'N', 'Nzz', { desc = 'Search previous and center' })
+vim.keymap.set('n', 'n', 'nzz', { desc = 'Search next and center' })
+vim.keymap.set('n', 'G', 'Gzz', { desc = 'Go to end of file and center' })
+vim.keymap.set('n', 'gg', 'ggzz', { desc = 'Go to beginning of file and center' })
+vim.keymap.set('n', 'gd', 'gdzz', { desc = 'Go to definition and center' })
+vim.keymap.set('n', '<C-i>', '<C-i>zz', { desc = 'Jump forward in jump list and center' })
+vim.keymap.set('n', '<C-o>', '<C-o>zz', { desc = 'Jump backward in jump list and center' })
+vim.keymap.set('n', '%', '%zz', { desc = 'Jump to matching bracket and center' })
+vim.keymap.set('n', '*', '*zz', { desc = 'Search for word under cursor and center' })
+vim.keymap.set('n', '#', '#zz', { desc = 'Search backward for word under cursor and center' })
+
+vim.keymap.set('v', 'L', '$<left>', { desc = 'Move to end of line in visual mode' })
+vim.keymap.set('v', 'H', '^', { desc = 'Move to beginning of line in visual mode' })
 
 -- ============================================================================
 -- WINDOW NAVIGATION
