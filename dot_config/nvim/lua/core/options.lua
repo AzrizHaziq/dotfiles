@@ -52,3 +52,7 @@ vim.opt.autowrite = false -- do not auto-save
 
 -- Session management (auto-session)
 vim.o.sessionoptions = 'blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal,localoptions'
+
+-- Project-specific config
+vim.opt.exrc = true
+vim.opt.secure = true

@@ -41,12 +41,12 @@ keybinding:
     nextBlock-alt: <disabled>
     prevBlock-alt: <disabled>
     jumpToBlock:
-      - "0"
+      - ""
       - "1"
       - "2"
+      - "3"
       - "4"
-      - "5"
-    focusMainView: 3
+    focusMainView: 0
 
 customCommands:
   - key: W
