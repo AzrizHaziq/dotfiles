@@ -38,28 +38,30 @@ bars:
     widgets:
       left:
       # - "home"
-      - "glazewm_workspaces"
+        - "glazewm_workspaces"
       # - "glazewm_tiling_direction"
-      - "active_window"
+        - "active_window"
       center:
-      - "clock"
+        - "clock"
+
       right:
-      - "media"
-      - "weather"
-      - "microphone"
-      - "volume"
-      - "notifications"
-      - "power_menu"
+        - "media"
+        - "weather"
+        - "cpu"
+        - "microphone"
+        - "volume"
+        - "notifications"
+        - "power_menu"
 widgets:
   home:
     type: "yasb.home.HomeWidget"
     options:
       label: "<span>\udb81\udf17</span>"
       menu_list:
-      - { title: "User Home", path: "~" }
-      - { title: "Download", path: "~\\Downloads" }
-      - { title: "Documents", path: "~\\Documents" }
-      - { title: "Pictures", path: "~\\Pictures" }
+        - {title: "User Home", path: "~"}
+        - {title: "Download", path: "~\\Downloads"}
+        - {title: "Documents", path: "~\\Documents"}
+        - {title: "Pictures", path: "~\\Pictures"}
       system_menu: true
       power_menu: true
       blur: false
@@ -101,7 +103,7 @@ widgets:
         enabled: true
         color: "#000000"
         radius: 2
-        offset: [ 1, 1 ]
+        offset: [1, 1]
       scrolling_label:
         enabled: true
         update_interval_ms: 50
@@ -140,62 +142,71 @@ widgets:
   weather:
     type: "yasb.weather.WeatherWidget"
     options:
-      label: "<span>{icon}</span> {temp}"
-      label_alt: "{location}: Min {min_temp}, Max {max_temp}, Humidity {humidity}"
-      api_key: env
-      update_interval: 600
-      hide_decimal: true
-      location: env
-      callbacks:
-        on_left: "toggle_card"
-        on_middle: "do_nothing"
-        on_right: "toggle_label"
-      icons:
-        sunnyDay: "\ue30d"
-        clearNight: "\ue32b"
-        cloudyDay: "\ue312"
-        cloudyNight: "\ue311"
-        rainyDay: "\ue308"
-        rainyNight: "\ue333"
-        snowyDay: "\ue30a"
-        snowyNight: "\ue335"
-        blizzardDay: "\udb83\udf36"
-        blizzardNight: "\udb83\udf36"
-        foggyDay: "\ue303"
-        foggyNight: "\ue346"
-        thunderstormDay: "\ue30f"
-        thunderstormNight: "\ue338"
-        default: "\uebaa"
-      weather_card:
-        blur: false
-        round_corners: false
-        alignment: "right"
-        direction: "down"
-        icon_size: 64
-        show_hourly_forecast: true
-        time_format: "24h"
-        hourly_point_spacing: 76
-        hourly_icon_size: 32
-        icon_smoothing: true
-        temp_line_width: 2
-        current_line_color: "#8EAEE8"
-        current_line_width: 1
-        current_line_style: "dot"
-  volume:
-    type: "yasb.volume.VolumeWidget"
-    options:
-      label: "<span>{icon}</span> {level}"
-      label_alt: "{volume}"
-      tooltip: false
-      volume_icons:
-        - "\ueee8"
-        - "\uf026"
-        - "\uf027"
-        - "\uf027"
-        - "\uf028"
-      callbacks:
-        on_left: "toggle_mute"
-        on_right: "exec cmd.exe /c start ms-settings:sound"
+       label: "<span>{icon}</span> {temp}"
+       label_alt: "{location}: Min {min_temp}, Max {max_temp}, Humidity {humidity}"
+       api_key: env
+       update_interval: 600
+       hide_decimal: true
+       location: env
+       callbacks:
+         on_left: "toggle_card"
+         on_middle: "do_nothing"
+         on_right: "toggle_label"
+       icons:
+         sunnyDay: "\ue30d"
+         clearNight: "\ue32b"
+         cloudyDay: "\ue312"
+         cloudyNight: "\ue311"
+         rainyDay: "\ue308"
+         rainyNight: "\ue333"
+         snowyDay: "\ue30a"
+         snowyNight: "\ue335"
+         blizzardDay: "\udb83\udf36"
+         blizzardNight: "\udb83\udf36"
+         foggyDay: "\ue303"
+         foggyNight: "\ue346"
+         thunderstormDay: "\ue30f"
+         thunderstormNight: "\ue338"
+         default: "\uebaa"
+       weather_card:
+         blur: false
+         round_corners: false
+         alignment: "right"
+         direction: "down"
+         icon_size: 64
+         show_hourly_forecast: true
+         time_format: "24h"
+         hourly_point_spacing: 76
+         hourly_icon_size: 32
+         icon_smoothing: true
+         temp_line_width: 2
+         current_line_color: "#8EAEE8"
+         current_line_width: 1
+         current_line_style: "dot"
+   cpu:
+     type: "yasb.cpu.CpuWidget"
+     options:
+       label: "<span>\uf4bc</span> {info[percent][total]}%"
+       label_alt: "<span>\uf437</span> {info[freq][current]} MHz"
+       update_interval: 2000
+       callbacks:
+         on_left: "toggle_label"
+         on_right: "toggle_menu"
+   volume:
+     type: "yasb.volume.VolumeWidget"
+     options:
+       label: "<span>{icon}</span> {level}"
+       label_alt: "{volume}"
+       tooltip: false
+       volume_icons:
+         - "\ueee8"
+         - "\uf026"
+         - "\uf027"
+         - "\uf027"
+         - "\uf028"
+       callbacks:
+         on_left: "toggle_mute"
+         on_right: "exec cmd.exe /c start ms-settings:sound"
   microphone:
     type: "yasb.microphone.MicrophoneWidget"
     options:
