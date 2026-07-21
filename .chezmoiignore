@@ -5,6 +5,7 @@
 .config/nvim/.git
 .config/yasb/yasb.log
 .config/nvim/.github
+.config/fish/conf.d/99-local.fish
 
 .tmux/plugins/**
 tmux-**.log

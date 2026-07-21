@@ -52,7 +52,7 @@ customCommands:
   - key: W
     context: "files"
     description: "AI commit: generate msg + auto-commit (caveman-commit)"
-    command: "zsh -c 'source ~/.zshrc.d/functions.zsh && lazygit-ai-commit'"
+    command: "lazygit-ai-commit"
     loadingText: "Generating AI commit..."
     output: terminal
   - key: F
