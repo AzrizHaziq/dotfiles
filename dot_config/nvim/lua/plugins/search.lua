@@ -2,7 +2,7 @@ return {
   {
     'dmtrKovalenko/fff.nvim',
     -- enabled = false,
-    event = "VeryLazy",
+    event = 'VeryLazy',
     build = function()
       require('fff.download').download_or_build_binary()
     end,
@@ -59,11 +59,11 @@ return {
       },
       frecency = {
         enabled = true,
-        db_path = vim.fn.stdpath('cache') .. '/fff_nvim',
+        db_path = vim.fn.stdpath 'cache' .. '/fff_nvim',
       },
       history = {
         enabled = true,
-        db_path = vim.fn.stdpath('data') .. '/fff_queries',
+        db_path = vim.fn.stdpath 'data' .. '/fff_queries',
         min_combo_count = 3,
         combo_boost_score_multiplier = 100,
       },
@@ -84,7 +84,7 @@ return {
       },
       logging = {
         enabled = true,
-        log_file = vim.fn.stdpath('log') .. '/fff.log',
+        log_file = vim.fn.stdpath 'log' .. '/fff.log',
         log_level = 'info',
       },
     },
@@ -104,7 +104,7 @@ return {
       {
         '<leader>ss',
         function()
-          local cwd = vim.fn.getcwd()
+          local cwd = vim.fn.getcwd() -- "(^src/ type:ts 'handler !test$)"
           require('fff').live_grep {
             base_path = cwd,
             title = 'Live Grep in ' .. vim.fn.fnamemodify(cwd, ':~'),

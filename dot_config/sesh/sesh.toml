@@ -65,10 +65,10 @@ startup_command = "nvim ."
 preview_command = "eza --tree --level=2 --icons ~/.config/niri"
 
 [[session]]
-name = "zsh"
-path = "~"
-startup_command = "nvim .zshrc"
-preview_command = "bat --color=always ~/.zshrc"
+name = "fish"
+path = "~/.config/fish"
+startup_command = "nvim ."
+preview_command = "bat --color=always ~/.config/fish/config.fish"
 
 [[session]]
 name = "sesh"
