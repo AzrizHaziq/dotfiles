@@ -3,7 +3,13 @@
 .config/nvim/.git
 .config/yasb/yasb.log
 .config/nvim/.github
+
+.config/fish/completions
+.config/fish/functions
+!.config/fish/functions/ai-commit.fish
 .config/fish/conf.d/99-local.fish
+.config/fish/conf.d/fish_frozen_theme.fish
+.config/fish/conf.d/fzf.fish
 
 .tmux/plugins/**
 tmux-**.log
