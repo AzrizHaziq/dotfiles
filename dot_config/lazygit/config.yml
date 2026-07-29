@@ -41,7 +41,6 @@ keybinding:
     nextBlock-alt: <disabled>
     prevBlock-alt: <disabled>
     jumpToBlock:
-      - ""
       - "1"
       - "2"
       - "3"

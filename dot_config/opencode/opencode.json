@@ -1,8 +1,11 @@
 {
   "$schema": "https://opencode.ai/config.json",
+  "lsp": true,
+  "formatter": true,
   "agent": {
     "build": {
       "color": "primary",
+      "description": "Execute the smallest correct change",
       "mode": "primary",
       "permission": {
         "skill": {
@@ -16,6 +19,7 @@
     },
     "code-reviewer": {
       "color": "secondary",
+      "description": "Reviews GitHub PRs with GitHub MCP access",
       "mode": "subagent",
       "permission": {
         "skill": {
@@ -30,6 +34,7 @@
     },
     "coordinator": {
       "color": "primary",
+      "description": "Routes requests to specialist agents",
       "mode": "primary",
       "permission": {
         "skill": {
@@ -42,6 +47,7 @@
     },
     "explore": {
       "color": "secondary",
+      "description": "Read-only codebase exploration and summarization",
       "mode": "subagent",
       "permission": {
         "skill": {
@@ -56,6 +62,7 @@
     },
     "plan": {
       "color": "info",
+      "description": "Inspect first and produce a concrete plan",
       "mode": "primary",
       "permission": {
         "skill": {
@@ -69,6 +76,7 @@
     },
     "security-auditor": {
       "color": "secondary",
+      "description": "Scans code for security vulnerabilities",
       "mode": "subagent",
       "permission": {
         "skill": {
@@ -83,19 +91,8 @@
   },
   "default_agent": "plan",
   "disabled_providers": ["opencode", "opencode-go"],
-  "formatter": true,
   "instructions": ["/home/azrizhaziq/.config/opencode/instructions.md"],
-  "lsp": true,
   "mcp": {
-    "atlassian": {
-      "enabled": false,
-      "headers": {
-        "Authorization": "Bearer {env:JIRA_OPENCODE_PAT}"
-      },
-      "oauth": false,
-      "type": "remote",
-      "url": "https://mcp.atlassian.com/v1/sse"
-    },
     "chrome-devtools": {
       "command": [
         "npx",
@@ -138,19 +135,8 @@
   },
   "plugin": [],
   "provider": {
-    "batman-anthropic": {
+    "ai-anthropic": {
       "models": {
-        "anthropic/claude-fable-5": {
-          "limit": {
-            "context": 128000,
-            "output": 16384
-          },
-          "modalities": {
-            "input": ["text", "image"],
-            "output": ["text"]
-          },
-          "name": "Anthropic/Claude Fable 5"
-        },
         "anthropic/claude-haiku-4-5": {
           "limit": {
             "context": 200000,
@@ -255,37 +241,6 @@
             }
           }
         },
-        "anthropic/claude-opus-4-8": {
-          "limit": {
-            "context": 1000000,
-            "output": 128000
-          },
-          "modalities": {
-            "input": ["text", "image"],
-            "output": ["text"]
-          },
-          "name": "Anthropic/Claude Opus 4 8",
-          "variants": {
-            "high": {
-              "thinking": {
-                "budgetTokens": 10000,
-                "type": "enabled"
-              }
-            },
-            "max": {
-              "thinking": {
-                "budgetTokens": 16000,
-                "type": "enabled"
-              }
-            },
-            "medium": {
-              "thinking": {
-                "budgetTokens": 5000,
-                "type": "enabled"
-              }
-            }
-          }
-        },
         "anthropic/claude-sonnet-4-5": {
           "limit": {
             "context": 200000,
@@ -347,51 +302,20 @@
               }
             }
           }
-        },
-        "anthropic/claude-sonnet-5": {
-          "limit": {
-            "context": 128000,
-            "output": 16384
-          },
-          "modalities": {
-            "input": ["text", "image"],
-            "output": ["text"]
-          },
-          "name": "Anthropic/Claude Sonnet 5",
-          "variants": {
-            "high": {
-              "thinking": {
-                "budgetTokens": 10000,
-                "type": "enabled"
-              }
-            },
-            "max": {
-              "thinking": {
-                "budgetTokens": 16000,
-                "type": "enabled"
-              }
-            },
-            "medium": {
-              "thinking": {
-                "budgetTokens": 5000,
-                "type": "enabled"
-              }
-            }
-          }
         }
       },
-      "name": "Batman AI Gateway (Anthropic)",
+      "name": "AI Gateway (Anthropic)",
       "npm": "@ai-sdk/anthropic",
       "options": {
         "apiKey": "{env:BATMAN_KEY}",
-        "baseURL": "https://llm-api.tools.procountor.com",
+        "baseURL": "https://llm-api.tools.procountor.com/v1",
         "headers": {
           "Authorization": "Bearer {env:BATMAN_KEY}",
           "x-api-key": "{env:BATMAN_KEY}"
         }
       }
     },
-    "batman-gateway": {
+    "ai-gateway": {
       "models": {
         "openai/Kimi-K2.5": {
           "limit": {
@@ -404,17 +328,6 @@
           },
           "name": "Openai/Kimi K2.5"
         },
-        "openai/Kimi-K2.6": {
-          "limit": {
-            "context": 262144,
-            "output": 262144
-          },
-          "modalities": {
-            "input": ["text"],
-            "output": ["text"]
-          },
-          "name": "Openai/Kimi K2.6"
-        },
         "openai/Mistral-Large-3": {
           "limit": {
             "context": 256000,
@@ -426,38 +339,16 @@
           },
           "name": "Openai/Mistral Large 3"
         },
-        "openai/gpt-5": {
+        "openai/gpt-4.1": {
           "limit": {
-            "context": 128000,
-            "output": 16384
+            "context": 1047576,
+            "output": 32768
           },
           "modalities": {
-            "input": ["text"],
+            "input": ["text", "image"],
             "output": ["text"]
           },
-          "name": "Openai/Gpt 5"
-        },
-        "openai/gpt-5-mini": {
-          "limit": {
-            "context": 128000,
-            "output": 16384
-          },
-          "modalities": {
-            "input": ["text"],
-            "output": ["text"]
-          },
-          "name": "Openai/Gpt 5 Mini"
-        },
-        "openai/gpt-5-nano": {
-          "limit": {
-            "context": 128000,
-            "output": 16384
-          },
-          "modalities": {
-            "input": ["text"],
-            "output": ["text"]
-          },
-          "name": "Openai/Gpt 5 Nano"
+          "name": "Openai/Gpt 4.1"
         },
         "openai/gpt-5.1": {
           "limit": {
@@ -482,7 +373,7 @@
           "name": "Openai/Mistral Small 2503"
         }
       },
-      "name": "Batman AI Gateway (OpenAI)",
+      "name": "AI Gateway (OpenAI)",
       "npm": "@ai-sdk/openai-compatible",
       "options": {
         "apiKey": "{env:BATMAN_KEY}",
@@ -493,19 +384,8 @@
         }
       }
     },
-    "batman-openai-native": {
+    "ai-openai-native": {
       "models": {
-        "openai/gpt-5.3-codex": {
-          "limit": {
-            "context": 128000,
-            "output": 32768
-          },
-          "modalities": {
-            "input": ["text", "image"],
-            "output": ["text"]
-          },
-          "name": "Openai/Gpt 5.3 Codex"
-        },
         "openai/gpt-5.4": {
           "limit": {
             "context": 1050000,
@@ -527,20 +407,9 @@
             "output": ["text"]
           },
           "name": "Openai/Gpt 5.4 Nano"
-        },
-        "openai/gpt-5.5": {
-          "limit": {
-            "context": 1050000,
-            "output": 128000
-          },
-          "modalities": {
-            "input": ["text"],
-            "output": ["text"]
-          },
-          "name": "Openai/Gpt 5.5"
         }
       },
-      "name": "Batman AI Gateway (OpenAI Native)",
+      "name": "AI Gateway (OpenAI Native)",
       "npm": "@ai-sdk/openai",
       "options": {
         "apiKey": "{env:BATMAN_KEY}",

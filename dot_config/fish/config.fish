@@ -1,6 +1,8 @@
 # Fish config - minimal, fast
 # conf.d/*.fish auto-sourced alphabetically
 
+set fish_greeting ""
+
 if status is-interactive
     fish_vi_key_bindings
 
