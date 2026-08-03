@@ -21,6 +21,7 @@ if status is-interactive
     abbr -a f "find . -name"
 
     abbr -a cz chezmoi
+    abbr -a ts tailscale
     abbr -a lz lazygit
     abbr -a ld lazydocker
     abbr -a lj lazyjournal
