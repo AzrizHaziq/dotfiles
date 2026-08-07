@@ -91,8 +91,8 @@ return {
         end,
       })
 
-      -- Global harper_ls toggle
-      vim.g.harper_enabled = true
+      -- Global harper_ls toggle (off by default, toggle with <leader>tH)
+      vim.g.harper_enabled = false
       vim.keymap.set('n', '<leader>tH', function()
         vim.g.harper_enabled = not vim.g.harper_enabled
         for _, client in ipairs(vim.lsp.get_clients { name = 'harper_ls' }) do
@@ -172,6 +172,11 @@ return {
           },
         },
         harper_ls = {
+          on_attach = function(client)
+            -- Start disabled; user toggles with <leader>tH
+            local ns = vim.lsp.diagnostic.get_namespace(client.id)
+            vim.diagnostic.enable(false, { ns_id = ns })
+          end,
           settings = {
             ['harper-ls'] = {
               userDictPath = vim.fn.expand '~/.config/dictionary/user.txt',

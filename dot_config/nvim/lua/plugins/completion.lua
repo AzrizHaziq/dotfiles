@@ -103,7 +103,7 @@ return {
           path = { score_offset = 3 },
           buffer = {
             min_keyword_length = 3,
-            score_offset = -5,
+            score_offset = -10,
           },
         },
       },
@@ -121,7 +121,7 @@ return {
         end,
       },
       snippets = { preset = 'luasnip' },
-      fuzzy = { implementation = 'lua' },
+      fuzzy = { implementation = 'prefer_rust' },
       signature = {
         enabled = true,
         window = {
