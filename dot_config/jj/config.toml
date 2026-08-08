@@ -1,22 +1,18 @@
 #:schema https://docs.jj-vcs.dev/latest/config-schema.json
 [user]
-name = "azrizhaziq"
+  name = "azrizhaziq"
 
 [ui]
-pager = ["hunk", "pager"]
-diff-formatter = ":git"
-
-[merge]
-hunk-level = "word"  # "line" (default) or "word" for finer-grained hunks
-
-[ui.editor]
-program = "nvim"  # or "vim", "nano", "code", etc.
+  editor = "nvim"
+  pager = ["hunk", "pager"]
+  diff-formatter = ":git"
+  merge-editor = "meld"
 
 [format]
-timestamp-format = "%Y-%m-%d %H:%M:%S"
+  timestamp-format = "%Y-%m-%d %H:%M:%S"
 
 [aliases]
-l = "log -r 'ancestors(.)' --no-graph -T 'commit_short'"
-s = "status"
-d = "diff"
+  l = "log -r 'ancestors(.)' --no-graph -T 'commit_short'"
+  s = "status"
+  d = "diff"
 

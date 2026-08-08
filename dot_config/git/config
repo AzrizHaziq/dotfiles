@@ -1,55 +1,6 @@
 [user]
   name = azrizhaziq
-
-[credential]
-  helper = 
-  helper = /usr/local/share/gcm-core/git-credential-manager
-
-[credential "https://dev.azure.com"]
-  useHttpPath = true
-
-[core]
-  editor ="nvim"
-  autocrlf = input
-	pager = hunk pager
-
-[merge]
-  conflictStyle = zdiff3
-
-[diff]
-  colorMoved = default
-
-[status]
-  branch = true
-  showStash = true
-  showUntrackedFiles = all
-
-[push]
-  default = current
-  autoSetupRemote = true
-
-[branch]
-  sort = -committerdate
-
-[tag]
-  sort = -taggerdate
-
-[pager]
-  branch = false
-  tag = false
-  difftool = true
-
-[rerere]
-  enabled = true
-
-[filter "lfs"]
-  clean = git-lfs clean -- %f
-  smudge = git-lfs smudge -- %f
-  process = git-lfs filter-process
-  required = true
-++++++ otkykspu d9c4d32b "added jj" (rebased revision)
-[user]
-  name = azrizhaziq
+  email = azrizhaziq@gmail.com
 
 [credential]
   helper = 

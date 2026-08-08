@@ -1,13 +1,12 @@
----
 notARepository: "quit"
 promptToReturnFromSubprocess: false
 os:
   editPreset: nvim
 git:
-  pagers:
+  diffRenderers:
     # - useExternalDiffGitConfig: true
     - colorArg: always
-      pager: hunk pager --mode split --line-numbers
+      command: hunk pager --mode split --line-numbers
 gui:
   showPanelJumps: true
   border: "thick"
@@ -33,7 +32,6 @@ gui:
       - "#cdd6f4"
     searchingActiveBorderColor:
       - "#f9e2af"
-
 keybinding:
   universal:
     nextTab: l
@@ -46,7 +44,6 @@ keybinding:
       - "2"
       - "3"
     focusMainView: 0
-
 customCommands:
   - key: W
     context: "files"
