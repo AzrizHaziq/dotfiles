@@ -1,7 +1,7 @@
-local function snacks_explorer_cwd()
-  local explorer = Snacks.picker.get({ source = 'explorer' })[1]
-  return explorer and explorer:cwd() or vim.fn.getcwd()
-end
+-- local function snacks_explorer_cwd()
+--   local explorer = Snacks.picker.get({ source = 'explorer' })[1]
+--   return explorer and explorer:cwd() or vim.fn.getcwd()
+-- end
 
 return {
   {
@@ -46,7 +46,6 @@ return {
           args = { '--hidden' },
         },
       },
-      gh = {},
       explorer = {
         replace_netrw = true,
         trash = false,
@@ -85,7 +84,7 @@ return {
             win = {
               input = {
                 keys = {
-                  ["<c-d>"] = { "bufdelete", mode = { "n", "i" } },
+                  ['<c-d>'] = { 'bufdelete', mode = { 'n', 'i' } },
                 },
               },
             },
@@ -118,7 +117,7 @@ return {
               },
               list = {
                 keys = {
-                  ["<c-t>"] = false, -- disable terminal
+                  ['<c-t>'] = false, -- disable terminal
                   ['<Esc>'] = false,
                   ['<C-v>'] = 'edit_vsplit',
                   ['<C-h>'] = false,
@@ -127,7 +126,7 @@ return {
                   ['<C-l>'] = false,
                   ['G'] = 'toggle_gitignored', -- Toggle gitignored files
                   ['<leader>ca'] = 'copy_absolute',
-                  ['<leader>cr'] = 'copy_relative'
+                  ['<leader>cr'] = 'copy_relative',
                 },
               },
               preview = {
@@ -138,7 +137,7 @@ return {
             },
             actions = {
               copy_relative = function(picker)
-                local selected = picker:selected({ fallback = true })
+                local selected = picker:selected { fallback = true }
                 if selected and #selected > 0 then
                   local cwd = picker:dir() or vim.fn.getcwd()
                   for _, item in ipairs(selected) do
@@ -153,7 +152,7 @@ return {
               end,
 
               copy_absolute = function(picker)
-                local selected = picker:selected({ fallback = true })
+                local selected = picker:selected { fallback = true }
                 if selected and #selected > 0 then
                   for _, item in ipairs(selected) do
                     if item.file then
@@ -189,42 +188,15 @@ return {
           },
           man_pager = nil, ---@type string? MANPAGER env to use for `man` preview
         },
-        actions = {
-          opencode_send = function(picker)
-            local selected = picker:selected({ fallback = true })
-            if selected and #selected > 0 then
-              local files = {}
-              for _, item in ipairs(selected) do
-                if item.file then
-                  table.insert(files, item.file)
-                end
-              end
-              picker:close()
-
-              require("opencode.core").open({
-                new_session = false,
-                focus = "input",
-                start_insert = true,
-              })
-
-               local context = require("opencode.context")
-               for _, file in ipairs(files) do
-                 context.add_file(file)
-               end
-            end
-          end,
-        },
         win = {
           preview = {
-            wo = { wrap = true }
+            wo = { wrap = true },
           },
           input = {
             keys = {
-              -- Use <localleader>o or any preferred key to send files to opencode
-              ["<localleader>o"] = { "opencode_send", mode = { "n", "i" } },
-              ["<c-u>"] = { "preview_scroll_up", mode = { "i", "n" } },
-              ["<c-d>"] = { "preview_scroll_down", mode = { "i", "n" } },
-              ["<a-z>"] = { "toggle_maximize", mode = { "i", "n" } },
+              ['<c-u>'] = { 'preview_scroll_up', mode = { 'i', 'n' } },
+              ['<c-d>'] = { 'preview_scroll_down', mode = { 'i', 'n' } },
+              ['<a-z>'] = { 'toggle_maximize', mode = { 'i', 'n' } },
             },
           },
         },
@@ -232,37 +204,153 @@ return {
     },
 
     keys = {
-      { '\\', function() require('snacks').explorer() end, desc = 'File Explorer', },
+      {
+        '\\',
+        function()
+          require('snacks').explorer()
+        end,
+        desc = 'File Explorer',
+      },
 
-      { '<leader>gi', function() Snacks.picker.gh_issue() end, desc = 'GitHub Issues (open)', },
-      { '<leader>gI', function() Snacks.picker.gh_issue { state = 'all' } end, desc = 'GitHub Issues (all)', },
-      { '<leader>gp', function() Snacks.picker.gh_pr() end, desc = 'GitHub Pull Requests (open)', },
-      { '<leader>gP', function() Snacks.picker.gh_pr { state = 'all' } end, desc = 'GitHub Pull Requests (all)', },
-      { '<leader>gl', function() require('snacks').lazygit.log() end, desc = 'Lazygit Logs', },
-      { '<leader>gf', function() require('snacks').lazygit.log_file() end, desc = 'Lazygit File Logs', },
+      {
+        '<leader>gi',
+        function()
+          Snacks.picker.gh_issue()
+        end,
+        desc = 'GitHub Issues (open)',
+      },
+      {
+        '<leader>gI',
+        function()
+          Snacks.picker.gh_issue { state = 'all' }
+        end,
+        desc = 'GitHub Issues (all)',
+      },
+      {
+        '<leader>gp',
+        function()
+          Snacks.picker.gh_pr()
+        end,
+        desc = 'GitHub Pull Requests (open)',
+      },
+      {
+        '<leader>gP',
+        function()
+          Snacks.picker.gh_pr { state = 'all' }
+        end,
+        desc = 'GitHub Pull Requests (all)',
+      },
+      {
+        '<leader>gl',
+        function()
+          require('snacks').lazygit.log()
+        end,
+        desc = 'Lazygit Logs',
+      },
+      {
+        '<leader>gf',
+        function()
+          require('snacks').lazygit.log_file()
+        end,
+        desc = 'Lazygit File Logs',
+      },
 
-      { '<leader>ee', function() require('snacks').picker.buffers() end, desc = '[E]xplorer [B]uffers', },
-      { '<leader>ed', function() require('snacks').picker.diagnostics() end, desc = '[E]xplorer [D]iagnostics', },
-      { '<leader>eg', function() require('snacks').picker.git_status() end, desc = '[E]xplorer [G]it changes', },
-      { '<leader>er', function() require('snacks').explorer.reveal() end, desc = '[Explorer] [R]eveal current file', },
+      {
+        '<leader>ee',
+        function()
+          require('snacks').picker.buffers()
+        end,
+        desc = '[E]xplorer [B]uffers',
+      },
+      {
+        '<leader>ed',
+        function()
+          require('snacks').picker.diagnostics()
+        end,
+        desc = '[E]xplorer [D]iagnostics',
+      },
+      {
+        '<leader>eg',
+        function()
+          require('snacks').picker.git_status()
+        end,
+        desc = '[E]xplorer [G]it changes',
+      },
+      {
+        '<leader>er',
+        function()
+          require('snacks').explorer.reveal()
+        end,
+        desc = '[Explorer] [R]eveal current file',
+      },
 
-      { '<leader>sh', function() require('snacks').picker.help() end, desc = '[S]earch [H]elp', },
-      { '<leader>sk', function() require('snacks').picker.keymaps() end, desc = '[S]earch [K]eymaps', },
-      { '<leader>sr', function() require('snacks').picker.resume() end, desc = '[S]earch [R]esume', },
-      { '<leader>sp', function() require('snacks').picker() end, desc = '[S]earch snacks [P]ickers', },
+      {
+        '<leader>sh',
+        function()
+          require('snacks').picker.help()
+        end,
+        desc = '[S]earch [H]elp',
+      },
+      {
+        '<leader>sk',
+        function()
+          require('snacks').picker.keymaps()
+        end,
+        desc = '[S]earch [K]eymaps',
+      },
+      {
+        '<leader>sr',
+        function()
+          require('snacks').picker.resume()
+        end,
+        desc = '[S]earch [R]esume',
+      },
+      {
+        '<leader>sp',
+        function()
+          require('snacks').picker()
+        end,
+        desc = '[S]earch snacks [P]ickers',
+      },
 
       -- { '<leader>sf', function() local cwd = snacks_explorer_cwd() require('snacks').picker.files { cwd = cwd, title = 'Find Files in ' .. vim.fn.fnamemodify(cwd, ':~') } end, desc = '[S]earch [F]iles', },
       -- { '<leader>ss', function() local cwd = snacks_explorer_cwd() require('snacks').picker.grep { cwd = cwd, title = 'Live Grep in ' .. vim.fn.fnamemodify(cwd, ':~') } end, desc = '[S]earch by [G]rep', },
       -- { '<leader>sw', function() require('snacks').picker.grep_word() end, mode = { 'n', 'x' }, desc = '[S]earch current [W]ord', }, -- Replaced by FFF
       -- { '<leader>sb', function() require('snacks').picker.grep_buffers() end, desc = '[S]earch [O]pen buffers', }, -- Replaced by FFF
 
-      { '<leader>hf', function() require('snacks').picker.git_log_file() end, mode = 'n', desc = '[H]istory [F]ile', },
-      { '<leader>hl', function() require('snacks').picker.git_log_line() end, mode = 'n', desc = '[H]istory [L]og line for file', },
+      {
+        '<leader>hf',
+        function()
+          require('snacks').picker.git_log_file()
+        end,
+        mode = 'n',
+        desc = '[H]istory [F]ile',
+      },
+      {
+        '<leader>hl',
+        function()
+          require('snacks').picker.git_log_line()
+        end,
+        mode = 'n',
+        desc = '[H]istory [L]og line for file',
+      },
 
-      { 'grf', function() require('snacks').rename.rename_file() end, desc = 'LSP: Rename Current File' },
-      { '<leader>wz', function() require('snacks').picker.zoxide() end, desc = "[W]orkspace [Z]oxide" }
-   },
-   }
+      {
+        'grf',
+        function()
+          require('snacks').rename.rename_file()
+        end,
+        desc = 'LSP: Rename Current File',
+      },
+      {
+        '<leader>wz',
+        function()
+          require('snacks').picker.zoxide()
+        end,
+        desc = '[W]orkspace [Z]oxide',
+      },
+    },
+  },
 }
 
 -- Explorer window keys

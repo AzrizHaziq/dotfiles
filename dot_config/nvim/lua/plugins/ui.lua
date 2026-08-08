@@ -1,13 +1,14 @@
 return {
   {
-    "nvzone/minty",
-    cmd = { "Shades", "Huefy" }, -- Lazy loads the commands
+    'nvzone/minty',
+    event = 'VeryLazy',
+    cmd = { 'Shades', 'Huefy' }, -- Lazy loads the commands
     keys = {
-      { "<leader>cs", "<cmd>Shades<cr>", desc = "Open Minty Shades (Color Palette)" },
-      { "<leader>ch", "<cmd>Huefy<cr>", desc = "Open Minty Huefy (Color Picker)" },
+      { '<leader>cs', '<cmd>Shades<cr>', desc = 'Open Minty Shades (Color Palette)' },
+      { '<leader>ch', '<cmd>Huefy<cr>', desc = 'Open Minty Huefy (Color Picker)' },
     },
     dependencies = {
-      { "nvzone/volt", lazy = true }, -- Required dependency
+      { 'nvzone/volt', lazy = true }, -- Required dependency
     },
   },
 
@@ -109,7 +110,6 @@ return {
         },
       },
       spec = {
-        { '<leader>a', group = 'H[A]rpoon' },
         { '<leader>e', group = '[E]xplorer' },
         { '<leader>f', group = '[F]ormat' },
         { '<leader>h', group = 'Git [h]unk', mode = { 'n', 'v' } },
@@ -117,7 +117,7 @@ return {
         { '<leader>n', group = '[N]otifications' },
         { '<leader>c', group = '[C]opy abosolute/relative' },
         { '<leader>o', group = '[O]pencode' },
-        { '<leader>q', group = 'Dia[G]nostic' },
+        { '<leader>q', group = 'Dia[Q]nostic' },
         { '<leader>s', group = '[S]earch' },
         { '<leader>r', group = '[R]eload' },
         { '<leader>t', group = '[T]oggle' },
@@ -378,32 +378,5 @@ return {
       scroll_buffer_space = true,
       smear_insert_mode = true,
     },
-  },
-
-  {
-    'nvzone/showkeys',
-    enabled = false,
-    lazy = true,
-    cmd = 'ShowkeysToggle',
-    opts = {
-      position = 'bottom-center',
-      maxkeys = 3,
-      show_count = true,
-      winopts = {
-        focusable = false,
-        relative = 'editor',
-        style = 'minimal',
-        border = 'single',
-        height = 1,
-        row = 1,
-        col = 0,
-      },
-    },
-    config = function(_, opts)
-      require('showkeys').setup(opts)
-      vim.defer_fn(function()
-        vim.cmd 'ShowkeysToggle'
-      end, 100)
-    end,
   },
 }

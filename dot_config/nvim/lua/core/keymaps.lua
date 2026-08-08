@@ -47,21 +47,6 @@ vim.keymap.set('n', '#', '#zz', { desc = 'Search backward for word under cursor 
 vim.keymap.set('v', 'L', '$<left>', { desc = 'Move to end of line in visual mode' })
 vim.keymap.set('v', 'H', '^', { desc = 'Move to beginning of line in visual mode' })
 
--- ============================================================================
--- WINDOW NAVIGATION
--- ============================================================================
-
--- if vim.env.TMUX == nil then
---   vim.keymap.set('n', '<C-h>', '<C-w><C-h>', { desc = 'Move focus to the left window' })
---   vim.keymap.set('n', '<C-l>', '<C-w><C-l>', { desc = 'Move focus to the right window' })
---   vim.keymap.set('n', '<C-j>', '<C-w><C-j>', { desc = 'Move focus to the lower window' })
---   vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
--- end
-
--- ============================================================================
--- LINE MANIPULATION
--- ============================================================================
-
 -- Join lines while keeping cursor position
 vim.keymap.set('n', 'J', 'mzJ`z', { desc = 'Join lines and keep cursor position' })
 
