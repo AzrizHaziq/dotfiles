@@ -56,3 +56,9 @@ vim.o.sessionoptions = 'blank,buffers,curdir,folds,help,tabpages,winsize,winpos,
 -- Project-specific config
 vim.opt.exrc = true
 vim.opt.secure = true
+
+vim.filetype.add {
+  pattern = {
+    ['.*%.kitty%-session'] = 'kitty',
+  },
+}

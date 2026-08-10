@@ -337,7 +337,6 @@ window-rule {
     match app-id=r#"^org\.wezfurlong\.wezterm$"#
     default-column-width {}
 }
-
 // Open the Firefox picture-in-picture player as floating by default.
 window-rule {
     // This app-id regular expression will work for both:
@@ -345,18 +344,6 @@ window-rule {
     // - Flatpak Firefox (app-id is "org.mozilla.firefox")
     match app-id=r#"firefox$"# title="^Picture-in-Picture$"
     open-floating true
-}
-
-// Example: block out two password managers from screen capture.
-// (This example rule is commented out with a "/-" in front.)
-/-window-rule {
-    match app-id=r#"^org\.keepassxc\.KeePassXC$"#
-    match app-id=r#"^org\.gnome\.World\.Secrets$"#
-
-    block-out-from "screen-capture"
-
-    // Use this instead if you want them visible on third-party screenshot tools.
-    // block-out-from "screencast"
 }
 
 // Example: enable rounded corners for all windows.
@@ -392,8 +379,8 @@ binds {
     // ============================================================================
     // WORKSPACE NAVIGATION (U=down, I=up)
     // ============================================================================
-    Mod+U { focus-workspace-down; }            // prev workspace
-    Mod+I { focus-workspace-up; }              // next workspace
+    // Mod+U { focus-workspace-down; }            // prev workspace
+    // Mod+I { focus-workspace-up; }              // next workspace
     Mod+1 { focus-workspace 1; }
     Mod+2 { focus-workspace 2; }
     Mod+3 { focus-workspace 3; }
@@ -407,8 +394,8 @@ binds {
     // ============================================================================
     // WORKSPACE MOVE (Mod+Ctrl + U/I)
     // ============================================================================
-    Mod+Ctrl+U { move-column-to-workspace-down; }    // move to prev
-    Mod+Ctrl+I { move-column-to-workspace-up; }      // move to next
+    // Mod+Ctrl+U { move-column-to-workspace-down; }    // move to prev
+    // Mod+Ctrl+I { move-column-to-workspace-up; }      // move to next
     Mod+Ctrl+1 { move-column-to-workspace 1; }
     Mod+Ctrl+2 { move-column-to-workspace 2; }
     Mod+Ctrl+3 { move-column-to-workspace 3; }
@@ -448,8 +435,8 @@ binds {
     // ============================================================================
     Mod+R { switch-preset-column-width; }      // cycle widths
     Mod+Shift+R { switch-preset-column-width-back; }  // cycle back
-    Mod+Minus { set-column-width "-10%"; }
-    Mod+Equal { set-column-width "+10%"; }
+    Mod+alt+Minus { set-column-width "-10%"; }
+    Mod+alt+Equal { set-column-width "+10%"; }
     Mod+C { center-column; }                   // center focused
     Mod+Ctrl+C { center-visible-columns; }     // center all
     Mod+Home { focus-column-first; }
@@ -461,7 +448,7 @@ binds {
     // ============================================================================
     // WINDOW HEIGHT & FLOATING
     // ============================================================================
-    Mod+Shift+Minus { set-window-height "-10%"; }
+    Mod+Shift+alt+Minus { set-window-height "-10%"; }
     Mod+Shift+Equal { set-window-height "+10%"; }
     Mod+Ctrl+Shift+R { switch-preset-window-height; }
     Mod+Ctrl+R { reset-window-height; }
@@ -481,7 +468,7 @@ binds {
     Mod+BracketLeft { consume-or-expel-window-left; }  // absorb/expel left
     Mod+BracketRight { consume-or-expel-window-right; } // absorb/expel right
     Mod+Period { expel-window-from-column; }   // expel bottom right
-    Mod+W { toggle-column-tabbed-display; }    // tabs mode
+    Mod+W { toggle-column-tabbed-display; }    // tabs mode, then Mod+j/k
 
     // ============================================================================
     // DMS SYSTEM TOOLS
@@ -495,7 +482,7 @@ binds {
     Mod+Shift+N hotkey-overlay-title="Notepad" { spawn "dms" "ipc" "call" "notepad" "toggle"; }
     Mod+V hotkey-overlay-title="Clipboard Manager" { spawn "dms" "ipc" "call" "clipboard" "toggle"; }
     Mod+Comma hotkey-overlay-title="Settings" { spawn "dms" "ipc" "call" "settings" "focusOrToggle"; }
-    Mod+Y hotkey-overlay-title="Browse Wallpapers" { spawn "dms" "ipc" "call" "dankdash" "wallpaper"; }
+    // Mod+Y hotkey-overlay-title="Browse Wallpapers" { spawn "dms" "ipc" "call" "dankdash" "wallpaper"; }
     // Mod+Shift+W hotkey-overlay-title="Create window rule" { spawn "dms" "ipc" "call" "window-rules" "toggle"; }
     // Ctrl+Shift+R hotkey-overlay-title="Rename Workspace" { spawn "dms" "ipc" "call" "workspace-rename" "open"; }
     // Ctrl+Alt+Delete hotkey-overlay-title="Task Manager" { spawn "dms" "ipc" "call" "processlist" "focusOrToggle"; }
@@ -503,7 +490,7 @@ binds {
     // ============================================================================
     // SYSTEM (Lock, Power, etc)
     // ============================================================================
-    Mod+Alt+L hotkey-overlay-title="Lock Screen" { spawn "dms" "ipc" "call" "lock" "lock"; }
+    // Mod+Alt+L hotkey-overlay-title="Lock Screen" { spawn "dms" "ipc" "call" "lock" "lock"; }
     Mod+Shift+P { power-off-monitors; }
     Super+X hotkey-overlay-title="Power Menu: Toggle" { spawn "dms" "ipc" "call" "powermenu" "toggle"; }
 
@@ -546,6 +533,7 @@ binds {
     Mod+Escape allow-inhibiting=false { toggle-keyboard-shortcuts-inhibit; }  // inhibit toggle
     Mod+Shift+E { quit; }                      // quit (with confirm)
     Super+Alt+S allow-when-locked=true hotkey-overlay-title=null { spawn-sh "pkill orca || exec orca"; }  // screen reader toggle
+
 }
 
 
