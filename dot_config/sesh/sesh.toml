@@ -1,86 +1,66 @@
 #:schema https://github.com/joshmedeski/sesh/raw/main/sesh.schema.json
 
 [tui]
-prompt = "> "
-placeholder = "Filter sessions... "
-show_icons = true
+  prompt = "> "
+  placeholder = "Filter sessions... "
+  show_icons = true
+  show_windows = true
 
-# [default_session]
-# startup_command = "cd ~"
+# ───────────────────────────────────────────────────────────────────────────
+# Window Configurations
+# ───────────────────────────────────────────────────────────────────────────
 
 [[window]]
-name = "editor"
-startup_script = "nvim ."
+  name = "editor"
+  startup_script = "nvim ."
 
-# Git window
 [[window]]
-name = "git"
-startup_script = "lazygit"
+  name = "git"
+  startup_script = "lazygit"
+
+[[window]]
+  name = "jj"
+  startup_script = "jj l"
 
 # Server/logs window
 [[window]]
-name = "server"
-startup_script = "echo 'Server logs...'"
-
-# Test window
-[[window]]
-name = "test"
-startup_script = "echo 'Run tests here'"
+  name = "server"
+  startup_script = "echo 'Server logs...'"
 
 # Database window
 [[window]]
-name = "db"
-startup_script = "echo 'Database console'"
+  name = "db"
+  startup_script = "echo 'Database console'"
 
 # Docker window with split (docker ps top, docker logs bottom)
 [[window]]
-name = "docker"
-startup_script = "docker ps"
+  name = "docker"
+  startup_script = "docker ps"
 
 # Docker window with split (docker ps top, docker logs bottom)
 [[window]]
-name = "opencode"
-startup_script = "opencode ."
+  name = "opencode"
+  startup_script = "opencode ."
+
+[[window]]
+  name = "cz diff"
+  startup_script = "while true; clear; chezmoi diff; sleep 2; end"
 
 # ───────────────────────────────────────────────────────────────────────────
 # Session Configurations - Quick Access Configs
 # ───────────────────────────────────────────────────────────────────────────
 
 [[session]]
-name = "nvim"
-path = "~/.config/nvim"
-startup_command = "nvim init.lua"
-preview_command = "eza --tree --level=2 --icons ~/.config/nvim"
-
-[[session]]
-name = "tmux"
-path = "~"
-startup_command = "nvim .tmux.conf"
-preview_command = "bat --color=always ~/.tmux.conf"
-
-[[session]]
-name = "niri"
-path = "~/.config/niri"
+name = "config"
+path = "~/.config"
 startup_command = "nvim ."
-preview_command = "eza --tree --level=2 --icons ~/.config/niri"
-
-[[session]]
-name = "fish"
-path = "~/.config/fish"
-startup_command = "nvim ."
-preview_command = "bat --color=always ~/.config/fish/config.fish"
-
-[[session]]
-name = "sesh"
-path = "~/.config/sesh"
-startup_command = "nvim sesh.toml"
-preview_command = "bat --color=always ~/.config/sesh/sesh.toml"
+preview_command = "eza --tree --level=1 --icons ~/.config"
+icon = ""
 
 [[session]]
 name = "chezmoi"
-path = "/home/azrizhaziq/.local/share/chezmoi"
-startup_command = "chezmoi diff"
-windows = ["editor", "git"]
+path = "~/.local/share/chezmoi"
+windows = ["cz diff", "editor", "jj", "opencode"]
 
 # ───────────────────────────────────────────────────────────────────────────
 # Wildcard Configurations
