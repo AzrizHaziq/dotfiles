@@ -4,7 +4,6 @@
 
 [ui]
   editor = "nvim"
-  pager = ["hunk", "pager"]
   diff-formatter = ":git"
   merge-editor = "meld"
 
@@ -15,5 +14,5 @@
   L = ["log", "-r", "ancestors(@)", "--no-graph"]
   l = ["log", "--no-pager"]
   s = ["status"]
-  d = ["diff"]
+  d = ["hunk diff"]
 

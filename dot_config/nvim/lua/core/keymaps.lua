@@ -25,7 +25,7 @@ vim.keymap.set('n', 'L', 'g_', { desc = 'Move to end of line' })
 vim.keymap.set('n', 'zl', '5zl', { desc = 'Scroll right' })
 vim.keymap.set('n', 'zh', '5zh', { desc = 'Scroll left' })
 
-vim.keymap.set('i', 'jj', '<Esc>', { desc = 'insert mode esc', nowait = true })
+vim.keymap.set('i', 'jk', '<Esc>', { desc = 'insert mode esc', nowait = true })
 vim.keymap.set('n', '<leader>ep', '<C-^>', { desc = '[E]xplore [p]revious buffer' })
 
 -- Center buffer while navigating
