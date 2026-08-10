@@ -13,7 +13,7 @@
 
 [aliases]
   L = ["log", "-r", "ancestors(@)", "--no-graph"]
-  log = ["log", "--no-pager"]
+  l = ["log", "--no-pager"]
   s = ["status"]
   d = ["diff"]
 
