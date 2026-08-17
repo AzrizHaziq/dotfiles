@@ -7,7 +7,7 @@ return {
     ---@type render.md.UserConfig
     opts = {},
     keys = {
-      { '<leader>tm', '<cmd>RenderMarkdown toggle<cr>', desc = '[T]oggle [M]arkdown Preview' },
+      { '<leader>tm', '<cmd>RenderMarkdown toggle<cr>', desc = '[T]oggle [m]arkdown Preview' },
     },
   },
 }

@@ -95,10 +95,12 @@ return {
       vim.g.harper_enabled = false
       vim.keymap.set('n', '<leader>tH', function()
         vim.g.harper_enabled = not vim.g.harper_enabled
+
         for _, client in ipairs(vim.lsp.get_clients { name = 'harper_ls' }) do
           local ns = vim.lsp.diagnostic.get_namespace(client.id)
           vim.diagnostic.enable(vim.g.harper_enabled, { ns_id = ns })
         end
+
         require('snacks').notify(vim.g.harper_enabled and 'Harper enabled' or 'Harper disabled', {
           level = vim.g.harper_enabled and 'info' or 'warn',
           title = 'Harper',
@@ -138,7 +140,7 @@ return {
       local capabilities = require('blink.cmp').get_lsp_capabilities()
 
       local servers = {
-        ts_ls = {},
+        -- ts_ls = {},
         cssls = {
           settings = {
             css = { validate = true, lint = { unknownAtRules = 'ignore' } },
@@ -177,6 +179,7 @@ return {
             local ns = vim.lsp.diagnostic.get_namespace(client.id)
             vim.diagnostic.enable(false, { ns_id = ns })
           end,
+
           settings = {
             ['harper-ls'] = {
               userDictPath = vim.fn.expand '~/.config/dictionary/user.txt',
@@ -218,12 +221,12 @@ return {
         'jsonlint',
         'hadolint',
         'eslint_d',
-        'typescript-language-server',
+        -- 'typescript-language-server',
         'some-sass-language-server',
         'harper-ls',
       })
-      require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
+      require('mason-tool-installer').setup { ensure_installed = ensure_installed }
       require('mason-lspconfig').setup {
         ensure_installed = {},
         automatic_installation = false,

@@ -11,8 +11,7 @@
   timestamp-format = "%Y-%m-%d %H:%M:%S"
 
 [aliases]
-  L = ["log", "-r", "ancestors(@)", "--no-graph"]
-  l = ["log", "--no-pager"]
+  l = ["log", "-r", "ancestors(@)", "--no-pager", "-n", "10"]
+  L = ["log", "-r", "main@origin::@"]
   s = ["status"]
-  d = ["hunk diff"]
 
