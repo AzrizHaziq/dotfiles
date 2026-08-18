@@ -1,23 +1,46 @@
 return {
+
+  {
+    'algmyr/vcsigns.nvim',
+    dependencies = {
+      'algmyr/vclib.nvim',
+      'lewis6991/async.nvim',
+    },
+    event = { 'BufReadPost', 'BufNewFile' },
+    config = function()
+      require('vcsigns').setup {
+        -- target_commit = 1, -- Nice default for jj with new+squash flow.
+      }
+
+      local function map(mode, lhs, rhs, desc, opts)
+        local options = { noremap = true, silent = true, desc = desc }
+        if opts then
+          options = vim.tbl_extend('force', options, opts)
+        end
+        vim.keymap.set(mode, lhs, rhs, options)
+      end
+
+      -- stylua: ignore start
+      map('n', '[r', function() require('vcsigns.actions').target_older_commit(0, vim.v.count1) end, 'Move diff target back')
+      map('n', ']r', function() require('vcsigns.actions').target_newer_commit(0, vim.v.count1) end, 'Move diff target forward')
+      map('n', '[c', function() require('vcsigns.actions').hunk_prev(0, vim.v.count1) end, 'Go to previous hunk')
+      map('n', ']c', function() require('vcsigns.actions').hunk_next(0, vim.v.count1) end, 'Go to next hunk')
+      map('n', '[C', function() require('vcsigns.actions').hunk_prev(0, 9999) end, 'Go to first hunk')
+      map('n', ']C', function() require('vcsigns.actions').hunk_next(0, 9999) end, 'Go to last hunk')
+      map('n', '<leader>hu', function() require('vcsigns.actions').hunk_undo(0) end, 'Undo hunks under cursor')
+      map('v', '<leader>hu', function() require('vcsigns.actions').hunk_undo(0) end, 'Undo hunks in range')
+      map('n', '<leader>hd', function() require('vcsigns.actions').toggle_hunk_diff(0) end, 'Show hunk diffs inline in the current buffer')
+      map('n', '<leader>hv', function() require('vcsigns.actions').diffview(0) end, 'Open native side-by-side diff view')
+      map('n', '<leader>hf', function() require('vcsigns.actions').toggle_fold(0) end, 'Fold outside hunks')
+      -- stylua: ignore end
+    end,
+  },
+
   {
     'lewis6991/gitsigns.nvim',
+    enabled = false,
     event = { 'BufReadPost', 'BufNewFile' },
     opts = {
-      signs = {
-        add = { text = '+' },
-        change = { text = '~' },
-        delete = { text = '-' },
-        topdelete = { text = '‾' },
-        changedelete = { text = '~' },
-        untracked = { text = '?' },
-      },
-      signs_staged = {
-        add = { text = '+' },
-        change = { text = '~' },
-        delete = { text = '-' },
-        topdelete = { text = '‾' },
-        changedelete = { text = '~' },
-      },
       on_attach = function(bufnr)
         local gitsigns = require 'gitsigns'
 
@@ -25,25 +48,6 @@ return {
           opts = opts or {}
           opts.buffer = bufnr
           vim.keymap.set(mode, l, r, opts)
-        end
-
-        local function hunk_diff_file_floating()
-          local file = vim.fn.expand '%:p'
-          local cwd = vim.fn.getcwd()
-
-          -- Build tmux command with proper shell quoting
-          -- shellescape adds single quotes, so file will be 'path/to/file'
-          local escaped_file = vim.fn.shellescape(file)
-          local escaped_cwd = vim.fn.shellescape(cwd)
-
-          -- Use bash -c to properly interpret the command
-          local cmd = string.format(
-            "tmux display-popup -w 80%% -h 80%% -d %s -E \"bash -c 'cd %s && hunk diff -- %s'\"",
-            escaped_cwd,
-            escaped_cwd,
-            escaped_file
-          )
-          os.execute(cmd)
         end
 
         map('n', ']c', function()
@@ -76,10 +80,13 @@ return {
         map('n', '<leader>hb', gitsigns.blame_line, { desc = 'git [b]lame line' })
         map('n', '<leader>hB', gitsigns.toggle_current_line_blame, { desc = 'toggle git [B]lame line' })
         map('n', '<leader>hq', gitsigns.setqflist, { desc = 'git hunk [q]uickfix list (all changes in this file)' })
-        map('n', '<leader>hQ', function() gitsigns.setqflist 'all' end, { desc = 'git hunk [Q]uickfix list (all files in repo)' })
+        map('n', '<leader>hQ', function()
+          gitsigns.setqflist 'all'
+        end, { desc = 'git hunk [Q]uickfix list (all files in repo)' })
         map('n', '<leader>hd', gitsigns.diffthis, { desc = 'git [d]iff against index' })
-        map('n', '<leader>hD', function() gitsigns.diffthis '@' end, { desc = 'git [D]iff against last commit' })
-        map('n', '<leader>hF', hunk_diff_file_floating, { desc = 'hunk [F]ile diff (floating tmux)' })
+        map('n', '<leader>hD', function()
+          gitsigns.diffthis '@'
+        end, { desc = 'git [D]iff against last commit' })
 
         map({ 'o', 'x' }, 'ih', gitsigns.select_hunk)
       end,

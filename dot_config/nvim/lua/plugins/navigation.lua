@@ -112,6 +112,7 @@ return {
       position = 'right',
     },
   },
+
   {
     'folke/flash.nvim',
     event = 'VeryLazy',

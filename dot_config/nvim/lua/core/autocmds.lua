@@ -33,6 +33,15 @@ vim.api.nvim_create_autocmd('WinLeave', {
   end,
 })
 
+-- fff list window: remap CursorLine to FFFCursorLine for high-contrast active row
+-- Runs every time fff opens (buffers are wiped on close and recreated)
+vim.api.nvim_create_autocmd('FileType', {
+  pattern = 'fff_list',
+  callback = function()
+    vim.opt_local.winhighlight = 'CursorLine:FFFCursorLine,Normal:NormalFloat,FloatBorder:FloatBorder'
+  end,
+})
+
 -- restore cursor to file position in previous editing session
 vim.api.nvim_create_autocmd('BufReadPost', {
   callback = function(args)

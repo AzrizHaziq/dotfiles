@@ -1,7 +1,6 @@
 {
   "$schema": "https://opencode.ai/config.json",
   "agent": {
-  "agent": {
     "build": {
       "color": "primary",
       "description": "Execute the smallest correct change",

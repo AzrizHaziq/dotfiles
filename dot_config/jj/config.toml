@@ -14,4 +14,9 @@
   l = ["log", "-r", "ancestors(@)", "--no-pager", "-n", "10"]
   L = ["log", "-r", "main@origin::@"]
   s = ["status"]
+  no_working = ["diff", "--git", "-r", "x", "| hunk patch"]
+  h = ["util", "exec", "--", "bash", "-c", """
+      jj diff --git -r "${1:-@}" | hunk patch
+    """, ""
+  ]
 

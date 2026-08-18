@@ -14,6 +14,7 @@ return {
 
   {
     '2kabhishek/nerdy.nvim',
+    event = 'VeryLazy',
     dependencies = {
       'folke/snacks.nvim',
     },
@@ -27,64 +28,6 @@ return {
       { '<leader>in', '<cmd>Nerdy list<CR>', desc = 'Browse nerd icons' },
       { '<leader>iN', '<cmd>Nerdy recents<CR>', desc = 'Browse recent nerd icons' },
     },
-  },
-
-  {
-    'kevinhwang91/nvim-ufo',
-    dependencies = 'kevinhwang91/promise-async',
-    event = 'VeryLazy',
-    init = function()
-      vim.o.foldcolumn = '0'
-      vim.o.foldlevel = 99
-      vim.o.foldlevelstart = 99
-      vim.o.foldenable = true
-    end,
-    config = function()
-      vim.keymap.set('n', 'zR', require('ufo').openAllFolds)
-      vim.keymap.set('n', 'zM', require('ufo').closeAllFolds)
-      vim.keymap.set('n', 'zf', 'zMzvzz', { desc = 'Focus: Fold everything except current cursor' })
-
-      local handler = function(virtText, lnum, endLnum, width, truncate)
-        local newVirtText = {}
-        local suffix = ('  ··· %d lines '):format(endLnum - lnum)
-        local sufWidth = vim.fn.strdisplaywidth(suffix)
-        local targetWidth = width - sufWidth
-        local curWidth = 0
-        for _, chunk in ipairs(virtText) do
-          local chunkText = chunk[1]
-          local chunkWidth = vim.fn.strdisplaywidth(chunkText)
-          if targetWidth > curWidth + chunkWidth then
-            table.insert(newVirtText, chunk)
-          else
-            chunkText = truncate(chunkText, targetWidth - curWidth)
-            local hlGroup = chunk[2]
-            table.insert(newVirtText, { chunkText, hlGroup })
-            chunkWidth = vim.fn.strdisplaywidth(chunkText)
-            if curWidth + chunkWidth < targetWidth then
-              suffix = suffix .. (' '):rep(targetWidth - curWidth - chunkWidth)
-            end
-            break
-          end
-          curWidth = curWidth + chunkWidth
-        end
-        table.insert(newVirtText, { suffix, 'UfoFoldedEllipsis' })
-        return newVirtText
-      end
-
-      require('ufo').setup {
-        fold_virt_text_handler = handler,
-        provider_selector = function()
-          return { 'treesitter', 'indent' }
-        end,
-      }
-
-      vim.opt.fillchars = {
-        fold = ' ',
-        foldopen = '▾',
-        foldsep = ' ',
-        foldclose = '▸',
-      }
-    end,
   },
 
   {
@@ -154,6 +97,7 @@ return {
       local C = require('catppuccin.palettes').get_palette 'mocha'
       local opts = catppuccin.options
       local transparent_bg = opts.transparent_background and 'NONE' or C.mantle
+
       local theme = {
         normal = {
           a = { bg = C.blue, fg = C.mantle, gui = 'bold' },

@@ -9,6 +9,3 @@ if status is-interactive
         zoxide init fish | source
     end
 end
-
-# completions
-workmux completions fish | source

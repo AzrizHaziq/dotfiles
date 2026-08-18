@@ -55,7 +55,6 @@ name = "config"
 path = "~/.config"
 startup_command = "nvim ."
 preview_command = "eza --tree --level=1 --icons ~/.config"
-icon = ""
 
 [[session]]
 name = "chezmoi"

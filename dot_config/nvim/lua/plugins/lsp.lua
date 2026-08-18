@@ -221,7 +221,7 @@ return {
         'jsonlint',
         'hadolint',
         'eslint_d',
-        -- 'typescript-language-server',
+        'typescript-language-server',
         'some-sass-language-server',
         'harper-ls',
       })

@@ -2,10 +2,24 @@ return {
   {
     'dmtrKovalenko/fff.nvim',
     event = 'VeryLazy',
+    lazy = false,
+    dependencies = { 'catppuccin/nvim' },
     build = function()
       require('fff.download').download_or_build_binary()
     end,
+
+    config = function(_, opts)
+      local C = require('catppuccin.palettes').get_palette 'mocha'
+      vim.api.nvim_set_hl(0, 'Fff1', { bg = C.base, fg = C.blue, underline = true })
+      require('fff').setup(opts)
+    end,
+
     opts = {
+      hl = {
+        winhl = {
+          preview = 'IncSearch:Fff1',
+        },
+      },
       base_path = vim.fn.getcwd(),
       prompt = '> ',
       title = 'FFF Files',
@@ -87,7 +101,6 @@ return {
         log_level = 'info',
       },
     },
-    lazy = false,
     keys = {
       {
         '<leader>sf',
@@ -158,3 +171,19 @@ return {
     },
   },
 }
+
+--[[
+
+Constraints
+  Both find and grep accept these tokens to refine a query:
+
+  git:modified. One of modified, staged, deleted, renamed, untracked, ignored.
+  test/. Any deeply nested children of test/.
+  !something, !test/, !git:modified. Exclusion. Text exclusions need at least 3 alphanumeric-containing characters, so operators like != or !== work.
+  ./**/*.{rs,lua}. Any valid glob, powered by zlob.
+  Grep-only:
+
+  *.md, *.{c,h}. Extension filter.
+  src/main.rs. Grep inside a single file.
+  Mix freely: git:modified src/**/*.rs !src/**/mod.rs user controller. 
+]]
