@@ -37,3 +37,39 @@ btop = "latest"
 "aqua:tailscale/tailscale" = "latest"
 jj = "latest"
 markdownlint-cli2 = "latest"
+python = "3.12"
+prettier = "latest"
+
+[tasks."default:install"]
+description = "Default"
+run = """
+mise completion fish > ~/.config/fish/completions/mise.fish
+echo 'niri, kitty, '
+"""
+
+[tasks."font:install"]
+description = "Download and update JetBrains Mono Nerd Font"
+run = """
+mkdir -p ~/.local/share/fonts/JetBrainsMono
+wget -O /tmp/JetBrainsMono.zip https://github.com/ryanoasis/nerd-fonts/releases/download/v3.5.0/JetBrainsMono.zip
+unzip -o /tmp/JetBrainsMono.zip -d ~/.local/share/fonts/JetBrainsMono
+fc-cache --force
+rm /tmp/JetBrainsMono.zip
+echo 'JetBrains Mono Nerd Font installed!'
+"""
+
+[tasks."fisher:install"]
+description = "Setup fisher config"
+run = """
+#!/usr/bin/env fish
+curl -sL https://raw.githubusercontent.com/jorgebucaran/fisher/main/functions/fisher.fish | source && fisher install jorgebucaran/fisher
+fisher update
+source ~/.config/fish/config.fish
+"""
+ 
+[tasks."tmux:install"]
+description = "Setup tmux config"
+run = """
+ git clone https://github.com/tmux-plugins/tpm ~/.config/tmux/plugins/tpm/
+ ~/.config/tmux/plugins/tpm/scripts/install_plugins.sh
+"""

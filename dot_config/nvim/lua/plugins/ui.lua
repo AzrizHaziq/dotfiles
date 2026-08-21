@@ -332,6 +332,7 @@ return {
 
   {
     'sphamba/smear-cursor.nvim',
+    enabled = false,
     event = 'BufReadPre',
     opts = {
       smear_between_buffers = true,

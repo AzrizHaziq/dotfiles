@@ -381,10 +381,10 @@
       "name": "AI Gateway (OpenAI)",
       "npm": "@ai-sdk/openai-compatible",
       "options": {
-        "apiKey": "{env:BATMAN_KEY}",
+        "apiKey": "{env:FIGMA_API_KEY}",
         "baseURL": "https://llm-api.tools.procountor.com/v1",
         "headers": {
-          "Authorization": "Bearer {env:BATMAN_KEY}",
+          "Authorization": "Bearer {env:FIGMA_API_KEY}",
           "x-api-key": "{env:BATMAN_KEY}"
         }
       }
@@ -415,6 +415,698 @@
         }
       },
       "name": "AI Gateway (OpenAI Native)",
+      "npm": "@ai-sdk/openai",
+      "options": {
+        "apiKey": "{env:FIGMA_API_KEY}",
+        "baseURL": "https://llm-api.tools.procountor.com/v1",
+        "headers": {
+          "Authorization": "Bearer {env:FIGMA_API_KEY}",
+          "x-api-key": "{env:BATMAN_KEY}"
+        }
+      }
+    },
+    "batman-anthropic": {
+      "models": {
+        "anthropic/claude-fable-5": {
+          "description": "anthropic/claude-fable-5 via Batman AI Gateway",
+          "limit": {
+            "context": 1000000,
+            "output": 32000
+          },
+          "maxTokens": 32000,
+          "modalities": {
+            "input": ["text", "image"],
+            "output": ["text"]
+          },
+          "name": "Anthropic/Claude Fable 5",
+          "variants": {
+            "high": {
+              "output_config": {
+                "effort": "high"
+              },
+              "thinking": {
+                "type": "adaptive"
+              }
+            },
+            "max": {
+              "output_config": {
+                "effort": "max"
+              },
+              "thinking": {
+                "type": "adaptive"
+              }
+            },
+            "medium": {
+              "output_config": {
+                "effort": "medium"
+              },
+              "thinking": {
+                "type": "adaptive"
+              }
+            }
+          }
+        },
+        "anthropic/claude-haiku-4-5": {
+          "description": "anthropic/claude-haiku-4-5 via Batman AI Gateway",
+          "limit": {
+            "context": 200000,
+            "output": 64000
+          },
+          "maxTokens": 64000,
+          "modalities": {
+            "input": ["text", "image"],
+            "output": ["text"]
+          },
+          "name": "Anthropic/Claude Haiku 4 5"
+        },
+        "anthropic/claude-opus-4-5": {
+          "description": "anthropic/claude-opus-4-5 via Batman AI Gateway",
+          "limit": {
+            "context": 200000,
+            "output": 64000
+          },
+          "maxTokens": 64000,
+          "modalities": {
+            "input": ["text", "image"],
+            "output": ["text"]
+          },
+          "name": "Anthropic/Claude Opus 4 5",
+          "variants": {
+            "high": {
+              "thinking": {
+                "budgetTokens": 10000,
+                "type": "enabled"
+              }
+            },
+            "max": {
+              "thinking": {
+                "budgetTokens": 16000,
+                "type": "enabled"
+              }
+            },
+            "medium": {
+              "thinking": {
+                "budgetTokens": 5000,
+                "type": "enabled"
+              }
+            }
+          }
+        },
+        "anthropic/claude-opus-4-6": {
+          "description": "anthropic/claude-opus-4-6 via Batman AI Gateway",
+          "limit": {
+            "context": 1000000,
+            "output": 128000
+          },
+          "maxTokens": 128000,
+          "modalities": {
+            "input": ["text", "image"],
+            "output": ["text"]
+          },
+          "name": "Anthropic/Claude Opus 4 6",
+          "variants": {
+            "high": {
+              "thinking": {
+                "budgetTokens": 10000,
+                "type": "enabled"
+              }
+            },
+            "max": {
+              "thinking": {
+                "budgetTokens": 16000,
+                "type": "enabled"
+              }
+            },
+            "medium": {
+              "thinking": {
+                "budgetTokens": 5000,
+                "type": "enabled"
+              }
+            }
+          }
+        },
+        "anthropic/claude-opus-4-7": {
+          "description": "anthropic/claude-opus-4-7 via Batman AI Gateway",
+          "limit": {
+            "context": 1000000,
+            "output": 128000
+          },
+          "maxTokens": 128000,
+          "modalities": {
+            "input": ["text", "image"],
+            "output": ["text"]
+          },
+          "name": "Anthropic/Claude Opus 4 7",
+          "variants": {
+            "high": {
+              "output_config": {
+                "effort": "high"
+              },
+              "thinking": {
+                "type": "adaptive"
+              }
+            },
+            "max": {
+              "output_config": {
+                "effort": "max"
+              },
+              "thinking": {
+                "type": "adaptive"
+              }
+            },
+            "medium": {
+              "output_config": {
+                "effort": "medium"
+              },
+              "thinking": {
+                "type": "adaptive"
+              }
+            }
+          }
+        },
+        "anthropic/claude-opus-4-8": {
+          "description": "anthropic/claude-opus-4-8 via Batman AI Gateway",
+          "limit": {
+            "context": 1000000,
+            "output": 128000
+          },
+          "maxTokens": 128000,
+          "modalities": {
+            "input": ["text", "image"],
+            "output": ["text"]
+          },
+          "name": "Anthropic/Claude Opus 4 8",
+          "variants": {
+            "high": {
+              "output_config": {
+                "effort": "high"
+              },
+              "thinking": {
+                "type": "adaptive"
+              }
+            },
+            "max": {
+              "output_config": {
+                "effort": "max"
+              },
+              "thinking": {
+                "type": "adaptive"
+              }
+            },
+            "medium": {
+              "output_config": {
+                "effort": "medium"
+              },
+              "thinking": {
+                "type": "adaptive"
+              }
+            }
+          }
+        },
+        "anthropic/claude-opus-5": {
+          "description": "anthropic/claude-opus-5 via Batman AI Gateway",
+          "limit": {
+            "context": 1000000,
+            "output": 128000
+          },
+          "maxTokens": 128000,
+          "modalities": {
+            "input": ["text", "image"],
+            "output": ["text"]
+          },
+          "name": "Anthropic/Claude Opus 5",
+          "variants": {
+            "high": {
+              "output_config": {
+                "effort": "high"
+              },
+              "thinking": {
+                "type": "adaptive"
+              }
+            },
+            "max": {
+              "output_config": {
+                "effort": "max"
+              },
+              "thinking": {
+                "type": "adaptive"
+              }
+            },
+            "medium": {
+              "output_config": {
+                "effort": "medium"
+              },
+              "thinking": {
+                "type": "adaptive"
+              }
+            }
+          }
+        },
+        "anthropic/claude-sonnet-4-5": {
+          "description": "anthropic/claude-sonnet-4-5 via Batman AI Gateway",
+          "limit": {
+            "context": 200000,
+            "output": 64000
+          },
+          "maxTokens": 64000,
+          "modalities": {
+            "input": ["text", "image"],
+            "output": ["text"]
+          },
+          "name": "Anthropic/Claude Sonnet 4 5",
+          "variants": {
+            "high": {
+              "thinking": {
+                "budgetTokens": 10000,
+                "type": "enabled"
+              }
+            },
+            "max": {
+              "thinking": {
+                "budgetTokens": 16000,
+                "type": "enabled"
+              }
+            },
+            "medium": {
+              "thinking": {
+                "budgetTokens": 5000,
+                "type": "enabled"
+              }
+            }
+          }
+        },
+        "anthropic/claude-sonnet-4-6": {
+          "description": "anthropic/claude-sonnet-4-6 via Batman AI Gateway",
+          "limit": {
+            "context": 1000000,
+            "output": 64000
+          },
+          "maxTokens": 64000,
+          "modalities": {
+            "input": ["text", "image"],
+            "output": ["text"]
+          },
+          "name": "Anthropic/Claude Sonnet 4 6",
+          "variants": {
+            "high": {
+              "thinking": {
+                "budgetTokens": 10000,
+                "type": "enabled"
+              }
+            },
+            "max": {
+              "thinking": {
+                "budgetTokens": 16000,
+                "type": "enabled"
+              }
+            },
+            "medium": {
+              "thinking": {
+                "budgetTokens": 5000,
+                "type": "enabled"
+              }
+            }
+          }
+        },
+        "anthropic/claude-sonnet-5": {
+          "description": "anthropic/claude-sonnet-5 via Batman AI Gateway",
+          "limit": {
+            "context": 1000000,
+            "output": 128000
+          },
+          "maxTokens": 128000,
+          "modalities": {
+            "input": ["text", "image"],
+            "output": ["text"]
+          },
+          "name": "Anthropic/Claude Sonnet 5",
+          "variants": {
+            "high": {
+              "output_config": {
+                "effort": "high"
+              },
+              "thinking": {
+                "type": "adaptive"
+              }
+            },
+            "max": {
+              "output_config": {
+                "effort": "max"
+              },
+              "thinking": {
+                "type": "adaptive"
+              }
+            },
+            "medium": {
+              "output_config": {
+                "effort": "medium"
+              },
+              "thinking": {
+                "type": "adaptive"
+              }
+            }
+          }
+        }
+      },
+      "name": "Batman AI Gateway (Anthropic)",
+      "npm": "@ai-sdk/anthropic",
+      "options": {
+        "apiKey": "{env:FIGMA_API_KEY}",
+        "baseURL": "https://llm-api.tools.procountor.com",
+        "headers": {
+          "Authorization": "Bearer {env:FIGMA_API_KEY}",
+          "x-api-key": "{env:FIGMA_API_KEY}"
+        }
+      }
+    },
+    "batman-gateway": {
+      "models": {
+        "openai/Kimi-K2.5": {
+          "description": "openai/Kimi-K2.5 via Batman AI Gateway",
+          "limit": {
+            "context": 262144,
+            "output": 262144
+          },
+          "maxTokens": 262144,
+          "modalities": {
+            "input": ["text"],
+            "output": ["text"]
+          },
+          "name": "Openai/Kimi K2.5"
+        },
+        "openai/Kimi-K2.6": {
+          "description": "openai/Kimi-K2.6 via Batman AI Gateway",
+          "limit": {
+            "context": 262144,
+            "output": 262144
+          },
+          "maxTokens": 262144,
+          "modalities": {
+            "input": ["text"],
+            "output": ["text"]
+          },
+          "name": "Openai/Kimi K2.6"
+        },
+        "openai/Kimi-K2.7-Code": {
+          "description": "openai/Kimi-K2.7-Code via Batman AI Gateway",
+          "limit": {
+            "context": 262144,
+            "output": 262144
+          },
+          "maxTokens": 262144,
+          "modalities": {
+            "input": ["text"],
+            "output": ["text"]
+          },
+          "name": "Openai/Kimi K2.7 Code"
+        },
+        "openai/Mistral-Large-3": {
+          "description": "openai/Mistral-Large-3 via Batman AI Gateway",
+          "limit": {
+            "context": 256000,
+            "output": 8191
+          },
+          "maxTokens": 8191,
+          "modalities": {
+            "input": ["text"],
+            "output": ["text"]
+          },
+          "name": "Openai/Mistral Large 3"
+        },
+        "openai/gpt-5": {
+          "description": "openai/gpt-5 via Batman AI Gateway",
+          "limit": {
+            "context": 272000,
+            "output": 128000
+          },
+          "maxTokens": 128000,
+          "modalities": {
+            "input": ["text"],
+            "output": ["text"]
+          },
+          "name": "Openai/Gpt 5"
+        },
+        "openai/gpt-5-mini": {
+          "description": "openai/gpt-5-mini via Batman AI Gateway",
+          "limit": {
+            "context": 272000,
+            "output": 128000
+          },
+          "maxTokens": 128000,
+          "modalities": {
+            "input": ["text"],
+            "output": ["text"]
+          },
+          "name": "Openai/Gpt 5 Mini"
+        },
+        "openai/gpt-5-nano": {
+          "description": "openai/gpt-5-nano via Batman AI Gateway",
+          "limit": {
+            "context": 272000,
+            "output": 128000
+          },
+          "maxTokens": 128000,
+          "modalities": {
+            "input": ["text"],
+            "output": ["text"]
+          },
+          "name": "Openai/Gpt 5 Nano"
+        },
+        "openai/gpt-5.1": {
+          "description": "openai/gpt-5.1 via Batman AI Gateway",
+          "limit": {
+            "context": 272000,
+            "output": 128000
+          },
+          "maxTokens": 128000,
+          "modalities": {
+            "input": ["text"],
+            "output": ["text"]
+          },
+          "name": "Openai/Gpt 5.1"
+        },
+        "openai/gpt-5.4": {
+          "description": "openai/gpt-5.4 via Batman AI Gateway",
+          "limit": {
+            "context": 1050000,
+            "output": 128000
+          },
+          "maxTokens": 128000,
+          "modalities": {
+            "input": ["text", "image"],
+            "output": ["text"]
+          },
+          "name": "Openai/Gpt 5.4",
+          "variants": {
+            "high": {
+              "reasoningEffort": "high"
+            },
+            "low": {
+              "reasoningEffort": "low"
+            },
+            "max": {
+              "reasoningEffort": "max"
+            },
+            "medium": {
+              "reasoningEffort": "medium"
+            },
+            "xhigh": {
+              "reasoningEffort": "xhigh"
+            }
+          }
+        },
+        "openai/gpt-5.4-nano": {
+          "description": "openai/gpt-5.4-nano via Batman AI Gateway",
+          "limit": {
+            "context": 272000,
+            "output": 128000
+          },
+          "maxTokens": 128000,
+          "modalities": {
+            "input": ["text", "image"],
+            "output": ["text"]
+          },
+          "name": "Openai/Gpt 5.4 Nano",
+          "variants": {
+            "high": {
+              "reasoningEffort": "high"
+            },
+            "low": {
+              "reasoningEffort": "low"
+            },
+            "max": {
+              "reasoningEffort": "max"
+            },
+            "medium": {
+              "reasoningEffort": "medium"
+            },
+            "xhigh": {
+              "reasoningEffort": "xhigh"
+            }
+          }
+        },
+        "openai/gpt-5.5": {
+          "description": "openai/gpt-5.5 via Batman AI Gateway",
+          "limit": {
+            "context": 1050000,
+            "output": 128000
+          },
+          "maxTokens": 128000,
+          "modalities": {
+            "input": ["text", "image"],
+            "output": ["text"]
+          },
+          "name": "Openai/Gpt 5.5",
+          "variants": {
+            "high": {
+              "reasoningEffort": "high"
+            },
+            "low": {
+              "reasoningEffort": "low"
+            },
+            "max": {
+              "reasoningEffort": "max"
+            },
+            "medium": {
+              "reasoningEffort": "medium"
+            },
+            "xhigh": {
+              "reasoningEffort": "xhigh"
+            }
+          }
+        },
+        "openai/gpt-5.6-luna": {
+          "description": "openai/gpt-5.6-luna via Batman AI Gateway",
+          "limit": {
+            "context": 1050000,
+            "output": 128000
+          },
+          "maxTokens": 128000,
+          "modalities": {
+            "input": ["text", "image"],
+            "output": ["text"]
+          },
+          "name": "Openai/Gpt 5.6 Luna",
+          "variants": {
+            "high": {
+              "reasoningEffort": "high"
+            },
+            "low": {
+              "reasoningEffort": "low"
+            },
+            "max": {
+              "reasoningEffort": "max"
+            },
+            "medium": {
+              "reasoningEffort": "medium"
+            },
+            "xhigh": {
+              "reasoningEffort": "xhigh"
+            }
+          }
+        },
+        "openai/gpt-5.6-sol": {
+          "description": "openai/gpt-5.6-sol via Batman AI Gateway",
+          "limit": {
+            "context": 1050000,
+            "output": 128000
+          },
+          "maxTokens": 128000,
+          "modalities": {
+            "input": ["text", "image"],
+            "output": ["text"]
+          },
+          "name": "Openai/Gpt 5.6 Sol",
+          "variants": {
+            "high": {
+              "reasoningEffort": "high"
+            },
+            "low": {
+              "reasoningEffort": "low"
+            },
+            "max": {
+              "reasoningEffort": "max"
+            },
+            "medium": {
+              "reasoningEffort": "medium"
+            },
+            "xhigh": {
+              "reasoningEffort": "xhigh"
+            }
+          }
+        },
+        "openai/gpt-5.6-terra": {
+          "description": "openai/gpt-5.6-terra via Batman AI Gateway",
+          "limit": {
+            "context": 1050000,
+            "output": 128000
+          },
+          "maxTokens": 128000,
+          "modalities": {
+            "input": ["text", "image"],
+            "output": ["text"]
+          },
+          "name": "Openai/Gpt 5.6 Terra",
+          "variants": {
+            "high": {
+              "reasoningEffort": "high"
+            },
+            "low": {
+              "reasoningEffort": "low"
+            },
+            "max": {
+              "reasoningEffort": "max"
+            },
+            "medium": {
+              "reasoningEffort": "medium"
+            },
+            "xhigh": {
+              "reasoningEffort": "xhigh"
+            }
+          }
+        },
+        "openai/mistral-small-2503": {
+          "description": "openai/mistral-small-2503 via Batman AI Gateway",
+          "limit": {
+            "context": 128000,
+            "output": 128000
+          },
+          "maxTokens": 128000,
+          "modalities": {
+            "input": ["text"],
+            "output": ["text"]
+          },
+          "name": "Openai/Mistral Small 2503"
+        }
+      },
+      "name": "Batman AI Gateway (OpenAI)",
+      "npm": "@ai-sdk/openai-compatible",
+      "options": {
+        "apiKey": "{env:BATMAN_KEY}",
+        "baseURL": "https://llm-api.tools.procountor.com/v1",
+        "headers": {
+          "Authorization": "Bearer {env:BATMAN_KEY}",
+          "x-api-key": "{env:BATMAN_KEY}"
+        }
+      }
+    },
+    "batman-openai-native": {
+      "models": {
+        "openai/gpt-5.3-codex": {
+          "description": "openai/gpt-5.3-codex via Batman AI Gateway",
+          "limit": {
+            "context": 272000,
+            "output": 128000
+          },
+          "maxTokens": 128000,
+          "modalities": {
+            "input": ["text", "image"],
+            "output": ["text"]
+          },
+          "name": "Openai/Gpt 5.3 Codex"
+        }
+      },
+      "name": "Batman AI Gateway (OpenAI Native)",
       "npm": "@ai-sdk/openai",
       "options": {
         "apiKey": "{env:BATMAN_KEY}",
