@@ -17,6 +17,7 @@ return {
     },
     config = function()
       require('opencode').setup {
+        opencode_executable = vim.fn.expand('$HOME/.local/share/mise/shims/opencode'),
         keymap_prefix = '<leader>o',
         preferred_picker = 'snacks',
         preferred_completion = 'blink',
@@ -38,8 +39,8 @@ return {
             filetype = 'opencode_output',
             tools = {
               use_folds = false,
-              folding_threshold = 50
-            }
+              folding_threshold = 50,
+            },
           },
         },
         keymap = {

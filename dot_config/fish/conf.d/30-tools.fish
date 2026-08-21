@@ -1,5 +1,6 @@
 # Tool integrations - mise, zoxide
 
+
 if status is-interactive
     if command -q mise
         mise activate fish | source
