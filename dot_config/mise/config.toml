@@ -44,7 +44,8 @@ prettier = "latest"
 description = "Default"
 run = """
 mise completion fish > ~/.config/fish/completions/mise.fish
-echo 'niri, kitty, '
+cd ~/.config/opencode && npx -y skills update
+echo 'niri, kitty, opencode skills'
 """
 
 [tasks."font:install"]

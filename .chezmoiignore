@@ -5,7 +5,7 @@
 .config/nvim/.github
 
 .config/fish/completions
-.config/fish/functions/batman-daily-refresh.fish
+.config/fish/functions/batman.fish
 .config/fish/conf.d/99-local.fish
 .config/fish/conf.d/fish_frozen_theme.fish
 .config/fish/conf.d/fzf.fish
