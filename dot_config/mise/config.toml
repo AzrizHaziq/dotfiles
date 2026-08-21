@@ -48,6 +48,8 @@ run = """
 echo "Setup mise"                               && mise completion fish > ~/.config/fish/completions/mise.fish
 echo "Setup ai-skills"                          &&  cd ~/.config/opencode && npx -y skills update
 echo "Setup fish + /passwd and /shells"         && which fish | sudo tee -a /etc/shells &&  chsh -s $(which fish)
+echo "Setup fish prompt"                        && fish_config prompt choose astronaut && fish_config prompt save
+echo "Setup fish theme"                         && fish_config theme choose catppuccine-mocha
 echo 'niri, kitty'
 """
 
