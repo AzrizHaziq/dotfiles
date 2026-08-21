@@ -2,6 +2,7 @@ return {
 
   {
     'algmyr/vcsigns.nvim',
+    enabled = false,
     dependencies = {
       'algmyr/vclib.nvim',
       'lewis6991/async.nvim',

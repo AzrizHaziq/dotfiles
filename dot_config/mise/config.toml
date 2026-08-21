@@ -19,7 +19,6 @@ jq = "latest"
 lazydocker = "latest"
 opencode = "latest"
 "npm:@ff-labs/fff-node" = "latest"
-"npm:hunkdiff" = "0.15.3"
 "npm:sort-json" = "latest"
 "npm:tslib" = "latest"
 lazyjournal = "latest"
@@ -39,13 +38,17 @@ jj = "latest"
 markdownlint-cli2 = "latest"
 python = "3.12"
 prettier = "latest"
+usage = "latest"
+hunk = "latest"
+docker-cli = "latest"
 
 [tasks."default:install"]
 description = "Default"
 run = """
-mise completion fish > ~/.config/fish/completions/mise.fish
-cd ~/.config/opencode && npx -y skills update
-echo 'niri, kitty, opencode skills'
+echo "Setup mise"                               && mise completion fish > ~/.config/fish/completions/mise.fish
+echo "Setup ai-skills"                          &&  cd ~/.config/opencode && npx -y skills update
+echo "Setup fish + /passwd and /shells"         && which fish | sudo tee -a /etc/shells &&  chsh -s $(which fish)
+echo 'niri, kitty'
 """
 
 [tasks."font:install"]
