@@ -47,6 +47,7 @@ return {
         },
       },
       explorer = {
+        enabled = false,
         replace_netrw = true,
         trash = false,
         --  ["<c-c>"] = "tcd",
@@ -204,13 +205,13 @@ return {
     },
 
     keys = {
-      {
-        '\\',
-        function()
-          require('snacks').explorer()
-        end,
-        desc = 'File Explorer',
-      },
+      -- {
+      --   '\\',
+      --   function()
+      --     require('snacks').explorer()
+      --   end,
+      --   desc = 'File Explorer',
+      -- },
 
       {
         '<leader>gi',
@@ -241,13 +242,6 @@ return {
         desc = 'GitHub Pull Requests (all)',
       },
       {
-        '<leader>gl',
-        function()
-          require('snacks').lazygit.log()
-        end,
-        desc = 'Lazygit Logs',
-      },
-      {
         '<leader>gf',
         function()
           require('snacks').lazygit.log_file()
@@ -276,13 +270,13 @@ return {
         end,
         desc = '[E]xplorer [G]it changes',
       },
-      {
-        '<leader>er',
-        function()
-          require('snacks').explorer.reveal()
-        end,
-        desc = '[Explorer] [R]eveal current file',
-      },
+      -- {
+      --   '<leader>er',
+      --   function()
+      --     require('snacks').explorer.reveal()
+      --   end,
+      --   desc = '[Explorer] [R]eveal current file',
+      -- },
 
       {
         '<leader>sh',

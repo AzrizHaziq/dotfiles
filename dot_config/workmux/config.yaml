@@ -1,0 +1,7 @@
+---
+mode: session
+status_format: false
+nerdfont: true
+agent: opencode
+theme: night-sorbet
+window_prefix: "{project} 󰘬 "

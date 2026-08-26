@@ -1,9 +1,3 @@
--- NVIM 0.12+ Completion System
--- Using blink.cmp (Lua-native, high-performance completion)
--- - blink.cmp v1: Modern async completion with snippet integration
--- - LuaSnip v2: Multi-language snippet engine
--- - lazydev: Neovim/Lua API completions
--- - blink.compat: Legacy nvim-cmp source compatibility layer
 return {
   {
     'saghen/blink.cmp',
@@ -56,36 +50,6 @@ return {
       completion = {
         menu = {
           border = 'rounded',
-          draw = {
-            components = {
-              kind_icon = {
-                text = function(ctx)
-                  local icon = ctx.kind_icon
-
-                  if ctx.item.source_name == 'LSP' then
-                    local color_item = require('nvim-highlight-colors').format(ctx.item.documentation, { kind = ctx.kind })
-                    if color_item and color_item.abbr ~= '' then
-                      icon = color_item.abbr
-                    end
-                  end
-
-                  return icon .. ctx.icon_gap
-                end,
-                highlight = function(ctx)
-                  local highlight = 'BlinkCmpKind' .. ctx.kind
-
-                  if ctx.item.source_name == 'LSP' then
-                    local color_item = require('nvim-highlight-colors').format(ctx.item.documentation, { kind = ctx.kind })
-                    if color_item and color_item.abbr_hl_group then
-                      highlight = color_item.abbr_hl_group
-                    end
-                  end
-
-                  return highlight
-                end,
-              },
-            },
-          },
         },
         documentation = {
           auto_show = true,
