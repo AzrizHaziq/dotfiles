@@ -1,93 +1,5 @@
 return {
   {
-    'nvzone/minty',
-    event = 'VeryLazy',
-    cmd = { 'Shades', 'Huefy' }, -- Lazy loads the commands
-    keys = {
-      { '<leader>cs', '<cmd>Shades<cr>', desc = 'Open Minty Shades (Color Palette)' },
-      { '<leader>ch', '<cmd>Huefy<cr>', desc = 'Open Minty Huefy (Color Picker)' },
-    },
-    dependencies = {
-      { 'nvzone/volt', lazy = true }, -- Required dependency
-    },
-  },
-
-  {
-    '2kabhishek/nerdy.nvim',
-    event = 'VeryLazy',
-    dependencies = {
-      'folke/snacks.nvim',
-    },
-    cmd = 'Nerdy',
-    opts = {
-      max_recents = 30, -- Configure recent icons limit
-      copy_to_clipboard = true, -- Copy glyph to clipboard instead of inserting
-      copy_register = '+', -- Register to use for copying (if `copy_to_clipboard` is true)
-    },
-    keys = {
-      { '<leader>in', '<cmd>Nerdy list<CR>', desc = 'Browse nerd icons' },
-      { '<leader>iN', '<cmd>Nerdy recents<CR>', desc = 'Browse recent nerd icons' },
-    },
-  },
-
-  {
-    'folke/which-key.nvim',
-    event = 'VeryLazy',
-    opts = {
-      preset = 'helix',
-      delay = 0,
-      icons = {
-        mappings = vim.g.have_nerd_font,
-        keys = vim.g.have_nerd_font and {} or {
-          Up = ' ',
-          Down = ' ',
-          Left = ' ',
-          Right = ' ',
-          C = '<C-…> ',
-          M = '<M-…> ',
-          D = '<D-…> ',
-          S = '<S-…> ',
-          CR = '<CR> ',
-          Esc = '󱊷 ',
-          ScrollWheelDown = '󱕐 ',
-          ScrollWheelUp = '󱕑 ',
-          NL = '󰌑 ',
-          BS = '󰁮',
-          Space = '󱁐 ',
-          Tab = '󰌒 ',
-          F1 = '󱊫',
-          F2 = '󱊬',
-          F3 = '󱊭',
-          F4 = '󱊮',
-          F5 = '󱊯',
-          F6 = '󱊰',
-          F7 = '󱊱',
-          F8 = '󱊲',
-          F9 = '󱊳',
-          F10 = '󱊴',
-          F11 = '󱊵',
-          F12 = '󱊶',
-        },
-      },
-      spec = {
-        { '<leader>e', group = '[E]xplorer' },
-        { '<leader>f', group = '[F]ormat' },
-        { '<leader>h', group = 'Git [h]unk', mode = { 'n', 'v' } },
-        { '<leader>g', group = '[G]it' },
-        { '<leader>n', group = '[N]otifications' },
-        { '<leader>c', group = '[C]opy abosolute/relative' },
-        { '<leader>o', group = '[O]pencode' },
-        { '<leader>q', group = 'Dia[Q]nostic' },
-        { '<leader>s', group = '[S]earch' },
-        { '<leader>r', group = '[R]eload' },
-        { '<leader>t', group = '[T]oggle' },
-        { '<leader>w', group = '[W]rite buffer' },
-        { 'gr', group = 'LSP Actions', mode = { 'n' } },
-      },
-    },
-  },
-
-  {
     'nvim-lualine/lualine.nvim',
     event = 'VeryLazy',
     dependencies = { 'nvim-tree/nvim-web-devicons' },
@@ -328,17 +240,5 @@ return {
         },
       }
     end,
-  },
-
-  {
-    'sphamba/smear-cursor.nvim',
-    enabled = false,
-    event = 'BufReadPre',
-    opts = {
-      smear_between_buffers = true,
-      smear_between_neighbor_lines = true,
-      scroll_buffer_space = true,
-      smear_insert_mode = true,
-    },
   },
 }

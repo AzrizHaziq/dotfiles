@@ -26,6 +26,7 @@ if status is-interactive
     abbr -a ld lazydocker
     abbr -a lj lazyjournal
     abbr -a op opencode
+    abbr -a wm workmux
     abbr -a tmux "tmux -f '$HOME/.config/tmux/tmux.conf'"
 
     abbr -a g git

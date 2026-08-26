@@ -39,6 +39,8 @@ jj = "latest"
 markdownlint-cli2 = "latest"
 python = "3.12"
 prettier = "latest"
+usage = "latest"
+"cargo:raine/workmux" = "latest"
 
 [tasks."default:install"]
 description = "Default"

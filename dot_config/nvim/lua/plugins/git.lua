@@ -1,44 +1,6 @@
 return {
-
-  {
-    'algmyr/vcsigns.nvim',
-    dependencies = {
-      'algmyr/vclib.nvim',
-      'lewis6991/async.nvim',
-    },
-    event = { 'BufReadPost', 'BufNewFile' },
-    config = function()
-      require('vcsigns').setup {
-        -- target_commit = 1, -- Nice default for jj with new+squash flow.
-      }
-
-      local function map(mode, lhs, rhs, desc, opts)
-        local options = { noremap = true, silent = true, desc = desc }
-        if opts then
-          options = vim.tbl_extend('force', options, opts)
-        end
-        vim.keymap.set(mode, lhs, rhs, options)
-      end
-
-      -- stylua: ignore start
-      map('n', '[r', function() require('vcsigns.actions').target_older_commit(0, vim.v.count1) end, 'Move diff target back')
-      map('n', ']r', function() require('vcsigns.actions').target_newer_commit(0, vim.v.count1) end, 'Move diff target forward')
-      map('n', '[c', function() require('vcsigns.actions').hunk_prev(0, vim.v.count1) end, 'Go to previous hunk')
-      map('n', ']c', function() require('vcsigns.actions').hunk_next(0, vim.v.count1) end, 'Go to next hunk')
-      map('n', '[C', function() require('vcsigns.actions').hunk_prev(0, 9999) end, 'Go to first hunk')
-      map('n', ']C', function() require('vcsigns.actions').hunk_next(0, 9999) end, 'Go to last hunk')
-      map('n', '<leader>hu', function() require('vcsigns.actions').hunk_undo(0) end, 'Undo hunks under cursor')
-      map('v', '<leader>hu', function() require('vcsigns.actions').hunk_undo(0) end, 'Undo hunks in range')
-      map('n', '<leader>hd', function() require('vcsigns.actions').toggle_hunk_diff(0) end, 'Show hunk diffs inline in the current buffer')
-      map('n', '<leader>hv', function() require('vcsigns.actions').diffview(0) end, 'Open native side-by-side diff view')
-      map('n', '<leader>hf', function() require('vcsigns.actions').toggle_fold(0) end, 'Fold outside hunks')
-      -- stylua: ignore end
-    end,
-  },
-
   {
     'lewis6991/gitsigns.nvim',
-    enabled = false,
     event = { 'BufReadPost', 'BufNewFile' },
     opts = {
       on_attach = function(bufnr)

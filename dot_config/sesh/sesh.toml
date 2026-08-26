@@ -18,10 +18,6 @@
   name = "git"
   startup_script = "lazygit"
 
-[[window]]
-  name = "jj"
-  startup_script = "jj l"
-
 # Server/logs window
 [[window]]
   name = "server"
@@ -42,10 +38,6 @@
   name = "opencode"
   startup_script = "opencode ."
 
-[[window]]
-  name = "cz diff"
-  startup_script = "while true; clear; chezmoi diff; sleep 2; end"
-
 # ───────────────────────────────────────────────────────────────────────────
 # Session Configurations - Quick Access Configs
 # ───────────────────────────────────────────────────────────────────────────
@@ -59,7 +51,8 @@ preview_command = "eza --tree --level=1 --icons ~/.config"
 [[session]]
 name = "chezmoi"
 path = "~/.local/share/chezmoi"
-windows = ["cz diff", "editor", "jj", "opencode"]
+startup_command = "while true; clear; chezmoi diff; sleep 2; end"
+windows = ["editor", "git", "opencode"]
 
 # ───────────────────────────────────────────────────────────────────────────
 # Wildcard Configurations

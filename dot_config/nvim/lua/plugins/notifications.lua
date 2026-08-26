@@ -3,29 +3,25 @@ return {
     'folke/noice.nvim',
     event = 'VeryLazy',
     keys = {
-      { '<leader>nh', function() require('noice').cmd('history') end, desc = 'Noice History' },
-      { '<leader>nl', function() require('noice').cmd('last') end, desc = 'Noice Last Message' },
-      { '<leader>nd', function() require('noice').cmd('dismiss') end, desc = 'Noice Dismiss All' },
+      -- stylua: ignore start
+      { '<leader>nh', function() require('noice').cmd 'history' end, desc = 'Noice History', },
+      { '<leader>nl', function() require('noice').cmd 'last' end, desc = 'Noice Last Message', },
+      { '<leader>nd', function() require('noice').cmd 'dismiss' end, desc = 'Noice Dismiss All', },
       {
         '<c-f>',
-        function()
-          if not require('noice.lsp').scroll(4) then
-            return '<c-f>'
-          end
-        end,
+        function() if not require('noice.lsp').scroll(4) then return '<c-f>' end end,
         silent = true,
         expr = true,
         mode = { 'n', 'i', 's' },
         desc = 'Scroll LSP Docs Down',
       },
+      -- stylua: ignore end
     },
     dependencies = {
       'MunifTanjim/nui.nvim',
       {
         'rcarriga/nvim-notify',
-        opts = {
-          background_colour = '#000000',
-        },
+        opts = { background_colour = '#000000' },
       },
     },
     opts = {
