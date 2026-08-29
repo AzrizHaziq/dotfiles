@@ -33,7 +33,6 @@ yamllint = "latest"
 fd = "latest"
 btop = "latest"
 "aqua:tailscale/tailscale" = "latest"
-jj = "latest"
 markdownlint-cli2 = "latest"
 python = "3.14"
 prettier = "latest"
@@ -42,15 +41,17 @@ hunk = "latest"
 docker-cli = "latest"
 "cargo:raine/workmux" = "latest"
 "aqua:joshmedeski/sesh" = "latest"
+age = "latest"
 
 [tasks."default:install"]
 description = "Default"
 run = """
-echo "Setup mise"                               && mise completion fish > ~/.config/fish/completions/mise.fish
-echo "Setup ai-skills"                          &&  cd ~/.config/opencode && npx -y skills update
-echo "Setup fish + /passwd and /shells"         && which fish | sudo tee -a /etc/shells &&  chsh -s $(which fish)
-echo "Setup fish prompt"                        && fish_config prompt choose astronaut && fish_config prompt save
-echo "Setup fish theme"                         && fish_config theme choose catppuccine-mocha
+echo "Setup chezmoi age key at ~/.config/chezmoi/age.txt"  &&
+echo "Setup mise"                                          && mise completion fish > ~/.config/fish/completions/mise.fish
+echo "Setup ai-skills"                                     && cd ~/.config/opencode && npx -y skills update
+echo "Setup fish + /passwd and /shells"                    && which fish | sudo tee -a /etc/shells &&  chsh -s $(which fish)
+echo "Setup fish prompt"                                   && fish_config prompt choose astronaut && fish_config prompt save
+echo "Setup fish theme"                                    && fish_config theme choose catppuccine-mocha
 echo 'niri, kitty'
 """
 

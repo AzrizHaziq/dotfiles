@@ -35,3 +35,4 @@ if status is-interactive
     # Configure fzf.fish bindings AFTER vi keybindings to prevent override
     fzf_configure_bindings
 end
+
