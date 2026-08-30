@@ -28,6 +28,7 @@ if status is-interactive
     abbr -a op opencode
     abbr -a wm workmux
     abbr -a tmux "tmux -f '$HOME/.config/tmux/tmux.conf'"
+    abbr -a icat "kitty +kitten icat --align=left"
 
     abbr -a g git
     abbr -a ga "git add"
