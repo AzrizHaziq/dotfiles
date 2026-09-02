@@ -89,9 +89,14 @@
   },
   "command": {},
   "default_agent": "plan",
-  "disabled_providers": ["opencode", "opencode-go"],
+  "disabled_providers": [
+    "opencode",
+    "opencode-go"
+  ],
   "formatter": true,
-  "instructions": ["/home/azrizhaziq/.config/opencode/instructions.md"],
+  "instructions": [
+    "/home/azrizhaziq/.config/opencode/instructions.md"
+  ],
   "lsp": true,
   "mcp": {
     "chrome-devtools": {
@@ -115,7 +120,12 @@
       "url": "https://mcp.context7.com/mcp"
     },
     "figma": {
-      "command": ["npx", "-y", "figma-developer-mcp", "--stdio"],
+      "command": [
+        "npx",
+        "-y",
+        "figma-developer-mcp",
+        "--stdio"
+      ],
       "enabled": false,
       "environment": {
         "FIGMA_API_KEY": "{env:FIGMA_API_KEY}"
@@ -134,7 +144,10 @@
       "url": "https://api.githubcopilot.com/mcp/"
     },
     "playwright": {
-      "command": ["npx", "@playwright/mcp@latest"],
+      "command": [
+        "npx",
+        "@playwright/mcp@latest"
+      ],
       "enabled": true,
       "type": "local"
     }
@@ -151,8 +164,13 @@
           },
           "maxTokens": 32000,
           "modalities": {
-            "input": ["text", "image"],
-            "output": ["text"]
+            "input": [
+              "text",
+              "image"
+            ],
+            "output": [
+              "text"
+            ]
           },
           "name": "Anthropic/Claude Fable 5",
           "variants": {
@@ -190,8 +208,13 @@
           },
           "maxTokens": 64000,
           "modalities": {
-            "input": ["text", "image"],
-            "output": ["text"]
+            "input": [
+              "text",
+              "image"
+            ],
+            "output": [
+              "text"
+            ]
           },
           "name": "Anthropic/Claude Haiku 4 5"
         },
@@ -203,8 +226,13 @@
           },
           "maxTokens": 64000,
           "modalities": {
-            "input": ["text", "image"],
-            "output": ["text"]
+            "input": [
+              "text",
+              "image"
+            ],
+            "output": [
+              "text"
+            ]
           },
           "name": "Anthropic/Claude Opus 4 5",
           "variants": {
@@ -236,8 +264,13 @@
           },
           "maxTokens": 128000,
           "modalities": {
-            "input": ["text", "image"],
-            "output": ["text"]
+            "input": [
+              "text",
+              "image"
+            ],
+            "output": [
+              "text"
+            ]
           },
           "name": "Anthropic/Claude Opus 4 6",
           "variants": {
@@ -269,8 +302,13 @@
           },
           "maxTokens": 128000,
           "modalities": {
-            "input": ["text", "image"],
-            "output": ["text"]
+            "input": [
+              "text",
+              "image"
+            ],
+            "output": [
+              "text"
+            ]
           },
           "name": "Anthropic/Claude Opus 4 7",
           "variants": {
@@ -308,8 +346,13 @@
           },
           "maxTokens": 128000,
           "modalities": {
-            "input": ["text", "image"],
-            "output": ["text"]
+            "input": [
+              "text",
+              "image"
+            ],
+            "output": [
+              "text"
+            ]
           },
           "name": "Anthropic/Claude Opus 4 8",
           "variants": {
@@ -347,8 +390,13 @@
           },
           "maxTokens": 128000,
           "modalities": {
-            "input": ["text", "image"],
-            "output": ["text"]
+            "input": [
+              "text",
+              "image"
+            ],
+            "output": [
+              "text"
+            ]
           },
           "name": "Anthropic/Claude Opus 5",
           "variants": {
@@ -386,8 +434,13 @@
           },
           "maxTokens": 64000,
           "modalities": {
-            "input": ["text", "image"],
-            "output": ["text"]
+            "input": [
+              "text",
+              "image"
+            ],
+            "output": [
+              "text"
+            ]
           },
           "name": "Anthropic/Claude Sonnet 4 5",
           "variants": {
@@ -419,8 +472,13 @@
           },
           "maxTokens": 64000,
           "modalities": {
-            "input": ["text", "image"],
-            "output": ["text"]
+            "input": [
+              "text",
+              "image"
+            ],
+            "output": [
+              "text"
+            ]
           },
           "name": "Anthropic/Claude Sonnet 4 6",
           "variants": {
@@ -452,8 +510,13 @@
           },
           "maxTokens": 128000,
           "modalities": {
-            "input": ["text", "image"],
-            "output": ["text"]
+            "input": [
+              "text",
+              "image"
+            ],
+            "output": [
+              "text"
+            ]
           },
           "name": "Anthropic/Claude Sonnet 5",
           "variants": {
@@ -505,8 +568,12 @@
           },
           "maxTokens": 262144,
           "modalities": {
-            "input": ["text"],
-            "output": ["text"]
+            "input": [
+              "text"
+            ],
+            "output": [
+              "text"
+            ]
           },
           "name": "Openai/Kimi K2.5"
         },
@@ -518,8 +585,12 @@
           },
           "maxTokens": 262144,
           "modalities": {
-            "input": ["text"],
-            "output": ["text"]
+            "input": [
+              "text"
+            ],
+            "output": [
+              "text"
+            ]
           },
           "name": "Openai/Kimi K2.6"
         },
@@ -531,8 +602,12 @@
           },
           "maxTokens": 262144,
           "modalities": {
-            "input": ["text"],
-            "output": ["text"]
+            "input": [
+              "text"
+            ],
+            "output": [
+              "text"
+            ]
           },
           "name": "Openai/Kimi K2.7 Code"
         },
@@ -544,8 +619,12 @@
           },
           "maxTokens": 8191,
           "modalities": {
-            "input": ["text"],
-            "output": ["text"]
+            "input": [
+              "text"
+            ],
+            "output": [
+              "text"
+            ]
           },
           "name": "Openai/Mistral Large 3"
         },
@@ -557,8 +636,12 @@
           },
           "maxTokens": 128000,
           "modalities": {
-            "input": ["text"],
-            "output": ["text"]
+            "input": [
+              "text"
+            ],
+            "output": [
+              "text"
+            ]
           },
           "name": "Openai/Gpt 5"
         },
@@ -570,8 +653,12 @@
           },
           "maxTokens": 128000,
           "modalities": {
-            "input": ["text"],
-            "output": ["text"]
+            "input": [
+              "text"
+            ],
+            "output": [
+              "text"
+            ]
           },
           "name": "Openai/Gpt 5 Mini"
         },
@@ -583,8 +670,12 @@
           },
           "maxTokens": 128000,
           "modalities": {
-            "input": ["text"],
-            "output": ["text"]
+            "input": [
+              "text"
+            ],
+            "output": [
+              "text"
+            ]
           },
           "name": "Openai/Gpt 5 Nano"
         },
@@ -596,8 +687,12 @@
           },
           "maxTokens": 128000,
           "modalities": {
-            "input": ["text"],
-            "output": ["text"]
+            "input": [
+              "text"
+            ],
+            "output": [
+              "text"
+            ]
           },
           "name": "Openai/Gpt 5.1"
         },
@@ -609,8 +704,13 @@
           },
           "maxTokens": 128000,
           "modalities": {
-            "input": ["text", "image"],
-            "output": ["text"]
+            "input": [
+              "text",
+              "image"
+            ],
+            "output": [
+              "text"
+            ]
           },
           "name": "Openai/Gpt 5.4",
           "variants": {
@@ -639,8 +739,13 @@
           },
           "maxTokens": 128000,
           "modalities": {
-            "input": ["text", "image"],
-            "output": ["text"]
+            "input": [
+              "text",
+              "image"
+            ],
+            "output": [
+              "text"
+            ]
           },
           "name": "Openai/Gpt 5.4 Nano",
           "variants": {
@@ -669,8 +774,13 @@
           },
           "maxTokens": 128000,
           "modalities": {
-            "input": ["text", "image"],
-            "output": ["text"]
+            "input": [
+              "text",
+              "image"
+            ],
+            "output": [
+              "text"
+            ]
           },
           "name": "Openai/Gpt 5.5",
           "variants": {
@@ -699,8 +809,13 @@
           },
           "maxTokens": 128000,
           "modalities": {
-            "input": ["text", "image"],
-            "output": ["text"]
+            "input": [
+              "text",
+              "image"
+            ],
+            "output": [
+              "text"
+            ]
           },
           "name": "Openai/Gpt 5.6 Luna",
           "variants": {
@@ -729,8 +844,13 @@
           },
           "maxTokens": 128000,
           "modalities": {
-            "input": ["text", "image"],
-            "output": ["text"]
+            "input": [
+              "text",
+              "image"
+            ],
+            "output": [
+              "text"
+            ]
           },
           "name": "Openai/Gpt 5.6 Sol",
           "variants": {
@@ -759,8 +879,13 @@
           },
           "maxTokens": 128000,
           "modalities": {
-            "input": ["text", "image"],
-            "output": ["text"]
+            "input": [
+              "text",
+              "image"
+            ],
+            "output": [
+              "text"
+            ]
           },
           "name": "Openai/Gpt 5.6 Terra",
           "variants": {
@@ -789,8 +914,12 @@
           },
           "maxTokens": 128000,
           "modalities": {
-            "input": ["text"],
-            "output": ["text"]
+            "input": [
+              "text"
+            ],
+            "output": [
+              "text"
+            ]
           },
           "name": "Openai/Mistral Small 2503"
         }
@@ -816,8 +945,13 @@
           },
           "maxTokens": 128000,
           "modalities": {
-            "input": ["text", "image"],
-            "output": ["text"]
+            "input": [
+              "text",
+              "image"
+            ],
+            "output": [
+              "text"
+            ]
           },
           "name": "Openai/Gpt 5.3 Codex"
         }
