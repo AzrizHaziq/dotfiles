@@ -11,14 +11,7 @@ function ai-commit
         return 1
     end
 
-    set -l DIFF_FILE (mktemp)
-    git diff --cached >$DIFF_FILE
+    opencode run '/commit'
 
-    opencode run --agent build --model github-copilot/claude-sonnet-4.5 \
-        --file $DIFF_FILE \
-        -- "Generate commit message with caveman-commit, then git commit. Use bullet points. Do it now."
-
-    set -l exit_code $status
-    rm -f $DIFF_FILE
-    return $exit_code
+    return $status
 end

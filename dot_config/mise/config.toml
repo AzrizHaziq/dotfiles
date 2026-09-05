@@ -42,6 +42,7 @@ docker-cli = "latest"
 "cargo:raine/workmux" = "latest"
 "aqua:joshmedeski/sesh" = "latest"
 age = "latest"
+pnpm = "latest"
 
 [tasks."default:install"]
 description = "Default"
