@@ -2,7 +2,6 @@ return {
   {
     'knubie/vim-kitty-navigator',
     cond = vim.env.TERM == 'xterm-kitty',
-    build = 'cp ./*.py ~/.config/kitty/',
     init = function()
       vim.g.kitty_navigator_no_mappings = 1
     end,

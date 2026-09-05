@@ -518,6 +518,9 @@ binds {
     // ============================================================================
     // SCREENSHOTS
     // ============================================================================
+    Mod+S { screenshot; }
+    Mod+Shift+S { screenshot-window; }
+    Mod+Shift+Alt+S { screenshot-screen; }
     Print { screenshot; }
     XF86Launch1 { screenshot; }
     Ctrl+Print { screenshot-screen; }
