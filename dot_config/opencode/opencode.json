@@ -91,8 +91,7 @@
     "/commit": {
       "agent": "build",
       "description": "Generate a commit message and commit staged changes",
-      "model": "batman-anthropic/anthropic/claude-haiku-4-5",
-      "template": "Use the caveman-commit skill to generate a commit message for the staged diff, then run git commit. Follow these steps:\n- Load caveman-commit skill\n- Inspect `git diff --cached` output\n- Write a Conventional Commits subject (≤50 chars)\n- Add bullet-point body lines only when the \"why\" isn't obvious\n- Run `git commit -m \"<message>\"` to commit\nBe terse. No fluff."
+      "template": "Use the caveman-commit skill. Run `git diff --cached` to get the staged diff. Generate a Conventional Commits message: subject ≤50 chars, bullet-point body only when the why is not obvious. Then immediately run git commit with that message. Do not ask for confirmation."
     }
   },
   "default_agent": "plan",
