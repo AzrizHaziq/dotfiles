@@ -47,6 +47,7 @@ pnpm = "latest"
 [tasks."default:install"]
 description = "Default"
 run = """
+echo "Setup gpg and keychain"  &&
 echo "Setup chezmoi age key at ~/.config/chezmoi/age.txt"  &&
 echo "Setup mise"                                          && mise completion fish > ~/.config/fish/completions/mise.fish
 echo "Setup ai-skills"                                     && cd ~/.config/opencode && npx -y skills update
