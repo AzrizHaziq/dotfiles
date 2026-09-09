@@ -43,6 +43,8 @@ docker-cli = "latest"
 "aqua:joshmedeski/sesh" = "latest"
 age = "latest"
 pnpm = "latest"
+"github:pranshuparmar/witr" = "latest"
+docker-compose = "latest"
 
 [tasks."default:install"]
 description = "Default"
@@ -86,3 +88,6 @@ run = """
 
 [settings]
 auto_update = true
+http_timeout = "30s"
+minimum_release_age = "1d"
+color_theme = "catppuccin"

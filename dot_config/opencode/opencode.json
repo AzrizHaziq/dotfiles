@@ -829,7 +829,7 @@
         "apiKey": "{env:BATMAN_KEY}",
         "baseURL": "https://llm-api.tools.procountor.com/v1",
         "headers": {
-          "Authorization": "Bearer {env:BATMAN_KEY}",
+          "Authorization": "{env:BATMAN_KEY}",
           "x-api-key": "{env:BATMAN_KEY}"
         }
       }

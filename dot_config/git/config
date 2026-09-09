@@ -13,6 +13,7 @@
   editor ="nvim"
   autocrlf = input
 	pager = hunk pager
+	symlinks = true
 
 [merge]
   conflictStyle = zdiff3
@@ -50,3 +51,5 @@
   required = true
 [init]
 	defaultBranch = main
+[log]
+	showSignature = true

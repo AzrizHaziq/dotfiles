@@ -24,7 +24,6 @@ MAUVE     = 0xcba6f7  # host pill
 LEFT_SEP  = "\ue0b6"  # 
 RIGHT_SEP = "\ue0b4"  # 
 
-
 def _get_user_host() -> tuple[str, str]:
     """Get username and hostname (SSH-safe)."""
     try:
@@ -135,7 +134,6 @@ def draw_tab(
         screen.cursor.bg = bar_bg
         screen.draw(RIGHT_SEP + " ")
 
-        # Host pill — [MAUVE: emoji] | [SURFACE1: hostname]
         screen.cursor.fg = as_rgb(MAUVE)
         screen.cursor.bg = bar_bg
         screen.draw(LEFT_SEP)

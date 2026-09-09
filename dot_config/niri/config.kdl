@@ -1,4 +1,4 @@
-include "dms/cursor.kdl"
+// include "dms/cursor.kdl"
 
 // This config is in the KDL format: https://kdl.dev
 // "/-" comments out the following node.
@@ -278,7 +278,8 @@ layout {
 // See the binds section below for more spawn examples.
 
 // This line starts waybar, a commonly used bar for Wayland compositors.
-// spawn-at-startup "waybar"
+spawn-at-startup "waybar"
+spawn-at-startup "xwayland-satellite"
 
 // To run a shell command (with variables, pipes, etc.), use spawn-sh-at-startup:
 // spawn-sh-at-startup "qs -c ~/source/qs/MyAwesomeShell"
@@ -473,7 +474,7 @@ binds {
     // ============================================================================
     // DMS SYSTEM TOOLS
     // ============================================================================
-    Mod+T hotkey-overlay-title="Open Terminal" { spawn "kitty"; }
+    Mod+T hotkey-overlay-title="Open Terminal" { spawn "/home/azrizhaziq/.local/bin/kitty"; }
     Mod+B hotkey-overlay-title="Open Chrome" { spawn "google-chrome" "--profile-directory=Default" ; }
     // Mod+D hotkey-overlay-title="Run an Application: fuzzel" { spawn "fuzzel"; }
     Mod+Space hotkey-overlay-title="Application Launcher" { spawn "dms" "ipc" "call" "spotlight" "toggle"; }
@@ -531,6 +532,7 @@ binds {
     // ============================================================================
     // UI & SYSTEM
     // ============================================================================
+    Mod+Shift+B hotkey-overlay-title="Reload Waybar" { spawn-sh "killall -SIGUSR2 waybar"; }
     Mod+O repeat=false { toggle-overview; }    // overview
     Mod+Shift+Slash { show-hotkey-overlay; }   // hotkey help
     Mod+Escape allow-inhibiting=false { toggle-keyboard-shortcuts-inhibit; }  // inhibit toggle
@@ -540,4 +542,4 @@ binds {
 }
 
 
-include "dms/outputs.kdl"
+// include "dms/outputs.kdl"

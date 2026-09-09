@@ -1,0 +1,32 @@
+// IMPORTS
+{
+  "include": [
+    "/home/azrizhaziq/.config/waybar/modules/modules.jsonc",
+    "/home/azrizhaziq/.config/waybar/modules/custom-modules.jsonc",
+    "/home/azrizhaziq/.config/waybar/modules/groups.jsonc",
+  ],
+
+  // SETTINGS
+  "layer": "top",
+  "position": "top",
+  "spacing": 4,
+
+  // LEFT — niri/workspaces replaced with custom (waybar 0.9.24 has no niri module)
+  "modules-left": ["custom/workspaces", "custom/window"],
+
+  // CENTER
+  "modules-center": [
+    "group/middle",
+    "custom/mako",
+    "custom/wf-recorder",
+  ],
+
+  // RIGHT
+  "modules-right": [
+    "group/connections",
+    "pulseaudio",
+    "custom/idle",
+    "battery",
+    "group/hidden-tray",
+  ],
+}
