@@ -1,9 +1,8 @@
 return {
   {
     'dmtrKovalenko/fff.nvim',
-    event = 'VeryLazy',
-    lazy = false,
     dependencies = { 'catppuccin/nvim' },
+
     build = function()
       require('fff.download').download_or_build_binary()
     end,
@@ -15,13 +14,14 @@ return {
     end,
 
     opts = {
+      prompt = '🪿 ',
+      prompt_vim_mode = true,
       hl = {
         winhl = {
           preview = 'IncSearch:Fff1',
         },
       },
       base_path = vim.fn.getcwd(),
-      prompt = '> ',
       title = 'FFF Files',
       max_results = 100,
       max_threads = 4,

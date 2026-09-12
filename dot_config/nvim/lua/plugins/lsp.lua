@@ -8,6 +8,46 @@ return {
       },
     },
   },
+
+  {
+    'rachartier/tiny-code-action.nvim',
+    dependencies = {
+      {
+        'folke/snacks.nvim',
+        opts = {
+          terminal = {},
+        },
+      },
+    },
+    event = 'LspAttach',
+    opts = {
+      backend = 'vim',
+    },
+    keys = {
+      {
+        'gra',
+        function()
+          require('tiny-code-action').code_action()
+        end,
+        noremap = true,
+        silent = true,
+        desc = 'Code [A]ction',
+      },
+    },
+  },
+
+  -- type hinting to any config files
+  { 'b0o/schemastore.nvim' },
+
+  {
+    'rachartier/tiny-inline-diagnostic.nvim',
+    event = 'VeryLazy',
+    priority = 1000,
+    opts = {
+      preset = 'classic',
+    },
+  },
+
   {
     'neovim/nvim-lspconfig',
     dependencies = {
@@ -29,7 +69,7 @@ return {
 
           -- stylua: ignore start
           map('grn', vim.lsp.buf.rename, '[R]e[n]ame')
-          map('gra', vim.lsp.buf.code_action, '[G]oto Code [A]ction', { 'n', 'x' })
+          -- map('gra', vim.lsp.buf.code_action, '[G]oto Code [A]ction', { 'n', 'x' })
           map('grr', function() require('snacks').picker.lsp_references() end, '[G]oto [R]eferences')
           map('gri', function() require('snacks').picker.lsp_implementations() end, '[G]oto [I]mplementation')
           map('gd', function() require('snacks').picker.lsp_definitions() end, '[G]oto [D]efinition')
@@ -105,20 +145,21 @@ return {
         } or {},
 
         -- virtual_lines = { current_line = true, },
-        virtual_text = {
-          source = 'if_many',
-          spacing = 2,
-          format = function(diagnostic)
-            local diagnostic_message = {
-              [vim.diagnostic.severity.ERROR] = diagnostic.message,
-              [vim.diagnostic.severity.WARN] = diagnostic.message,
-              [vim.diagnostic.severity.INFO] = diagnostic.message,
-              [vim.diagnostic.severity.HINT] = diagnostic.message,
-            }
-
-            return diagnostic_message[diagnostic.severity]
-          end,
-        },
+        virtual_text = false,
+        -- virtual_text = {
+        --   source = 'if_many',
+        --   spacing = 2,
+        --   format = function(diagnostic)
+        --     local diagnostic_message = {
+        --       [vim.diagnostic.severity.ERROR] = diagnostic.message,
+        --       [vim.diagnostic.severity.WARN] = diagnostic.message,
+        --       [vim.diagnostic.severity.INFO] = diagnostic.message,
+        --       [vim.diagnostic.severity.HINT] = diagnostic.message,
+        --     }
+        --
+        --     return diagnostic_message[diagnostic.severity]
+        --   end,
+        -- },
 
         -- Auto open the float, so you can easily read the errors when jumping with `[d` and `]d`
         -- jump = {
@@ -254,6 +295,7 @@ return {
       }
 
       for name, server in pairs(servers) do
+        server.capabilities = vim.tbl_deep_extend('force', capabilities, server.capabilities or {})
         vim.lsp.config(name, server)
         vim.lsp.enable(name)
       end

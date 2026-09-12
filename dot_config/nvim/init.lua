@@ -1,24 +1,23 @@
--- Neovim 0.12+ Configuration
--- Requires: Neovim >= 0.12 (uses vim.uv, modern LSP APIs)
 require 'core'
 
---[[ local ok, ui2 = pcall(require, 'vim._core.ui2')
-
-if ok then
-  ui2.enable {
-    enable = true,
-    msg = {
-      targets = {
-        msg = 'pager',
-        lua_error = 'pager',
-        search_count = 'cmd',
-        [''] = 'msg',
-      },
-      -- cmd = { height = 0.5 },
-      msg = { timeout = 3000 },
-    } 
-  }
-end ]]
+-- lazy.nvim event lifecycle (load order):
+-- [startup]
+--   1. (no event / lazy=false)  → loads immediately, blocks startup
+--   2. VimEnter                 → right after nvim starts, before UI drawn
+--   3. UIEnter                  → after the UI is fully rendered
+--   4. VeryLazy                 → lazy.nvim synthetic event, vim.schedule after UIEnter
+--
+-- [on file open]
+--   5. BufReadPre               → before file is read into buffer
+--   6. BufReadPost / BufRead    → after file is read (gitsigns, ufo, comment, etc.)
+--   7. FileType / ft = '...'    → when filetype is detected (lazydev, etc.)
+--
+-- [on lsp ready]
+--   8. LspAttach                → when an LSP server attaches to a buffer
+--
+-- [on interaction]
+--   9. InsertEnter              → when entering insert mode (autopairs, etc.)
+--  10. keys / cmd               → on-demand, loads only when triggered
 
 require('lazy').setup({
   { import = 'plugins' },
@@ -44,5 +43,3 @@ require('lazy').setup({
     },
   },
 })
-
--- vim: ts=2 sts=2 sw=2 et

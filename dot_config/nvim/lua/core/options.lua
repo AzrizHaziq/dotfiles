@@ -32,6 +32,7 @@ vim.o.cursorline = true
 vim.o.scrolloff = 10
 vim.o.confirm = true
 vim.o.wrap = false
+vim.o.splitkeep = 'screen' -- 0.9+: stable window content on split
 
 vim.opt.tabstop = 2 -- tabwidth
 vim.opt.shiftwidth = 2 -- indent width

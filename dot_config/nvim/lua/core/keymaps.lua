@@ -96,7 +96,7 @@ vim.keymap.set('x', '<leader>p', '"_dP', { desc = 'Paste without overwriting cli
 vim.keymap.set({ 'n', 'i' }, '<C-s>', '<cmd>w<CR>', { desc = 'Save file' })
 
 -- Write operations
-vim.keymap.set('n', '<leader>wa', '<cmd>wa<CR>', { desc = '[W]rite [A]ll files' })
+-- vim.keymap.set('n', '<leader>wa', '<cmd>wa<CR>', { desc = '[W]rite [A]ll files' })
 -- ============================================================================
 -- FORMATTING
 -- ============================================================================

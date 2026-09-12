@@ -17,20 +17,12 @@ return {
         map = vim.keymap.set, -- keymap.set function to use
         which_key = true, -- integrate with which-key to show enabled/disabled icons and colors
         notify = true,
-        icon = {
-          enabled = ' ',
-          disabled = ' ',
-        },
-        color = {
-          enabled = 'green',
-          disabled = 'gray',
-        },
+        icon = { enabled = ' ', disabled = ' ' },
+        color = { enabled = 'green', disabled = 'gray' },
       },
       scroll = {
-        animate = {
-          duration = { step = 10, total = 200 },
-          easing = 'linear',
-        },
+        enabled = false,
+        animate = { duration = { step = 10, total = 200 }, easing = 'linear' },
         -- faster animation when repeating scroll after delay
         animate_repeat = {
           delay = 100, -- delay in ms before using the repeat animation
@@ -39,12 +31,8 @@ return {
         },
       },
       sources = {
-        files = {
-          args = { '--hidden', '--exclude', '.git' },
-        },
-        grep = {
-          args = { '--hidden' },
-        },
+        files = { args = { '--hidden', '--exclude', '.git' } },
+        grep = { args = { '--hidden' } },
       },
       explorer = {
         enabled = false,
@@ -56,9 +44,7 @@ return {
         --  ["I"] = "toggle_ignored",
         --  ["Z"] = "explorer_close_all",
       },
-      terminal = {
-        enabled = false,
-      },
+      terminal = { enabled = false },
       image = {
         enabled = true,
         doc = {
@@ -205,166 +191,35 @@ return {
     },
 
     keys = {
-      -- {
-      --   '\\',
-      --   function()
-      --     require('snacks').explorer()
-      --   end,
-      --   desc = 'File Explorer',
-      -- },
+      -- stylua: ignore start
+      -- { '\\', function() require('snacks').explorer() end, desc = 'File Explorer' },
+      -- { '<leader>er', function() require('snacks').explorer.reveal() end, desc = '[Explorer] [R]eveal current file' },
 
-      {
-        '<leader>gi',
-        function()
-          Snacks.picker.gh_issue()
-        end,
-        desc = 'GitHub Issues (open)',
-      },
-      {
-        '<leader>gI',
-        function()
-          Snacks.picker.gh_issue { state = 'all' }
-        end,
-        desc = 'GitHub Issues (all)',
-      },
-      {
-        '<leader>gp',
-        function()
-          Snacks.picker.gh_pr()
-        end,
-        desc = 'GitHub Pull Requests (open)',
-      },
-      {
-        '<leader>gP',
-        function()
-          Snacks.picker.gh_pr { state = 'all' }
-        end,
-        desc = 'GitHub Pull Requests (all)',
-      },
-      {
-        '<leader>gf',
-        function()
-          require('snacks').lazygit.log_file()
-        end,
-        desc = 'Lazygit File Logs',
-      },
+      { '<leader>gi', function() Snacks.picker.gh_issue() end, desc = 'GitHub Issues (open)' },
+      { '<leader>gI', function() Snacks.picker.gh_issue { state = 'all' } end, desc = 'GitHub Issues (all)' },
+      { '<leader>gp', function() Snacks.picker.gh_pr() end, desc = 'GitHub Pull Requests (open)' },
+      { '<leader>gP', function() Snacks.picker.gh_pr { state = 'all' } end, desc = 'GitHub Pull Requests (all)' },
+      { '<leader>gf', function() require('snacks').lazygit.log_file() end, desc = 'Lazygit File Logs' },
 
-      {
-        '<leader>ee',
-        function()
-          require('snacks').picker.buffers()
-        end,
-        desc = '[E]xplorer [B]uffers',
-      },
-      {
-        '<leader>ed',
-        function()
-          require('snacks').picker.diagnostics()
-        end,
-        desc = '[E]xplorer [D]iagnostics',
-      },
-      {
-        '<leader>eg',
-        function()
-          require('snacks').picker.git_status()
-        end,
-        desc = '[E]xplorer [G]it changes',
-      },
-      -- {
-      --   '<leader>er',
-      --   function()
-      --     require('snacks').explorer.reveal()
-      --   end,
-      --   desc = '[Explorer] [R]eveal current file',
-      -- },
+      { '<leader>ee', function() require('snacks').picker.buffers() end, desc = '[E]xplorer [B]uffers' },
+      { '<leader>ed', function() require('snacks').picker.diagnostics() end, desc = '[E]xplorer [D]iagnostics' },
+      { '<leader>eg', function() require('snacks').picker.git_status() end, desc = '[E]xplorer [G]it changes' },
 
-      {
-        '<leader>sh',
-        function()
-          require('snacks').picker.help()
-        end,
-        desc = '[S]earch [H]elp',
-      },
-      {
-        '<leader>sk',
-        function()
-          require('snacks').picker.keymaps()
-        end,
-        desc = '[S]earch [K]eymaps',
-      },
-      {
-        '<leader>sr',
-        function()
-          require('snacks').picker.resume()
-        end,
-        desc = '[S]earch [R]esume',
-      },
-      {
-        '<leader>sp',
-        function()
-          require('snacks').picker()
-        end,
-        desc = '[S]earch snacks [P]ickers',
-      },
+      { '<leader>sh', function() require('snacks').picker.help() end, desc = '[S]earch [H]elp' },
+      { '<leader>sk', function() require('snacks').picker.keymaps() end, desc = '[S]earch [K]eymaps' },
+      { '<leader>sr', function() require('snacks').picker.resume() end, desc = '[S]earch [R]esume' },
+      { '<leader>sp', function() require('snacks').picker() end, desc = '[S]earch snacks [P]ickers' },
 
       -- { '<leader>sf', function() local cwd = snacks_explorer_cwd() require('snacks').picker.files { cwd = cwd, title = 'Find Files in ' .. vim.fn.fnamemodify(cwd, ':~') } end, desc = '[S]earch [F]iles', },
       -- { '<leader>ss', function() local cwd = snacks_explorer_cwd() require('snacks').picker.grep { cwd = cwd, title = 'Live Grep in ' .. vim.fn.fnamemodify(cwd, ':~') } end, desc = '[S]earch by [G]rep', },
       -- { '<leader>sw', function() require('snacks').picker.grep_word() end, mode = { 'n', 'x' }, desc = '[S]earch current [W]ord', }, -- Replaced by FFF
       -- { '<leader>sb', function() require('snacks').picker.grep_buffers() end, desc = '[S]earch [O]pen buffers', }, -- Replaced by FFF
 
-      {
-        '<leader>hf',
-        function()
-          require('snacks').picker.git_log_file()
-        end,
-        mode = 'n',
-        desc = '[H]istory [F]ile',
-      },
-      {
-        '<leader>hl',
-        function()
-          require('snacks').picker.git_log_line()
-        end,
-        mode = 'n',
-        desc = '[H]istory [L]og line for file',
-      },
-
-      {
-        'grf',
-        function()
-          require('snacks').rename.rename_file()
-        end,
-        desc = 'LSP: Rename Current File',
-      },
-      {
-        '<leader>wz',
-        function()
-          require('snacks').picker.zoxide()
-        end,
-        desc = '[W]orkspace [Z]oxide',
-      },
+      { '<leader>hf', function() require('snacks').picker.git_log_file() end, mode = 'n', desc = '[H]istory [F]ile' },
+      { '<leader>hl', function() require('snacks').picker.git_log_line() end, mode = 'n', desc = '[H]istory [L]og line for file', },
+      { 'grf', function() require('snacks').rename.rename_file() end, desc = 'LSP: Rename Current File' },
+      { '<leader>wz', function() require('snacks').picker.zoxide() end, desc = '[W]orkspace [Z]oxide' },
+      -- stylua: ignore end
     },
   },
 }
-
--- Explorer window keys
---   l / <CR>     open file or expand directory
---   h            close directory
---   .            focus path entry
---   /            grep from explorer
---   H            toggle hidden files (dotfiles)
---   G            toggle gitignored files (NEW!)
---   I            toggle ignored files
---   P            toggle preview
---   a            add file or directory
---   d            delete file or directory
---   r            rename file or directory
---   c            copy file or directory
---   m            move file or directory
---   y            yank path
---   p            paste
---   u            refresh explorer
---   ]g / [g      next / prev git change
---   ]d / [d      next / prev diagnostic
---   ]w / [w      next / prev warning
---   ]e / [e      next / prev error

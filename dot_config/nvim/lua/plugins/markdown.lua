@@ -7,6 +7,8 @@ return {
     ---@type render.md.UserConfig
     opts = {
       latex = { enabled = false },
+      anti_conceal = { enabled = false },
+      file_types = { 'markdown', 'opencode_output' },
     },
     keys = {
       { '<leader>tm', '<cmd>RenderMarkdown toggle<cr>', desc = '[T]oggle [m]arkdown Preview' },

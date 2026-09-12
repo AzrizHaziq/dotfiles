@@ -1,17 +1,41 @@
 return {
 
   {
+    'chrisgrieser/nvim-chainsaw',
+    event = 'VeryLazy',
+    opts = {},
+    keys = {
+      -- stylua: ignore start
+      { '<leader>lm', function() require('chainsaw').messageLog() end, mode = { 'n', 'v' }, desc = '[l]og [m]essage' },
+      { '<leader>lv', function() require('chainsaw').variableLog() end, mode = { 'n', 'v' }, desc = '[l]og [v]ariable' },
+      { '<leader>lo', function() require('chainsaw').objectLog() end, mode = { 'n', 'v' }, desc = '[l]og [o]bject' },
+      -- stylua: ignore end
+    },
+  },
+
+  {
     'numToStr/Comment.nvim',
     event = { 'BufReadPost', 'BufNewFile' },
     opts = {},
   },
 
   {
-    'kylechui/nvim-surround',
-    version = '^4.0.0',
-    event = 'VeryLazy',
+    'Wansmer/treesj',
+    keys = {
+      {
+        '<leader>tj',
+        function()
+          require('treesj').toggle { split = { recursive = true } }
+        end,
+        mode = { 'n', 'v' },
+        desc = '[T]oggle format J',
+      },
+    },
     config = function()
-      require('nvim-surround').setup {}
+      require('treesj').setup {
+        max_join_length = 200,
+        use_default_keymaps = false,
+      }
     end,
   },
 
@@ -30,34 +54,34 @@ return {
   },
 
   {
-    'nvim-mini/mini.nvim',
+    'nvim-mini/mini.ai',
     event = 'VeryLazy',
     config = function()
-      require('mini.ai').setup {
-        mappings = {
-          around_next = 'aa',
-          inside_next = 'ii',
-        },
-        n_lines = 500,
-      }
+      require('mini.ai').setup()
+    end,
+  },
+
+  {
+    'kylechui/nvim-surround',
+    version = '^4.0.0',
+    event = 'VeryLazy',
+    config = function()
+      -- ysw"   → surround word with "
+      -- ys3w(  → surround 3 words with ()
+      -- yss(   → surround current line with ()
+      -- ySS{   → surround current line with {} on new lines
+      require('nvim-surround').setup {}
     end,
   },
 
   {
     'windwp/nvim-autopairs',
     event = 'InsertEnter',
-    opts = {},
-  },
-
-  {
-    'folke/todo-comments.nvim',
-    event = 'VeryLazy',
-    dependencies = { 'nvim-lua/plenary.nvim' },
-    opts = { signs = false },
   },
 
   {
     'nvim-treesitter/nvim-treesitter-context',
+    event = 'BufReadPost',
     dependencies = { 'nvim-treesitter/nvim-treesitter' },
     config = function()
       require('treesitter-context').setup {

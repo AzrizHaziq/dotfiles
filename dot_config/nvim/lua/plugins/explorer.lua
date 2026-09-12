@@ -60,6 +60,28 @@ return {
           map('<C-v>', function() open_in_split 'vsplit' end, 'Open in vertical split')
           map('<C-s>', function() open_in_split 'split' end, 'Open in horizontal split')
           -- stylua: ignore end
+
+          map('<leader>/', function()
+            local mf = require 'mini.files'
+            local entry = mf.get_fs_entry()
+            local state = mf.get_explorer_state()
+            local dir
+            if entry then
+              dir = entry.fs_type == 'directory' and entry.path or vim.fn.fnamemodify(entry.path, ':h')
+            elseif state and state.branch then
+              dir = state.branch[state.depth_focus]
+            end
+            if not dir then
+              return
+            end
+            local rel = vim.fn.fnamemodify(dir, ':.')
+            mf.close()
+
+            require('fff').live_grep {
+              query = rel .. '/ ',
+              title = 'Grep in ' .. rel,
+            }
+          end, 'Search in current folder with fff')
         end,
       })
     end,
