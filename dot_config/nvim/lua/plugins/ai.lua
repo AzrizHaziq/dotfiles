@@ -1,6 +1,7 @@
 return {
   {
     'sudo-tee/opencode.nvim',
+    enable = false,
     event = 'VeryLazy',
     dependencies = {
       'nvim-lua/plenary.nvim',
@@ -9,7 +10,7 @@ return {
     },
     config = function()
       require('opencode').setup {
-        opencode_executable = vim.fn.expand('$HOME/.local/share/mise/shims/opencode'),
+        opencode_executable = vim.fn.expand '$HOME/.local/share/mise/shims/opencode',
         keymap_prefix = '<leader>o',
         preferred_picker = 'snacks',
         preferred_completion = 'blink',
