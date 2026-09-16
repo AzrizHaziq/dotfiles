@@ -82,6 +82,17 @@ return {
               title = 'Grep in ' .. rel,
             }
           end, 'Search in current folder with fff')
+
+          map('<leader>oo', function()
+            local mf = require 'mini.files'
+            local entry = mf.get_fs_entry()
+            if not entry then
+              return
+            end
+            local path = vim.fn.fnamemodify(entry.path, ':.')
+            mf.close()
+            require('opencode').prompt(path .. ' ')
+          end, 'Send to OpenCode')
         end,
       })
     end,

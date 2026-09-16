@@ -1,152 +1,21 @@
 return {
   {
-    'sudo-tee/opencode.nvim',
-    enable = false,
-    event = 'VeryLazy',
-    dependencies = {
-      'nvim-lua/plenary.nvim',
-      'saghen/blink.cmp',
-      'folke/snacks.nvim',
+    'nickjvandyke/opencode.nvim',
+    version = '*', -- Latest stable release
+    keys = {
+      -- stylua: ignore start
+      { '<leader>oo', function() require('opencode').ask '@this: ' end, mode = { 'n', 'x' }, desc = 'Ask OpenCode…' },
+      { '<leader>oh', function() require('opencode').select() end, mode = { 'n', 'x' }, desc = 'Select OpenCode…' },
+      { '<leader>oll', function() return require('opencode').operator '@this ' .. '_' end, mode = 'n', expr = true, desc = 'Append line to OpenCode' },
+      { '<leader>ol', function() return require('opencode').operator '@this ' end, mode = { 'n', 'x' }, expr = true, desc = 'Append range to OpenCode' },
+      { '<leader>ou', function() require('opencode').command 'session.half.page.up' end, mode = 'n', desc = 'Scroll OpenCode up' },
+      { '<leader>od', function() require('opencode').command 'session.half.page.down' end, mode = 'n', desc = 'Scroll OpenCode down' },
+      -- stylua: ignore end
     },
     config = function()
-      require('opencode').setup {
-        opencode_executable = vim.fn.expand '$HOME/.local/share/mise/shims/opencode',
-        keymap_prefix = '<leader>o',
-        preferred_picker = 'snacks',
-        preferred_completion = 'blink',
-        default_global_keymaps = true,
-        default_mode = 'plan',
-        ui = {
-          enable_treesitter_markdown = true,
-          position = 'right',
-          input_position = 'bottom',
-          window_width = 0.40,
-          display_model = true,
-          display_context_size = true,
-          display_cost = true,
-          persist_state = true,
-          icons = {
-            preset = 'nerdfonts',
-          },
-          output = {
-            filetype = 'opencode_output',
-            tools = {
-              use_folds = false,
-              folding_threshold = 50,
-            },
-          },
-        },
-        keymap = {
-          editor = {
-            ['<leader>oi'] = { 'open_input' },
-            ['<leader>on'] = { 'open_input_new_session' },
-            ['<leader>oo'] = false,
-            ['<leader>ot'] = false,
-            ['<leader>oT'] = { 'timeline' },
-            ['<leader>oq'] = { 'close' },
-            ['<leader>os'] = { 'select_session' },
-            ['<leader>oR'] = { 'rename_session' },
-            ['<leader>om'] = { 'configure_provider' },
-            ['<leader>ov'] = { 'configure_variant' },
-            ['<leader>oy'] = { 'add_visual_selection', mode = { 'v' } },
-            ['<leader>oY'] = { 'add_visual_selection_inline', mode = { 'v' } },
-            ['<leader>oz'] = { 'toggle_zoom' },
-            ['<leader>oV'] = { 'paste_image' },
-            ['<leader>od'] = { 'diff_open' },
-            ['<leader>o]'] = { 'diff_next' },
-            ['<leader>o['] = { 'diff_prev' },
-            ['<leader>oc'] = { 'diff_close' },
-            ['<leader>ora'] = { 'diff_revert_all_last_prompt' },
-            ['<leader>ort'] = { 'diff_revert_this_last_prompt' },
-            ['<leader>orA'] = { 'diff_revert_all' },
-            ['<leader>orT'] = { 'diff_revert_this' },
-            ['<leader>orr'] = { 'diff_restore_snapshot_file' },
-            ['<leader>orR'] = { 'diff_restore_snapshot_all' },
-            ['<leader>ox'] = { 'swap_position' },
-            ['<leader>ott'] = { 'toggle_tool_output' },
-            ['<leader>otr'] = { 'toggle_reasoning_output' },
-            ['<leader>ol'] = { 'quick_chat', mode = { 'n', 'x' } },
-            ['<leader>oa'] = false,
-            ['<leader>op'] = { 'toggle' },
-            ['<leader>o/'] = false,
-          },
-          input_window = {
-            ['<M-V>'] = { 'paste_image', mode = 'i' },
-            ['<M-m>'] = { 'switch_mode', mode = { 'n', 'i' } },
-            ['<M-t>'] = { 'cycle_variant', mode = { 'n', 'i' } },
-            ['<esc>'] = false,
-          },
-          output_window = {
-            ['<M-V>'] = { 'paste_image', mode = 'i' },
-            ['<M-m>'] = { 'switch_mode', mode = { 'n', 'i' } },
-            ['<M-t>'] = { 'cycle_variant', mode = { 'n', 'i' } },
-            ['<esc>'] = false,
-          },
-        },
-        completion = {
-          file_sources = {
-            enabled = true,
-            preferred_cli_tool = 'server',
-            ignore_patterns = {
-              '^%.git/',
-              '^%.svn/',
-              '^%.hg/',
-              'node_modules/',
-              '%.pyc$',
-              '%.o$',
-              '%.obj$',
-              '%.exe$',
-              '%.dll$',
-              '%.so$',
-              '%.dylib$',
-              '%.class$',
-              '%.jar$',
-              '%.war$',
-              '%.ear$',
-              'target/',
-              'build/',
-              'dist/',
-              'out/',
-              'deps/',
-              '%.tmp$',
-              '%.temp$',
-              '%.log$',
-              '%.cache$',
-            },
-            max_files = 10,
-            max_display_length = 50,
-          },
-        },
-        context = {
-          enabled = true,
-          cursor_data = {
-            enabled = false,
-            context_lines = 5,
-          },
-          diagnostics = {
-            info = false,
-            warning = true,
-            error = true,
-            only_closest = false,
-          },
-          current_file = {
-            enabled = true,
-            show_full_path = true,
-          },
-          files = {
-            enabled = true,
-            show_full_path = true,
-          },
-          selection = {
-            enabled = true,
-          },
-          buffer = {
-            enabled = false,
-          },
-          git_diff = {
-            enabled = false,
-          },
-        },
+      ---@type opencode.Opts
+      vim.g.opencode_opts = {
+        -- Your configuration, if any; goto definition on the type for details
       }
     end,
   },
