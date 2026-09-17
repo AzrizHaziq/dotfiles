@@ -491,9 +491,11 @@ binds {
     // ============================================================================
     // SYSTEM (Lock, Power, etc)
     // ============================================================================
-    // Mod+Alt+L hotkey-overlay-title="Lock Screen" { spawn "dms" "ipc" "call" "lock" "lock"; }
+    // Old (dms not installed, was a dead no-op): spawn "dms" "ipc" "call" "lock" "lock";
+    Mod+Alt+L hotkey-overlay-title="Lock Screen" { spawn "swaylock"; }
     Mod+Shift+P { power-off-monitors; }
-    Super+X hotkey-overlay-title="Power Menu: Toggle" { spawn "dms" "ipc" "call" "powermenu" "toggle"; }
+    // Old (dms not installed, was a dead no-op): spawn "dms" "ipc" "call" "powermenu" "toggle";
+    Super+X hotkey-overlay-title="Power Menu: Toggle" { spawn "/home/azrizhaziq/.config/waybar/scripts/power-menu.sh"; }
 
     // ============================================================================
     // MEDIA CONTROLS

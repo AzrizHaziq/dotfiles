@@ -1,0 +1,17 @@
+new_tab editor
+cd @@session-path@@
+launch --title "editor" nvim .
+
+new_tab git
+cd @@session-path@@
+launch --title "git" lazygit
+
+new_tab server
+cd @@session-path@@
+launch --title "server"
+
+new_tab ai
+cd @@session-path@@
+launch --title "opencode" opencode
+
+focus_tab 0

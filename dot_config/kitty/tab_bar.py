@@ -6,6 +6,7 @@ import socket
 from kitty.fast_data_types import Screen
 from kitty.tab_bar import DrawData, ExtraData, TabBarData, as_rgb
 from kitty.utils import color_as_int
+from kitty.fast_data_types import get_boss
 
 # ═══════════════════════════════════════════════════════════════════════════
 # CATPPUCCIN MOCHA COLORS
@@ -24,14 +25,20 @@ MAUVE     = 0xcba6f7  # host pill
 LEFT_SEP  = "\ue0b6"  # 
 RIGHT_SEP = "\ue0b4"  # 
 
-def _get_user_host() -> tuple[str, str]:
-    """Get username and hostname (SSH-safe)."""
-    try:
-        username = os.getlogin()
-    except OSError:
-        username = os.environ.get("USER", "user")
-    hostname = socket.gethostname().split('.')[0]
-    return username, hostname
+
+def _draw_pill(screen: Screen, text: str, color: int, bar_bg: int) -> None:
+    """Draw a rounded powerline pill: bg=color, text fg=bar_bg (dark-on-accent)."""
+    screen.cursor.fg = as_rgb(color)
+    screen.cursor.bg = bar_bg
+    screen.draw(LEFT_SEP)
+    screen.cursor.fg = bar_bg
+    screen.cursor.bg = as_rgb(color)
+    screen.cursor.bold = True
+    screen.draw(text)
+    screen.cursor.fg = as_rgb(color)
+    screen.cursor.bg = bar_bg
+    screen.cursor.bold = False
+    screen.draw(RIGHT_SEP)
 
 
 def draw_tab(
@@ -49,24 +56,6 @@ def draw_tab(
     # Derive bar bg from kitty config (tab_bar_background) so it always matches
     bar_bg = as_rgb(color_as_int(draw_data.default_bg))
 
-    # ─── LEFT: Session pill (only on first tab, only if session exists) ───
-    if index == 1 and tab.session_name:
-        screen.cursor.fg = as_rgb(GREEN)
-        screen.cursor.bg = bar_bg
-        screen.draw(LEFT_SEP)
-
-        screen.cursor.fg = bar_bg
-        screen.cursor.bg = as_rgb(GREEN)
-        screen.cursor.bold = True
-        screen.draw(f" 💻 {tab.session_name} ")
-
-        screen.cursor.fg = as_rgb(GREEN)
-        screen.cursor.bg = bar_bg
-        screen.cursor.bold = False
-        screen.draw(RIGHT_SEP + " ")
-
-        before = screen.cursor.x
-
     # ─── MIDDLE: Tab pill ───
     # Active:   [BLUE num bg] | [SURFACE1 title bg]
     # Inactive: [SURFACE1 num bg] | [SURFACE0 title bg]
@@ -77,7 +66,7 @@ def draw_tab(
     screen.cursor.bg = bar_bg
     screen.draw(LEFT_SEP)
 
-    screen.cursor.fg = bar_bg
+    screen.cursor.fg = bar_bg if tab.is_active else as_rgb(FG)
     screen.cursor.bg = as_rgb(num_bg)
     screen.cursor.bold = tab.is_active
     screen.draw(f"{index} ")
@@ -86,11 +75,16 @@ def draw_tab(
     screen.cursor.bg = as_rgb(title_bg)
     screen.cursor.bold = tab.is_active
 
+    # workmux AI status icon is a suffix: always shown in full, not counted
+    # against the title truncation budget.
+    status = _get_workmux_status(tab.tab_id)
+    status_suffix = f' {status}' if status else ''
+
     title = tab.title or ""
-    avail = max_title_length - len(str(index)) - 6
+    avail = max_title_length - len(str(index)) - 6 - len(status_suffix)
     if avail > 0 and len(title) > avail:
         title = title[: avail - 1] + "…"
-    screen.draw(f" {title} ")
+    screen.draw(f" {title}{status_suffix} ")
 
     screen.cursor.fg = as_rgb(title_bg)
     screen.cursor.bg = bar_bg
@@ -103,53 +97,131 @@ def draw_tab(
     screen.cursor.bg = bar_bg
     screen.draw(" ")
 
-    # ─── RIGHT: User and host pills (only after last tab) ───
     if is_last:
-        username, hostname = _get_user_host()
-        total_right = len(username) + 8 + len(hostname) + 7
-        right_start = screen.columns - total_right
+        # Dynamic right pills: session (hidden if unnamed) and remote identity
+        # (hidden unless actually ssh'd into a different host).
+        pills: list[tuple[str, int]] = []
+        if tab.session_name:
+            pills.append((tab.session_name, GREEN))
+        user, host, is_remote = _get_active_identity()
+        if is_remote:
+            pills.append((f"{user}@{host}" if user else host, MAUVE))
 
-        gap = right_start - screen.cursor.x
-        if gap > 0:
-            screen.cursor.fg = bar_bg
-            screen.cursor.bg = bar_bg
-            screen.draw(" " * gap)
+        if pills:
+            total_right = sum(len(text) + 2 for text, _ in pills) + len(pills) - 1
+            right_start = screen.columns - total_right
+            gap = right_start - screen.cursor.x
 
-        # User pill — [SAPPHIRE: emoji] | [SURFACE1: username]
-        screen.cursor.fg = as_rgb(SAPPHIRE)
-        screen.cursor.bg = bar_bg
-        screen.draw(LEFT_SEP)
+            screen.cursor.fg = screen.cursor.bg = bar_bg
+            if gap > 0:
+                screen.draw(" " * gap)
+            else:
+                # Not enough room: pills always win, drawn over/behind tab text.
+                screen.cursor.x = max(0, right_start)
 
-        screen.cursor.fg = bar_bg
-        screen.cursor.bg = as_rgb(SAPPHIRE)
-        screen.cursor.bold = True
-        screen.draw("👦 ")
-
-        screen.cursor.fg = as_rgb(FG)
-        screen.cursor.bg = as_rgb(SURFACE1)
-        screen.cursor.bold = False
-        screen.draw(f" {username} ")
-
-        screen.cursor.fg = as_rgb(SURFACE1)
-        screen.cursor.bg = bar_bg
-        screen.draw(RIGHT_SEP + " ")
-
-        screen.cursor.fg = as_rgb(MAUVE)
-        screen.cursor.bg = bar_bg
-        screen.draw(LEFT_SEP)
-
-        screen.cursor.fg = bar_bg
-        screen.cursor.bg = as_rgb(MAUVE)
-        screen.cursor.bold = True
-        screen.draw("💻 ")
-
-        screen.cursor.fg = as_rgb(FG)
-        screen.cursor.bg = as_rgb(SURFACE1)
-        screen.cursor.bold = False
-        screen.draw(f" {hostname} ")
-
-        screen.cursor.fg = as_rgb(SURFACE1)
-        screen.cursor.bg = bar_bg
-        screen.draw(RIGHT_SEP)
-
+            for i, (text, color) in enumerate(pills):
+                if i:
+                    screen.cursor.fg = screen.cursor.bg = bar_bg
+                    screen.draw(" ")
+                _draw_pill(screen, text, color, bar_bg)
     return end
+
+
+_SSH_FLAGS_WITH_VALUE = {
+    '-l', '-p', '-i', '-o', '-F', '-b', '-c', '-D',
+    '-E', '-e', '-L', '-R', '-W', '-w', '-B', '-J', '-Q',
+}
+
+
+def _parse_ssh_target(cmdline: list[str]) -> tuple[str | None, str] | None:
+    """Parse `ssh [flags] [user@]host ...` argv, return (user, host) or None.
+
+    user is None when not given explicitly (via `user@host` or `-l user`),
+    in which case the caller should consult ~/.ssh/config before assuming
+    the local username.
+    """
+    if not cmdline or os.path.basename(cmdline[0]).lower() != 'ssh':
+        return None
+    user: str | None = None
+    i = 1
+    n = len(cmdline)
+    while i < n:
+        arg = cmdline[i]
+        if arg == '-l' and i + 1 < n:
+            user = cmdline[i + 1]
+            i += 2
+            continue
+        if arg.startswith('-'):
+            i += 2 if arg in _SSH_FLAGS_WITH_VALUE else 1
+            continue
+        if '@' in arg:
+            user, host = arg.split('@', 1)
+            return user, host
+        return user, arg
+    return None
+
+
+def _lookup_ssh_config_user(host_alias: str) -> str | None:
+    """Best-effort lookup of `User` for a Host alias in ~/.ssh/config."""
+    import fnmatch
+
+    try:
+        with open(os.path.expanduser('~/.ssh/config')) as f:
+            lines = f.readlines()
+    except OSError:
+        return None
+    matched = False
+    for line in lines:
+        parts = line.strip().split(None, 1)
+        if len(parts) != 2 or parts[0].lower() not in ('host', 'user'):
+            continue
+        key, val = parts[0].lower(), parts[1].strip()
+        if key == 'host':
+            matched = any(fnmatch.fnmatch(host_alias, p) for p in val.split())
+        elif matched:
+            return val
+    return None
+
+
+def _get_local_user_host() -> tuple[str, str]:
+    """Get username and hostname of the local kitty process (SSH-safe)."""
+    try:
+        username = os.getlogin()
+    except OSError:
+        username = os.environ.get('USER', 'user')
+    hostname = socket.gethostname().split('.')[0]
+    return username, hostname
+
+
+def _get_active_identity() -> tuple[str | None, str, bool]:
+    """Return (user, host, is_remote) for the currently active window.
+
+    is_remote is True only when the foreground process is ssh'd into a host
+    other than the local machine. user is None when the remote user could
+    not be determined (not given explicitly and no ~/.ssh/config match) -
+    the local username is never used as a stand-in for a remote one.
+    """
+    local_user, local_host = _get_local_user_host()
+    window = get_boss().active_window
+    if window is not None:
+        try:
+            target = _parse_ssh_target(window.child.foreground_cmdline)
+        except Exception:
+            target = None
+        if target:
+            user, host = target
+            user = user or _lookup_ssh_config_user(host)
+            return user, host, host != local_host
+    return local_user, local_host, False
+
+
+def _get_workmux_status(tab_id: int) -> str:
+    """Look up the workmux AI status icon for a tab, if any window set it."""
+    tab = get_boss().tab_for_id(tab_id)
+    if tab:
+        for window in tab:
+            status = window.user_vars.get('workmux_status', '')
+            if status:
+                return status
+    return ''
+

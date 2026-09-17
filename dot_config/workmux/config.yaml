@@ -1,7 +1,10 @@
 ---
-mode: session
+mode: window
+
 status_format: false
 nerdfont: true
 agent: opencode
-theme: night-sorbet
+theme: festival-circuit
+
+worktree_dir: ~/workmux_trees
 window_prefix: "{project} 󰘬 "

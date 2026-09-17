@@ -12,4 +12,8 @@ if status is-interactive
     if command -q pnpm
         pnpm completion fish | source
     end
+
+    if command -q workmux
+        workmux completions fish | source
+    end
 end
