@@ -1,5 +1,35 @@
--- Set default format-on-save --[[ state  ]](can toggle with <leader>tf)
 vim.g.enable_autoformat = true
+
+-- LSP format
+vim.keymap.set('n', '<leader>fv', vim.lsp.buf.format, { desc = '[F]ormat buffer (LSP)' })
+
+-- JSON deep sort and format
+local function format_json_deep()
+  local filename = vim.fn.expand '%'
+
+  if not filename:match '%.json$' then
+    vim.notify('Not a JSON file', vim.log.levels.WARN)
+    return
+  end
+
+  local lines = vim.api.nvim_buf_get_lines(0, 0, -1, false)
+  local content = table.concat(lines, '\n')
+  local result = vim.fn.system('sort-json-deep', content)
+
+  if vim.v.shell_error ~= 0 then
+    vim.notify('JSON format error: ' .. result, vim.log.levels.ERROR)
+    return
+  end
+
+  local sorted_lines = vim.split(result, '\n')
+  if sorted_lines[#sorted_lines] == '' then
+    table.remove(sorted_lines)
+  end
+  vim.api.nvim_buf_set_lines(0, 0, -1, false, sorted_lines)
+  vim.notify('JSON sorted and formatted', vim.log.levels.INFO)
+end
+
+vim.keymap.set('n', '<leader>fj', format_json_deep, { desc = '[F]ormat [J]SON (deep sort)' })
 
 return {
   {

@@ -6,19 +6,11 @@ return {
       -- stylua: ignore start
       { '\\', function() require('mini.files').open() end, desc = 'mini files', },
       { '<leader>er', function() require('mini.files').open(vim.api.nvim_buf_get_name(0)) end, desc = '[E]xplorer [R]eveal current file', },
+      { '<leader>et', function() require('mini.files').open(vim.fn.stdpath('data') .. '/mini.files/trash') end, desc = '[E]xplorer [T]rash', },
       -- stylua: ignore end
     },
     config = function()
-      -- Copy path helper
-      local copy_path = function(modifier)
-        local entry = require('mini.files').get_fs_entry()
-        if not entry then
-          return
-        end
-        local path = modifier and vim.fn.fnamemodify(entry.path, modifier) or entry.path
-        vim.fn.setreg('+', path)
-        vim.notify('Copied: ' .. path, vim.log.levels.INFO)
-      end
+      local cp = require 'core.copy_path'
 
       -- Open in split helper
       local open_in_split = function(cmd)
@@ -55,8 +47,8 @@ return {
 
           -- stylua: ignore start
           map('<Esc>', function() require('mini.files').close() end, 'Close mini.files')
-          map('<leader>cr', function() copy_path(':.') end, 'Copy relative path')
-          map('<leader>ca', function() copy_path() end, 'Copy absolute path')
+          map('<leader>cr', function() cp {} end,                '[c]opy [r]elative path')
+          map('<leader>ca', function() cp { absolute = true } end, '[c]opy [a]bsolute path')
           map('<C-v>', function() open_in_split 'vsplit' end, 'Open in vertical split')
           map('<C-s>', function() open_in_split 'split' end, 'Open in horizontal split')
           -- stylua: ignore end
@@ -82,17 +74,6 @@ return {
               title = 'Grep in ' .. rel,
             }
           end, 'Search in current folder with fff')
-
-          map('<leader>oo', function()
-            local mf = require 'mini.files'
-            local entry = mf.get_fs_entry()
-            if not entry then
-              return
-            end
-            local path = vim.fn.fnamemodify(entry.path, ':.')
-            mf.close()
-            require('opencode').prompt(path .. ' ')
-          end, 'Send to OpenCode')
         end,
       })
     end,

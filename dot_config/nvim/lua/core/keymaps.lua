@@ -88,141 +88,31 @@ vim.keymap.set({ 'n', 'x' }, '<Del>', '"_x', { desc = 'Delete character into voi
 -- Replaces selection with clipboard content without losing what was deleted
 vim.keymap.set('x', '<leader>p', '"_dP', { desc = 'Paste without overwriting clipboard' })
 
--- ============================================================================
--- FILE OPERATIONS & SAVING
--- ============================================================================
-
 -- Quick save
 vim.keymap.set({ 'n', 'i' }, '<C-s>', '<cmd>w<CR>', { desc = 'Save file' })
-
--- Write operations
--- vim.keymap.set('n', '<leader>wa', '<cmd>wa<CR>', { desc = '[W]rite [A]ll files' })
--- ============================================================================
--- FORMATTING
--- ============================================================================
-
--- LSP format (primary method)
-vim.keymap.set('n', '<leader>fv', vim.lsp.buf.format, { desc = '[F]ormat buffer (LSP)' })
-
--- JSON deep sort and format
-local function format_json_deep()
-  local filename = vim.fn.expand '%'
-
-  -- Check if current file is JSON
-  if not filename:match '%.json$' then
-    vim.notify('Not a JSON file', vim.log.levels.WARN)
-    return
-  end
-
-  -- Get entire buffer content
-  local lines = vim.api.nvim_buf_get_lines(0, 0, -1, false)
-  local content = table.concat(lines, '\n')
-
-  -- Call sort-json-deep with error handling
-  local result = vim.fn.system('sort-json-deep', content)
-
-  -- Check for errors
-  if vim.v.shell_error ~= 0 then
-    vim.notify('JSON format error: ' .. result, vim.log.levels.ERROR)
-    return
-  end
-
-  -- Split result back into lines and update buffer
-  local sorted_lines = vim.split(result, '\n')
-  -- Remove trailing empty line if present
-  if sorted_lines[#sorted_lines] == '' then
-    table.remove(sorted_lines)
-  end
-  vim.api.nvim_buf_set_lines(0, 0, -1, false, sorted_lines)
-  vim.notify('JSON sorted and formatted', vim.log.levels.INFO)
-end
-
-vim.keymap.set('n', '<leader>fj', format_json_deep, { desc = '[F]ormat [J]SON (deep sort)' })
 
 -- ============================================================================
 -- TOGGLE OPTIONS
 -- ============================================================================
 
+-- stylua: ignore
+vim.keymap.set('n', '<leader>td', function() vim.diagnostic.enable(not vim.diagnostic.is_enabled()) end, { desc = '[T]oggle [D]iagnostics' }) 
 vim.keymap.set('n', '<leader>tw', '<cmd>set wrap!<CR>', { desc = '[T]oggle [w]ord wrap' })
 vim.keymap.set('n', '<leader>ts', ':set list!<CR>', { desc = '[T]oggle [s]pace visibility' })
-vim.keymap.set('n', '<leader>td', function()
-  vim.diagnostic.enable(not vim.diagnostic.is_enabled())
-end, { desc = '[T]oggle [D]iagnostics' })
-
--- ============================================================================
--- TABS
--- ============================================================================
-
 vim.keymap.set('n', '<leader><tab><tab>', '<cmd>tabnew<CR>', { desc = 'New tab' })
-
--- ============================================================================
--- UTILITY
--- ============================================================================
-
 vim.keymap.set('n', '<leader>rr', '<cmd>restart<cr>', { desc = 'Restart Neovim' })
 
---[[
-  -- Find and replace word under cursor
-  -- %s = replace all in file, \< \> = word boundaries, gI = case-sensitives
-  vim.keymap.set('n', '<leader>s', ':%s/\\<<C-r><C-w>\\>/<C-r><C-w>/gI<Left><Left><Left>',
-    { desc = 'Find and replace word under cursor' })
-
-  -- Make current file executable
-  vim.keymap.set('n', '<leader>x', '<cmd>!chmod +x %<CR>', { silent = true, desc = 'Make file executable' })
-]]
 -- ============================================================================
--- COPY PATH (with helper functions)
+-- COPY PATH
 -- ============================================================================
 
-local function get_explorer_item()
-  if _G.Snacks == nil or Snacks.picker == nil then
-    return nil
-  end
+local cp = require 'core.copy_path'
 
-  local current_win = vim.api.nvim_get_current_win()
-  for _, picker in ipairs(Snacks.picker.get { source = 'explorer' }) do
-    if picker.list and picker.list.win and picker.list.win.win == current_win then
-      return picker:current()
-    end
-  end
-
-  return nil
-end
-
-local function copy_to_clipboard(value)
-  if value and value ~= '' then
-    vim.fn.setreg('+', value)
-  end
-end
-
-local function copy_absolute_path()
-  local item = get_explorer_item()
-  if item and item.file then
-    copy_to_clipboard(item.file)
-    return
-  end
-
-  local path = vim.fn.expand '%:p'
-  local line = vim.fn.line '.'
-  local col = vim.fn.col '.'
-  copy_to_clipboard(string.format('%s:%d:%d', path, line, col))
-end
-
-local function copy_relative_path()
-  local item = get_explorer_item()
-  if item and item.file then
-    copy_to_clipboard(vim.fn.fnamemodify(item.file, ':.'))
-    return
-  end
-
-  local path = vim.fn.expand '%:.'
-  local line = vim.fn.line '.'
-  local col = vim.fn.col '.'
-  copy_to_clipboard(string.format('%s:%d:%d', path, line, col))
-end
-
-vim.keymap.set('n', '<leader>ca', copy_absolute_path, { desc = 'Copy absolute path with line:col' })
-vim.keymap.set('n', '<leader>cr', copy_relative_path, { desc = 'Copy relative path with line:col' })
+-- stylua: ignore start
+vim.keymap.set('n', '<leader>ca', function() cp { absolute = true } end, { desc = 'Copy absolute path' })
+vim.keymap.set('n', '<leader>cr', function() cp {} end,                  { desc = 'Copy relative path' })
+vim.keymap.set('v', '<leader>cr', function() cp { visual = true } end,   { desc = 'Copy relative path with line range' })
+-- stylua: ignore end
 
 -- ============================================================================
 -- COMMAND ABBREVIATIONS (typo fixes)

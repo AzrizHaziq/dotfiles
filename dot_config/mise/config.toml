@@ -46,6 +46,7 @@ pnpm = "latest"
 "github:pranshuparmar/witr" = "latest"
 docker-compose = "latest"
 "aqua:jorgerojas26/lazysql" = "latest"
+"cargo:ghgrab" = "latest"
 
 [tasks."default:install"]
 description = "Default"

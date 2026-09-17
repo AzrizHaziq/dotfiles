@@ -14,7 +14,8 @@ if status is-interactive
     abbr -a v nvim
     abbr -a vim nvim
 
-    abbr -a c clear
+    abbr -a cc clear
+    abbr -a xx exit
     abbr -a reload "source ~/.config/fish/config.fish"
     abbr -a s "du -hs * | sort -rh | head -5"
     abbr -a gip "curl -s ipinfo.io/ip && echo && curl -s ipinfo.io/org"

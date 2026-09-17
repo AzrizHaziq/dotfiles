@@ -155,7 +155,6 @@ return {
             },
           },
           lualine_x = {
-            { require('opencode').statusline },
             'encoding',
             'fileformat',
             'filetype',
